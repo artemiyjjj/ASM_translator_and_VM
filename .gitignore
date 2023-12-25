@@ -1,0 +1,7 @@
+.DS_Store
+.idea
+*.log
+tmp/
+.vscode/
+*.icloud
+__pycache__

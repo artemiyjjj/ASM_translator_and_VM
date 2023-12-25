@@ -1,0 +1,17 @@
+build-job:
+  stage: build
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+
+test-all:
+  stage: test
+  # image:
+  #   name: artemioJjJ/lab3
+  #   entrypoint: [""]
+  script:
+    - poetry install
+    - coverage run -m pytest --verbose
+    - find . -type f -name "*.py" | xargs -t coverage report
+    - ruff format --check .
+    - ruff check .
+
