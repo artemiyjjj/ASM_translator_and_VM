@@ -6,19 +6,16 @@ default:
 test-coverage:
   stage: test
   script:
-    - poetry install
     - coverage run -m pytest --verbose
     - find . -type f -name "*.py" | xargs -t coverage report
 
 lint:
-  stage: build
+  stage: test
   script:
-    - poetry install
     - ruff format --check .
     - ruff check .
 
 type-check:
-  stage: build
+  stage: test
   script: 
-    - poetry install
-    - mypy .
+    - mypy src/*
