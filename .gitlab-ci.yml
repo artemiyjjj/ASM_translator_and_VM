@@ -18,4 +18,4 @@ lint:
 type-check:
   stage: test
   script: 
-    - mypy src/*
+    - mypy src/
