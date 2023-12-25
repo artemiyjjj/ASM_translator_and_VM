@@ -1,5 +1,5 @@
 section .data:
-    msg:     db     13, 'Hello, world!';
+    msg:  db  13, 'Hello, world!';
 
 section .bss:
     counter: db

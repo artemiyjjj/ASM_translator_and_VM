@@ -1,7 +1,8 @@
 class Opcode:
     
 
-class Instruction: ???
+class StatementTerm:
+    
 
 
 def read_code(filename: str) -> void:
