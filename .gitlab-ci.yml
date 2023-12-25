@@ -5,9 +5,9 @@ build-job:
 
 test-all:
   stage: test
-  # image:
-  #   name: artemioJjJ/lab3
-  #   entrypoint: [""]
+  image:
+    name: artemioJjJ/lab3
+    entrypoint: [""]
   script:
     - poetry install
     - coverage run -m pytest --verbose
