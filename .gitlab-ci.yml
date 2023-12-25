@@ -1,12 +1,24 @@
-test-all:
-  stage: test
+default:
   image:
     name: ryukzak/python-tools
     entrypoint: [""]
+
+test-coverage:
+  stage: test
   script:
     - poetry install
     - coverage run -m pytest --verbose
     - find . -type f -name "*.py" | xargs -t coverage report
+
+lint:
+  stage: build
+  script:
+    - poetry install
     - ruff format --check .
     - ruff check .
 
+type-check:
+  stage: build
+  script: 
+    - poetry install
+    - mypy .
