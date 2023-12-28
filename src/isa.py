@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import json
 from collections import namedtuple
+from dataclasses import dataclass
 from enum import Enum
 
 
@@ -18,7 +21,6 @@ class Code:
 class Opcode(str, Enum):
     """ Opcode инструкций языка.
 
-    Все Opcode представлены на уровне языка.
     Могут быть поделёны на две группы:
 
     1. Операции управления выполнением: "JMP", "JZ", "JNZ", "JN",
@@ -63,16 +65,41 @@ class Opcode(str, Enum):
         """
         return str(self.value)
 
+@dataclass(frozen = True)
+class StatementTerm:
+    """ Структура для описания команды с аргументом из кода программы.
 
-class StatementTerm(namedtuple("Term", "line statement")):
-    """ Описание выражения из исходного текста программы.
-
-    Сделано через класс, чтобы имелся docstring.
+    Frozen служит для объявления объектов класса иммутабельными для автоматической генерации хэша
     """
+    line: int = None
+    command: str = None
+    argument: int | str = None
+
+@dataclass(frozen = True)
+class PositionTerm:
+    """ Описание выражения из исходного текста программы. """
+    line: int = None
+    instruction: str = None
+
+# @dataclass
+# class RowDataTerm:
+#     """ Структура для представления неициализированных данных в памяти для программы
+#     """
+#     line: int = None
+#     label: str = None
+#     length: int = None
+
+@dataclass(frozen = True)
+class DataTerm:
+    """ Структура для представления значения и длины лейбла в памяти. """
+    line: int = None
+    label: str = None
+    length: int = None
+    value: int | str = None
 
 
 def read_code(filename: str) -> list[dict[str, int]]:
-    """ Чтение машинного кода из файла."""
+    """ Чтение машинного кода из файла. """
     with open(filename, encoding="utf-8") as file:
         code = json.loads(file.read())
 
@@ -88,10 +115,10 @@ def read_code(filename: str) -> list[dict[str, int]]:
     return code
 
 
-def write_code(filename: str, code) -> None:
-    """Записать машинный код в файл."""
+def write_code(filename: str, code: Code) -> None:
+    """Записать машинный код в файл. """
     with open(filename, "w", encoding="utf-8") as file:
         buf = []
-        for instr in code:
+        for instr in code.contents:
             buf.append(json.dumps(instr))
         file.write("[" + ",\n ".join(buf) + "]")

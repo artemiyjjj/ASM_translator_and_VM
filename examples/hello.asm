@@ -1,23 +1,22 @@
 section .data:
-    msg:  db  13, 'Hello, world!';
+    msg:  13, 'Hello, world!';
 
 section .bss:
-    counter: db
-    cur_symbol_addr: db
+    counter:        1   ; fix bss comment parsing
+    cur_symbol_addr:        1
 
 section .text:
 _start:
-    ld  db  msg
-    st  db  counter
-    ld  db  *msg
-    st  db  cur_symbol_addr
+    ld    msg
+    st    counter
+    ld    *msg
+    st    cur_symbol_addr
     
-loop:
-    ld  db  cur_symbol_addr
+loop: ld    cur_symbol_addr
     inc
-    out
-    ld  db  counter
+    out 0
+    ld    counter
     dec
-    st  db  counter
+    st    counter
     jnz loop
 hlt

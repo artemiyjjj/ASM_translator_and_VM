@@ -12,9 +12,10 @@
 ``` ebnf
 programm ::= [section .bss], [section .data], section .text;
     
-    section .bss ::=  {label, ":", directive};
+    section .bss ::=  {label, ":", <amount of memory words>};
 
-    section .data ::=  ;
+    section .data ::=  (label, ":") (number, ",", '"', <string>, '"' |
+    <number | char>, {"," <number | char | string>});
 
     section .text ::= <label _start>, ":", +{statement} ;
 
@@ -24,19 +25,15 @@ programm ::= [section .bss], [section .data], section .text;
         unary instruction, derictive,
         ( first type operand | second type operand ) ;
 
-    no operand instruction ::= "hlt" | "eni" | "dii" | "inc" | "dec" | "out" | "in" ;
+    no operand instruction ::= "hlt" | "eni" | "dii" | "inc" | "dec" ;
 
     unary instruction ::= "ld" | "st" | "add" | "sub" | 
-        "mul" | "div" | "cmp" | "or" | "and" | "xor" | "jmp" | "je" | "jne" | "jz"
-        | "jnz" | "int" |;
+        "mul" | "div" | "cmp" | "or" | "and" | "jmp" | "jz"
+        | "jnz" | "jn" | "jnn" | "int" | "out" | "in" ;
 
     first type operand ::= register | label | ;
 
     second type operand ::= number | first operand ;
-
-    register ::= "AC" | "IP" | "IR" | "AR" | "SP" | "Z" | "N" | "V" | "C" ;
-
-    derictive ::= "db" | "dw" | "dq" ;
 
     label ::= (<letter> | "_") ({<letter> | <digit> | "_"})
 
@@ -70,7 +67,7 @@ programm ::= [section .bss], [section .data], section .text;
 
 Память выделяется статически, при запуске модели.  
 Видимость данных - глобальная.  
-Использование pstr с 8-битным префиксом возможно на этапе написания программы и логики вывода функции (см. файл [hello.asm](/examples/hello.asm)).
+Использование pstr с 4-байтовом префиксом возможно на этапе написания программы. Программист может объявлять данные, конкатенируя их через запятую после лейбла. Для объявления p-строки нужно сконкатенировать длину строки с самой строкой (см. файл [hello.asm](/examples/hello.asm)).
 
 ## Организация памяти
 
@@ -142,4 +139,22 @@ programm ::= [section .bss], [section .data], section .text;
 
 - Opcode - перечисление кодов инструкций.
 - StatementTerm - структура для описания местоположения позиции инструкции в исходном коде. ???
+
+## Транслятор
+
+...
+
+Примечание: вопросы отображения переменных на регистры опущены из-за отсутствия оных.
+
+## Модель процессора
+
+### DataPath
+
+...
+
+### Control Umit
+
+
+## Тестирование
+
 
