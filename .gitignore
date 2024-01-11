@@ -1,9 +1,12 @@
-.DS_Store
 .idea
-*.log
-tmp/
 .vscode/
 *.icloud
-__pycache__
+
+*.log
+tmp/
+.DS_Store
+
 .pytest_cache
 .ruff_cache
+__pycache__
+src/__pycache__
