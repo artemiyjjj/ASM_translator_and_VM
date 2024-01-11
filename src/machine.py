@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import logging
 import sys
 
 from isa import Opcode, read_code
+
 
 class DataPath:
     # AC регистр
@@ -50,19 +53,21 @@ class ControlUnit:
         interruption_enabled = False
 
 
-
-    def tick(self) -> void:
+    def tick(self) -> None:
+        pass
 
 
     def perform_next_tick(self) -> void:
-        """ Выполнение следующего процессорного такта.
-        """
+        """ Выполнение следующего процессорного такта. """
+        pass
 
     def signal_interrupt(self) -> void:
+        pass
 
     def __perp__(self) -> str:
         """ Вернуть состояние процессора в строковом представлении.
         """
+        pass
 
 
 class Machine:
@@ -93,9 +98,9 @@ class Machine:
         self.data_path = DataPath(common_memory)
         self.control_unit = ControlUnit(common_memory, limit)
         self._input_buffer = input_buffer
-        
 
-    def __repr__(self):
+
+    def __repr__(self) -> str:
         """Вернуть строковое представление состояния процессора."""
         state_repr = "TICK: {:3} PC: {:3} ADDR: {:3} MEM_OUT: {} ACC: {}".format(
             self._tick,
@@ -105,7 +110,15 @@ class Machine:
             self.data_path.acc,
         )
 
-    def simulation(self, code: Code, input_schedule: , data_memory_size, limit) -> output:str, instr_counter: int, ticks: int:
+    def decode_instruction_select_argument(self) -> None:
+        pass
+
+    def execute_next_command(self) -> None:
+        self.decode_instruction_select_argument()
+        self.execute_command()
+        self.check_interruption()
+
+    def simulation(self, code: Code, input_schedule: list[tuple[int, str]], data_memory_size: int, limit: int) -> tuple[output: str, instr_counter: int, ticks: int]:
         """Подготовка модели и запуск симуляции процессора.
         Возвращает вывод программы, значение счётчика команд и кол-во исполненных тактов.
         """
