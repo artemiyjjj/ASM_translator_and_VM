@@ -1,7 +1,10 @@
 default:
   image:
-    name: ryukzak/python-tools
-    entrypoint: [""]
+    name: python:latest
+
+before_script:
+  pip install --no-cache-dir --progress-bar off "poetry==$POETRY_VERSION" 
+  poetry install 
 
 test-coverage:
   stage: test
