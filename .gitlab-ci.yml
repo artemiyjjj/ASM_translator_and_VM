@@ -3,7 +3,7 @@ default:
     name: python:latest
 
 before_script:
-  pip install --no-cache-dir --progress-bar off "poetry==$POETRY_VERSION" 
+  pip install --no-cache-dir --progress-bar off "poetry==1.6.1" 
   poetry install 
 
 test-coverage:
