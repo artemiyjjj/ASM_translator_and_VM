@@ -3,22 +3,22 @@ default:
     name: python:latest
 
 before_script:
-  - pip install --no-cache-dir --progress-bar off "poetry==1.6.1" 
+  - pip install -q --no-cache-dir --progress-bar off "poetry==1.6.1" 
   - poetry install 
 
 test-coverage:
   stage: test
   script:
-    - coverage run -m pytest --verbose
+    - poetry run coverage run -m pytest --verbose
     - find . -type f -name "*.py" | xargs -t coverage report
 
 lint:
   stage: test
   script:
-    - ruff format --check .
-    - ruff check .
+    - poetry run ruff format --check .
+    - poetry run ruff check .
 
 type-check:
   stage: test
   script: 
-    - mypy src/
+    - poetry run mypy src/
