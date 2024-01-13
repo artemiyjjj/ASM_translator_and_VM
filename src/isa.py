@@ -155,13 +155,3 @@ def write_code(filename: str, code: Code) -> None:
     with open(filename, "w", encoding="utf-8") as file:
         buf = Code.to_json(code)
         file.write(buf)
-
-cur_dir = os.path.dirname(__file__)
-tar_file = os.path.join(cur_dir, "../examples/binary_code.txt")
-file_c = open(tar_file)
-print(file_c.read())
-print("==================")
-code: Code = read_code(tar_file)
-# print(code.to_json(code))
-write_code(tar_file, code)
-print(code)
