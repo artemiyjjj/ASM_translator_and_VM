@@ -9,7 +9,7 @@ before_script:
 test-coverage:
   stage: test
   script:
-    - poetry run coverage run -m pytest --verbose
+    - poetry run coverage run -m pytest --verbose --continue-on-collection-errors 
     - find . -type f -name "*.py" | xargs -t coverage report
 
 lint:
