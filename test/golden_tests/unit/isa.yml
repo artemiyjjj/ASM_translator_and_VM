@@ -1,0 +1,20 @@
+in_code: |-
+  [
+    {
+        "index": 0,
+        "opcode": "jump",
+        "arg": 1,
+        "mode": "deref",
+        "line": 2
+    },
+    {
+        "index": 1,
+        "label": "a",
+        "value": "x",
+        "line": 4
+    }
+  ]
+out_obj: |
+  [StatementTerm(index=0, opcode=<Opcode.JMP: 'jump'>, arg=1, mode=<Mode.DEREF: 'deref'>, line=2), DataTerm(index=1, label='a', value='x', line=4)]
+out_code: |-
+  [{"index": 0, "opcode": "jump", "arg": 1, "mode": "deref", "line": 2}, {"index": 1, "label": "a", "value": "x", "line": 4}]
