@@ -1,22 +1,35 @@
 from __future__ import annotations
 
 import json
-from collections import namedtuple
+import os
 from dataclasses import dataclass
 from enum import Enum
+from json import JSONEncoder
+from typing import Any
 
 
 class Code:
     """ Представление структуры для хранения машинного кода"""
     # Контейнер для хранения машинных инструкций.
-    contents: list[dict[str, int]] = None
+    contents: list[StatementTerm | DataTerm]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.contents = []
 
-    def append(self, elem: dict[str, int]):
+    def __str__(self) -> str:
+        return self.contents.__str__()
+
+    def append(self, elem: StatementTerm | DataTerm) -> None:
         self.contents.append(elem)
 
+    @staticmethod
+    def to_json(code: Code) -> str:
+        return CodeEncoder().encode(code.contents)
+
+class CodeEncoder(JSONEncoder):
+    """ Вспомогательный класс для получения строкового представления машинного кода. """
+    def default(self, obj: Code) -> dict[str, Any]:
+        return obj.__dict__
 
 class Opcode(str, Enum):
     """ Opcode инструкций языка.
@@ -59,11 +72,21 @@ class Opcode(str, Enum):
     DII = "disable interruption"
     HLT = "halt"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Переопределение стандартного поведения `__str__` для `Enum`: вместо
         `Opcode.JZ` вернуть `jump zero`.
         """
         return str(self.value)
+
+class Mode(str, Enum):
+    """ Аргумент - адрес, по которому нужно взять значение """
+    DEREF = "deref"
+    """ Аргумет - значение, используемое напрямую """
+    VALUE = "value"
+
+    def __str__(self) -> str:
+        return str(self.name)
+
 
 @dataclass(frozen = True)
 class StatementTerm:
@@ -71,46 +94,58 @@ class StatementTerm:
 
     Frozen служит для объявления объектов класса иммутабельными для автоматической генерации хэша
     """
-    line: int = None
-    command: str = None
-    argument: int | str = None
+    index: int
+    opcode: Opcode
+    arg: int
+    mode: Mode
+    # Source code reference
+    line: int
 
-@dataclass(frozen = True)
-class PositionTerm:
-    """ Описание выражения из исходного текста программы. """
-    line: int = None
-    instruction: str = None
+    @staticmethod
+    def from_json(json_obj: Any) -> StatementTerm | None:
+        try:
+            json_obj["opcode"] = Opcode(json_obj["opcode"])
+            json_obj["mode"] = Mode(json_obj["mode"])
+            instance: StatementTerm = StatementTerm(**json_obj)
+        except (TypeError, KeyError):
+            return None
+        return instance
 
-# @dataclass
-# class RowDataTerm:
-#     """ Структура для представления неициализированных данных в памяти для программы
-#     """
-#     line: int = None
-#     label: str = None
-#     length: int = None
 
 @dataclass(frozen = True)
 class DataTerm:
     """ Структура для представления значения и длины лейбла в памяти. """
-    line: int = None
-    label: str = None
-    length: int = None
-    value: int | str = None
+    index: int
+    label: str
+    value: int | str
+    line: int
+
+    @staticmethod
+    def from_json(json_obj: Any) -> DataTerm | None:
+        try:
+            instance: DataTerm = DataTerm(**json_obj)
+        except (TypeError, KeyError):
+            return None
+        return instance
 
 
-def read_code(filename: str) -> list[dict[str, int]]:
+def read_code(filename: str) -> Code:
     """ Чтение машинного кода из файла. """
+
     with open(filename, encoding="utf-8") as file:
-        code = json.loads(file.read())
+        code_text: list[dict[str, Any]] = json.loads(file.read())
+        code: Code = Code()
 
-    for instr in code:
-        # Конвертация строки в значение Opcode
-        instr["opcode"] = Opcode(instr["opcode"])
+    for instr in code_text:
+        # Конвертация json объекта в экземпляр StatementTerm
+        term: StatementTerm | DataTerm | None = StatementTerm.from_json(instr)
+        if term is None:
+            # В случае неудачи, конвертация в экземпляр DataTerm
+            term = DataTerm.from_json(instr)
 
-        # Конвертация списка выражений в класс StatementTerm
-        if "term" in instr:
-            assert len(instr["term"]) == 2
-            instr["term"] = StatementTerm(instr["term"][0], instr["term"][1], instr["term"][2])
+        assert term is not None
+
+        code.append(term)
 
     return code
 
@@ -118,7 +153,15 @@ def read_code(filename: str) -> list[dict[str, int]]:
 def write_code(filename: str, code: Code) -> None:
     """Записать машинный код в файл. """
     with open(filename, "w", encoding="utf-8") as file:
-        buf = []
-        for instr in code.contents:
-            buf.append(json.dumps(instr))
-        file.write("[" + ",\n ".join(buf) + "]")
+        buf = Code.to_json(code)
+        file.write(buf)
+
+cur_dir = os.path.dirname(__file__)
+tar_file = os.path.join(cur_dir, "../examples/binary_code.txt")
+file_c = open(tar_file)
+print(file_c.read())
+print("==================")
+code: Code = read_code(tar_file)
+# print(code.to_json(code))
+write_code(tar_file, code)
+print(code)
