@@ -127,6 +127,20 @@ class DataTerm:
             return None
         return instance
 
+class SourceTerm:
+    """ Структура для представления строки исходного кода. """
+    line: int
+    terms: list[str]
+
+    def __init__(self, line_num: int, line_split: list[str]) -> None:
+        self.line = line_num
+        self.terms = line_split
+
+    def __str__(self) -> str:
+        return "line: {}, terms: {}".format(self.line, self.terms)
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 def read_code(filename: str) -> Code:
     """ Чтение машинного кода из файла. """
