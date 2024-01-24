@@ -9,18 +9,14 @@ from isa import Code, DataTerm, Opcode, SourceTerm, StatementTerm, write_code
 
 
 def avaliable_sections() -> dict[str, str]:
-    return {"data": "section .data", "text": "section .text"}
-
-def get_section_name(name: str) -> str:
-    return avaliable_sections()[name]
-
+    return {".data": "section .data", ".text": "section .text"}
 
 def symbols() -> set[str]:
     """ Полное множество символов, доступных к использованию в языке.
 
     Используется для парсинга секций данных и определения способа адресации лейблов.
     """
-    return {":", "*", ",", ";", """, """}
+    return {":", "*", ",", ";", "'", '"'}
 
 
 def instructions() -> set[str]:
@@ -60,6 +56,17 @@ def split_by_spec_symbols(elem: str) -> list[str]:
             tmp.remove("")
         return tmp
 
+def filter_comments_on_line(terms: list[str]) -> list[str]:
+    term_num: int
+    comment_start: int | None = None
+    for term_num, term in enumerate(terms):
+        if term == ";":
+            comment_start = term_num
+            break
+    if comment_start is not None:
+        terms = terms[:comment_start]
+    return terms
+
 def join_string_literals(terms: list[str]) -> list[str]:
     stack_quotes: list[str] = []
     tmp: list[str] = []
@@ -73,7 +80,6 @@ def join_string_literals(terms: list[str]) -> list[str]:
         else:
             common.append(term)
     if len(stack_quotes) > 0:
-        print("ind", indices)
         assert len(stack_quotes) % 2 == 0, "String literals are incomplete."
         assert stack_quotes.pop() == stack_quotes.pop(), "Quotes at some string literal are different." # упрощенная валидация
         literal: str = " ".join(tmp)
@@ -95,13 +101,56 @@ def split_programm_line_to_terms(line: str) -> list[str]:
 
 def split_text_to_source_terms(programm_text: str) -> list[SourceTerm]:
     source_terms: list[SourceTerm] = []
-    term_line: SourceTerm
-    for line_num, line in enumerate(programm_text.split("\n")):
+    term_line: list[str] = []
+    # Нумерация строк исходного кода
+    for line_num, line in enumerate(programm_text.split("\n"), 1):
         term_line = split_programm_line_to_terms(line)
+        term_line = filter_comments_on_line(term_line)
         if len(term_line) == 0:
             continue
         source_terms.append(SourceTerm(line_num, term_line))
     return source_terms
+
+def select_sections_terms(section_source_terms: list[SourceTerm]) -> list[SourceTerm]:
+    """Поиск строк-термов, содержащих ключевое слово 'sections'."""
+    return [term for term in section_source_terms if "section" in term.terms]
+
+
+def validate_section_name(section_definition: SourceTerm) -> str:
+    """Проверка имени секции. Возвращает имя секции."""
+    assert len(section_definition.terms) >= 3, "Sections definition should contain 3 terms, line: {}.".format(section_definition.line)
+    section_found: bool = False
+    section_name: str
+
+    for term_num, term in enumerate(section_definition.terms):
+        match term_num:
+            case 0:
+                assert term == "section", "Section definition doesn't have 'section' keyword in place."
+                assert not section_found, "Multiple section defenitions in line: {}.".format(section_definition.line)
+                section_found = True
+                continue
+            case 1:
+                assert term in avaliable_sections().keys(), "Unavaliable section name: {}, line: {}.".format(term, section_definition.line)
+                section_name = term
+                continue
+            case 2:
+                assert term == ":", "Section name should be followed by colon, line:{}.".format(section_definition.line)
+                continue
+            case 3:
+                assert term == ";", "Section definition could be followed only by comment."
+            case _:
+                continue
+    return section_name
+
+def validate_section_names(section_source_terms: list[SourceTerm]) -> bool:
+    unique_avaliable_sections: set[str] = set()
+    for source_term in section_source_terms:
+        section_name:str = validate_section_name(source_term)
+        assert section_name not in unique_avaliable_sections, "Section name should be unique: {}.".format(term)
+        if section_name in unique_avaliable_sections:
+            return False
+        unique_avaliable_sections.update(section_name)
+    return True
 
 def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dict[str, list[SourceTerm]]:
     """ Разделение исходного кода программы по секциям для отдельной обработки.
@@ -111,68 +160,49 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
     - сокращенное имя секции .text и термы строк
     """
     sections: dict[str, list[SourceTerm]] = dict()
-    sections_starts: dict[str, int] = dict()
+    sections_starts: dict[str, tuple[int, SourceTerm]] = dict()
 
-    # Находим все секции.
-    found_sections: list[str] = []
-    section_expressions: list[SourceTerm] = [term for term in programm_text_split if "section" in term.terms]
-    print("BBB", section_expressions)
+    # Находим все секции и проверяем их объявления на корректность.
+    section_expressions: list[SourceTerm] = select_sections_terms(programm_text_split)
     assert len(section_expressions) > 0, "No sections in programm."
-    for elem in section_expressions:
-        assert elem[0] == ".", "Section name should be prefixed by dot."
-        assert elem[2] == ":", "Section name should be followed by colon."
-        found_sections.append(elem[1])
-    # print(found_expressions)
-    # print("found sections", found_sections)
+    assert validate_section_names(section_expressions), "Section definition is not correct"
 
-    # Cохраняем начало доступных секций.
-    unique_avaliable_sections: set[str] = set()
-    for section in found_sections:
-        assert section in avaliable_sections().keys(), "Unavaliable section name: {}.".format(section)
-        assert section not in unique_avaliable_sections, "Section name should be unique: {}.".format(section)
-        section_start: int = programm_text.find(get_section_name(section))
-        sections_starts.update({section: section_start})
+    # Сохраняем термы исходгого кода с порядковыми номерами после фильтрации от комментариев
+    terms_by_line: list[tuple[int, SourceTerm]] = [(term_num, term) for term_num, term in enumerate(programm_text_split)]
 
-    # Сортируем секции по их порядку нахождения в файле
-    sections_starts = {key: value for key, value in sorted(sections_starts.items(), key=lambda item: item[1])}
+    # Cохраняем начала доступных секций.
+    for section in section_expressions:
+        section_start: int
+        for term in terms_by_line:
+            if section == term[1]:
+                section_start = term[0]
+        sections_starts[section.terms[1]] = (section_start, section)
 
-    # print(sections_starts)
-
-
+    print("starts", sections_starts, "\n")
     # Добавляем каждой секции в выходной структуре её содержимое без заголовка секции
-    prev_pair: tuple[str, int] | None = None
-    start: int
-    indent: int
-    for name, position in sections_starts.items():
-        if prev_pair is not None:
-            start = prev_pair[1]
-            indent = start + len(get_section_name(prev_pair[0])) + 1
-            sections.update({ prev_pair[0]: programm_text[indent : position].strip() })
-        prev_pair = (name, position)
-    assert prev_pair is not None
-    start = prev_pair[1]
-    indent = start + len(get_section_name(prev_pair[0])) + 1
-    sections.update({ prev_pair[0]: programm_text[indent : ].strip() })
-
-    # print("data", sections["data"])
-    # print("text", sections["text"])
-    # print("+++++++++++++++++++====")
+    prev_name: str | None = None
+    prev_pos: int | None = None
+    prev_source_term: SourceTerm | None = None
+    section_programm_start: int
+    section_programm_end: int
+    for name, pos_term in sections_starts.items():
+        if prev_name is not None and prev_pos is not None and prev_source_term is not None:
+            section_programm_start = prev_pos + 1
+            section_programm_end = pos_term[0]
+            sections[prev_name] = [pos_term[1] for pos_term in terms_by_line[section_programm_start : section_programm_end]]
+        prev_name = name
+        prev_pos = pos_term[0]
+        prev_source_term = pos_term[1]
+    assert prev_name is not None
+    assert prev_pos is not None
+    assert prev_source_term is not None
+    section_programm_start = prev_pos + 1
+    sections[prev_name] = [pos_term[1] for pos_term in terms_by_line[section_programm_start : ]]
 
     return sections
 
 # def match_label() -> :
 #     pass
-
-def filter_comments_on_line(terms: list[str]) -> list[str]:
-    term_num: int
-    comment_start: int | None = None
-    for term_num, term in enumerate(terms):
-        if term == ";":
-            comment_start = term_num
-            break
-    if comment_start is not None:
-        terms = terms[:comment_start]
-    return terms
 
 curdir = os.path.dirname(__file__)
 ex_file = os.path.join(curdir, "../examples/hello.asm")
@@ -187,14 +217,7 @@ print("====================")
 print(split_source_terms_to_sections(terms))
 
 
-li = ["a", ";", "gegeg", "sffe"]
-li2 = [";", "efffe", "afwef"]
-li3 = [""]
-print(filter_comments_on_line(li))
-print(filter_comments_on_line(li2))
-
-
-def map_text_to_terms(command_section_text: str) -> list[StatementTerm]:
+def map_text_to_terms(command_section_terms: list[SourceTerm]) -> list[StatementTerm]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность операторов языка.
 
     Фильтруются незначимые символы, в т. ч. комментарии, проверяется корректность аргументов и уникальность лейблов.
@@ -209,7 +232,7 @@ def map_text_to_terms(command_section_text: str) -> list[StatementTerm]:
 
     return terms
 
-def map_text_to_data(predef_data_section_text: str) -> list[DataTerm]:
+def map_text_to_data(data_section_terms: list[SourceTerm]) -> list[DataTerm]:
     """
     """
     line_num: int
@@ -232,20 +255,21 @@ def translate(code_text: str) -> Code:
     В процессе трансляции сохраняются адреса лейблов данных и кода для подстановки адресов.
     """
     code: Code = Code()
-    section_data: str
-    section_text: str
-    code_labels: dict[str, int]
-    data_labels: dict[str, int]
+    section_data: list[SourceTerm] | None = None
+    section_text: list[SourceTerm] | None = None
+    code_labels: dict[str, int] = {}
+    data_labels: dict[str, int] = {}
     code_terms: list[StatementTerm] = []
     data_terms: list[DataTerm] = []
 
-    sections = split_text_to_sections(code_text)
+    source_terms: list[SourceTerm] = split_text_to_source_terms(code_text)
+    sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(source_terms)
 
-    section_text = sections.get("text")
+    section_text = sections[".text"]
     assert section_text is not None, "Failed to translate: Section .text is not present in program"
     code_terms = map_text_to_terms(section_text)
 
-    section_data = sections.get("data")
+    section_data = sections.get(".data")
     # data_terms.append(map_text_to_predef_data(section_data))
 
     section_bss = sections.get("bss")

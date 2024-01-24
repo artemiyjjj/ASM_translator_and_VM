@@ -137,10 +137,15 @@ class SourceTerm:
         self.terms = line_split
 
     def __str__(self) -> str:
-        return "line: {}, terms: {}".format(self.line, self.terms)
+        return "line: {}, terms: {}\n".format(self.line, self.terms)
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, SourceTerm):
+            return self.line == other.line and self.terms == other.terms
+        return False
 
 def read_code(filename: str) -> Code:
     """ Чтение машинного кода из файла. """
