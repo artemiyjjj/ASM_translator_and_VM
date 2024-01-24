@@ -25,6 +25,18 @@ enable_assertion_pass_hook = true
 addopts = "--doctest-modules"
 log_format = "%(levelname)-7s %(module)s:%(funcName)-13s %(message)s"
 
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+warn_unreachable = true
+disallow_untyped_defs = true
+disallow_untyped_calls = true
+check_untyped_defs = true
+show_error_context = true
+ignore_missing_imports = true
+strict = true
+exclude = "test"
+
 [tool.ruff]
 line-length = 120
 select = [
