@@ -1,0 +1,28 @@
+in_label_correct_ordinary1: |-
+  _start:
+in_label_correct_ordinary2: |-
+  loop:
+in_label_correct_followed_by_instruction: |-
+  return: ld 1
+in_label_incorrect_number: |-
+  1label:
+in_label_no_label: |-
+  add   5
+in_label_name_instruction: |-
+  sub: jz 88
+in_label_name_multiple_words: |-
+  my label:
+out_label_correct_ordinary1: |-
+  _start
+out_label_correct_ordinary2: |-
+  loop
+out_label_correct_followed_by_instruction: |-
+  return
+out_label_incorrect_number: |-
+  assert ...
+out_label_no_label: |-
+  None
+out_label_name_instruction: |-
+  assert ...
+out_label_name_multiple_words: |-
+  assert...

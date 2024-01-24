@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import re
 import sys
-from typing import Optional
 
 from isa import Code, DataTerm, Opcode, SourceTerm, StatementTerm, write_code
 
@@ -49,6 +48,7 @@ def map_instruction_to_opcode(instruction: str) -> Opcode:
         "dii": Opcode.DII,
         "hlt": Opcode.HLT
     }.get(instruction)
+
 
 def split_by_spec_symbols(elem: str) -> list[str]:
         tmp: list[str] = re.split(r"(\:|\;|\,|\*)+", elem)
@@ -146,7 +146,7 @@ def validate_section_names(section_source_terms: list[SourceTerm]) -> bool:
     unique_avaliable_sections: set[str] = set()
     for source_term in section_source_terms:
         section_name:str = validate_section_name(source_term)
-        assert section_name not in unique_avaliable_sections, "Section name should be unique: {}.".format(term)
+        assert section_name not in unique_avaliable_sections, "Section name should be unique: {}.".format(source_term.line)
         if section_name in unique_avaliable_sections:
             return False
         unique_avaliable_sections.update(section_name)
@@ -201,52 +201,69 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
 
     return sections
 
-# def match_label() -> :
-#     pass
+def match_label(term: SourceTerm) -> str | None:
+    """ Проверка строки SourceTerm на наличие лейбла.
+
+    Возвращает имя лейбла при наличии и None иначе.
+    """
+    line: list[str] = term.terms
+    print(line)
+    # Проверка: есть ли в строке исходного кода двоеточие
+    try:
+        line.index(":")
+    except ValueError:
+        return None
+    assert len(line) >= 2 and line[1] == ":", "Label name is not correct, line: {}".format(term.line)  # noqa: PT018
+    assert line[0] not in instructions(), "Label name can't be instructuction name, line: {}".format(term.line)
+    res = re.fullmatch(r"[a-zA-Z_][\w]*", line[0], 0)
+    assert res is not None, "Label name doesn't match requirements"
+    return line[0]
 
 curdir = os.path.dirname(__file__)
 ex_file = os.path.join(curdir, "../examples/hello.asm")
 file = open(ex_file)
 code = file.read()
 terms = []
-# print(code)
 terms = split_text_to_source_terms(code)
-for term in terms:
-    print(term.terms)
 print("====================")
-print(split_source_terms_to_sections(terms))
+sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
 
+def map_text_to_instructions(command_section_terms: list[SourceTerm], data_labels: dict[str, int]) -> list[StatementTerm]:
+    """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
 
-def map_text_to_terms(command_section_terms: list[SourceTerm]) -> list[StatementTerm]:
-    """ Трансляция тескта секции инструкций исходной программы в последовательность операторов языка.
-
-    Фильтруются незначимые символы, в т. ч. комментарии, проверяется корректность аргументов и уникальность лейблов.
+    Проверяется корректность аргументов, соответствие лейблов данных параметрам инструкций данных
+    и уникальность и соответствие лейблов инструкций параметрам инструкций контроля выполнения.
     """
-    labels: set[str] = []
-    terms: list[Opcode] = []
-    for line_num, line in enumerate(command_section_text.split("\n"), 1):
-        # print(line_num, line)
-        for term_num, term in enumerate(line.split(" "), 1):
-            # print("tab   ", term_num, term)
-            pass
+    found_labels: set[str] = set()
+    terms: list[StatementTerm] = []
+    cur_label: str | None = None
+    for instruction_counter, term in enumerate(command_section_terms):
+        cur_label = match_label(term)
+        found_labels.add(cur_label) if cur_label is not None and cur_label not in found_labels else found_labels
 
     return terms
 
-def map_text_to_data(data_section_terms: list[SourceTerm]) -> list[DataTerm]:
+def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
+    """ Трансляция текста секции данных исходной программы в последовательность термов данных.
+
+    Проверяются лейблы и корректность объявления данных.
+    Возвращаемые значения:
+    - список термов данных в программе
+    - словарь имён лейблов данных и их адресов
     """
-    """
-    line_num: int
-    line: str
+    cur_label: str | None = None
     labels: set[str] = set()
-    terms: set[DataTerm] = set()
-    for line_num, line in enumerate(predef_data_section_text.split("\n"), 1):
-        elements: tuple[str, int | str, ...] = line.split()
-        assert elements[0] not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(line_num)
-        # if 
+    data_terms: set[DataTerm] = set()
+    for instruction_counter, term in enumerate(data_section_terms, 1):
+        cur_label = match_label(term)
+        if cur_label is not None:
+            assert cur_label not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(term.line)
+
+         
         assert isinstance(elements[1], int), "Failed to translate: length should be int value. section data -> line: {}".format(line_num)
         labels.add(elements[0])
         term: DataTerm = DataTerm(line = line_num, label = elements[0], length = elements[1])
-        terms.add(term)
+        data_terms.add(term)
     return 
 
 def translate(code_text: str) -> Code:
@@ -254,10 +271,10 @@ def translate(code_text: str) -> Code:
 
     В процессе трансляции сохраняются адреса лейблов данных и кода для подстановки адресов.
     """
-    code: Code = Code()
+    code: Code
     section_data: list[SourceTerm] | None = None
     section_text: list[SourceTerm] | None = None
-    code_labels: dict[str, int] = {}
+    # code_labels: dict[str, int] = {}
     data_labels: dict[str, int] = {}
     code_terms: list[StatementTerm] = []
     data_terms: list[DataTerm] = []
@@ -265,24 +282,23 @@ def translate(code_text: str) -> Code:
     source_terms: list[SourceTerm] = split_text_to_source_terms(code_text)
     sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(source_terms)
 
-    section_text = sections[".text"]
+    section_text = sections.get(".text")
     assert section_text is not None, "Failed to translate: Section .text is not present in program"
-    code_terms = map_text_to_terms(section_text)
-
     section_data = sections.get(".data")
-    # data_terms.append(map_text_to_predef_data(section_data))
+    if section_data is not None:
+        data_terms, data_labels = map_text_to_data(section_data)
 
-    section_bss = sections.get("bss")
-    data_terms.append(map_text_to_row_data(section_bss))
+    data_terms, data_labels = map_text_to_data(section_data)
+    code_terms = map_text_to_instructions(section_text, data_labels)
 
-    
-    # print(section_bss)
-          
+
+
 
     for adress, statement in enumerate(code_terms, 1):
         pass
 
     return code
+
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
