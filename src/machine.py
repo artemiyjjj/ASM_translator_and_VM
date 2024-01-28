@@ -8,46 +8,46 @@ from isa import Opcode, read_code
 
 class DataPath:
     # AC регистр
-    accumulator_reg: int = None
+    accumulator_reg: int
 
     # AR регистр
-    adress_reg = None   # должен сработать линтер
+    adress_reg:int
 
     # Устройство, хранящее таблицу соответствия номеров устройств - векторам прерывания.
-    device_interpution_table: list[tuple[int, int]] = None
+    device_interpution_table: list[tuple[int, int]]
 
 
 
     # Буффер выходных данных
-    output_buffer: list[str] = None
+    output_buffer: list[str]
 
     def __init__(self, interruption_table: list[tuple[int, int]]):
         accumulator_reg = 0
         adress_reg = 0
         device_interpution_table = interruption_table
 
-    def signal_output(self) -> void:
+    def signal_output(self) -> None:
         output_symbol = chr(self.accumulator_reg)
         logging.debug("Output: %s + %s", repr("".join(self.output_buffer)), repr(output_symbol))
         self.output_buffer.append[output_symbol]
 
-    def zero(self) -> boolean:
+    def zero(self) -> bool:
         return self.accumulator_reg == 0
 
-    def negative(self) -> boolean:
+    def negative(self) -> bool:
         return self.accumulator_reg < 0
 
 
 
 class ControlUnit:
     # Счётчик тактов с начала работы модели машины
-    _tick: int = None
+    _tick: int
 
     # IP регистр - используется для доступа к памяти при передаче адреса, значение по которому необходимо "достать"
-    instruction_pointer_reg: int = None
+    instruction_pointer_reg: int
 
     # Регистр - указывающий возможно ли выполнить прерывание в текущем цикле исполнения инструкции.
-    interruption_enabled: boolean = None
+    interruption_enabled: bool
 
     def __init__(self, limit: int):
         interruption_enabled = False
@@ -57,17 +57,18 @@ class ControlUnit:
         pass
 
 
-    def perform_next_tick(self) -> void:
+    def perform_next_tick(self) -> None:
         """ Выполнение следующего процессорного такта. """
         pass
 
-    def signal_interrupt(self) -> void:
+    def signal_interrupt(self) -> None:
         pass
 
-    def __perp__(self) -> str:
+    def __repr__(self) -> str:
         """ Вернуть состояние процессора в строковом представлении.
         """
-        pass
+
+        return 
 
 
 class Machine:
@@ -75,27 +76,27 @@ class Machine:
     Память представлена отдельным модулем, к которому имеют доступ тракт данных и управляющий модуль.
     """
 
-    # Кол-во памяти машины (в размерах машинного слова - 4 байта)
-    memory_size: int = None
+    # Кол-во ячеек памяти машины (в размерах машинного слова - 4 байта)
+    memory_size: int
 
     # Память машины. Используется трактом данных и управляющим модулем.
-    common_memory: list[int] = None
+    common_memory: list[int]
 
     # Модель тракта данных в машине.
-    _data_path: DataPath = None
+    _data_path: DataPath
 
     # Модель управляющего модуля в машине.
-    _control_unit: ControlUnit = None
+    _control_unit: ControlUnit
 
     # Буфер для хранения расписания ввода символов
-    _input_buffer: list[tuple[int, str]] = None
+    _input_buffer: list[tuple[int, str]]
 
-    def __init__(self, memory_size: int, input_biffer: list[tuple[int, str]], limit: int):
+    def __init__(self, memory_size: int, input_buffer: list[tuple[int, str]], limit: int):
         assert memory_size > 0, "Memory size should not be zero"
         assert limit > 0, "Limit can not be negative"
         self.memory_size = memory_size
         self.common_memory = [0] * memory_size
-        self.data_path = DataPath(common_memory)
+        self.data_path = DataPath(self.common_memory)
         self.control_unit = ControlUnit(common_memory, limit)
         self._input_buffer = input_buffer
 
@@ -109,14 +110,19 @@ class Machine:
             self.data_path.data_memory[self.data_path.data_address],
             self.data_path.acc,
         )
+        return state_repr
 
     def decode_instruction_select_argument(self) -> None:
+        pass
+
+    def check_interrution(self) -> None:
         pass
 
     def execute_next_command(self) -> None:
         self.decode_instruction_select_argument()
         self.execute_command()
         self.check_interruption()
+
 
     def simulation(self, code: Code, input_schedule: list[tuple[int, str]], data_memory_size: int, limit: int) -> tuple[output: str, instr_counter: int, ticks: int]:
         """Подготовка модели и запуск симуляции процессора.
@@ -132,7 +138,7 @@ class Machine:
             tuples.append((int(a), int(b)))
         return list_schedule
 
-def main(code: Code, input_file_name: str) -> void:
+def main(code: Code, input_file_name: str) -> None:
     """Функция запуска модели процессора. Параметры -- имена файлов с машинным
     кодом и с входными данными для симуляции ввода (формат [<такт подачи символа>, <символ>]).
     """
