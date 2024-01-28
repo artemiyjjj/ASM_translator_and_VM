@@ -1,0 +1,19 @@
+[
+    {
+        "index": 0,
+        "opcode": "jmp",
+        "arg": 1,
+        "mode": "deref",
+        "term": {
+            "line": 2
+        }
+    },
+    {
+        "index": 1,
+        "label": "a",
+        "value": "x",
+        "term": {
+            "line": 4
+        }
+    }
+]
