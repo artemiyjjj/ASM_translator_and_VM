@@ -178,7 +178,6 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
                 section_start = term[0]
         sections_starts[section.terms[1]] = (section_start, section)
 
-    print("starts", sections_starts, "\n")
     # Добавляем каждой секции в выходной структуре её содержимое без заголовка секции
     prev_name: str | None = None
     prev_pos: int | None = None
@@ -227,6 +226,7 @@ terms = []
 terms = split_text_to_source_terms(code)
 print("====================")
 sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
+print(sections)
 
 def map_text_to_instructions(command_section_terms: list[SourceTerm], data_labels: dict[str, int]) -> list[StatementTerm]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
@@ -256,14 +256,21 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
     data_terms: set[DataTerm] = set()
     for instruction_counter, term in enumerate(data_section_terms, 1):
         cur_label = match_label(term)
-        if cur_label is not None:
-            assert cur_label not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(term.line)
-
-         
-        assert isinstance(elements[1], int), "Failed to translate: length should be int value. section data -> line: {}".format(line_num)
-        labels.add(elements[0])
-        term: DataTerm = DataTerm(line = line_num, label = elements[0], length = elements[1])
-        data_terms.add(term)
+        size: int
+        assert cur_label is not None, "Failed to translate: Data declaration or definition can't be done without label, line: {}".format(term.line)
+        assert cur_label not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(term.line)
+        assert isinstance(elements[1], int), "Failed to translate: data size should be non-negative int value, line: {}".format(term.line)
+        labels.add(cur_label)
+        # Data declaration
+        if len(term.terms) == 4:
+            pass
+        # Data defenition
+        if len(term.terms) == 5:
+            pass
+            
+        
+        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label, length = elements[1], line = term.line)
+        data_terms.add(data_term)
     return 
 
 def translate(code_text: str) -> Code:

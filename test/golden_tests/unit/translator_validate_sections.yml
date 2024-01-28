@@ -1,0 +1,28 @@
+in_correct_def1: |-
+  section .data:
+in_correct_def2: |-
+  section .text:
+in_correct_def3: |-
+  section .text: ; commented out text
+in_missed_dot: |-
+  section text:
+in_not_only_section_def: |-
+  section .text:sdsd;wrong section def
+in_missed_semicolon: |-
+  section .data
+in_not_correct_name: |-
+  section A:
+out_correct_def1: |-
+  aaa
+out_correct_def2: |-
+  bbb
+out_correct_def3: |-
+  ccc
+out_missed_dot: |-
+  ddd
+out_not_only_section_def: |-
+  eee
+out_missed_semicolon: |-
+  fff
+out_not_correct_name: |-
+  ggg
