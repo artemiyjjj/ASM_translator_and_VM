@@ -7,17 +7,8 @@ import tempfile
 import pytest
 
 from isa import read_code, write_code
+from translator import match_label, split_text_to_source_terms
 
-
-@pytest.mark.golden_test("golden_tests/unit/translator.yml")
-def test_translator(golden:str, caplog) -> None:
-    """ Golden tests для транслятора.
-    """
-
-@pytest.mark.golden_test("golden_tests/unit/machine.yml")
-def test_machine(golden:str, caplog) -> None:
-    """ Golden tests модели компьютера.
-    """
 
 @pytest.mark.golden_test("golden_tests/unit/isa.yml")
 def test_isa(golden: str, caplog) -> None:
@@ -50,3 +41,15 @@ def test_isa(golden: str, caplog) -> None:
         assert code == golden.out["out_code"]
         assert stdout.getvalue() == golden.out["out_obj"]
 
+    @pytest.mark.golden_test("golden_tests/unit/translator.yml")
+    def test_translator_label_matching(golden:str, caplog) -> None:
+        """ Golden tests транслятора.
+        """
+        # таким образом вставлять тестовые случаи
+        # вывод - имя лейбла, None или ассерт: текст
+        match_label(split_text_to_source_terms("_start:")[0])
+
+    @pytest.mark.golden_test("golden_tests/unit/machine.yml")
+    def test_machine(golden:str, caplog) -> None:
+        """ Golden tests модели компьютера.
+        """
