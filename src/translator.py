@@ -22,7 +22,7 @@ def instructions() -> set[str]:
     """ Полное множество команд, доступных к использованию в языке. """
     return {opcode.name.lower() for opcode in Opcode}
 
-def map_instruction_to_opcode(instruction: str) -> Opcode:
+def map_instruction_to_opcode(instruction: str) -> Opcode | None:
     """ Отображение команд исходного кода в коды операций. """
     return {
         "ld": Opcode.LD,
@@ -50,6 +50,12 @@ def map_instruction_to_opcode(instruction: str) -> Opcode:
     }.get(instruction)
 
 
+def try_convert_str_to_int(num: str) -> int | None:
+    try:
+        return int(num)
+    except ValueError:
+        return None
+
 def split_by_spec_symbols(elem: str) -> list[str]:
         tmp: list[str] = re.split(r"(\:|\;|\,|\*)+", elem)
         while "" in tmp:
@@ -73,7 +79,7 @@ def join_string_literals(terms: list[str]) -> list[str]:
     common: list[str] = []
     indices: list[int] = []
     for term_num, term in enumerate(terms):
-        if '"' in term or "'" in term: # упрощенная обработка разных кавычек
+        if '"' in term: # упрощенная обработка разных кавычек
             stack_quotes.append("'")
             tmp.append(term)
             indices.append(term_num)
@@ -120,7 +126,7 @@ def validate_section_name(section_definition: SourceTerm) -> str:
     """Проверка имени секции. Возвращает имя секции."""
     assert len(section_definition.terms) >= 3, "Sections definition should contain 3 terms, line: {}.".format(section_definition.line)
     section_found: bool = False
-    section_name: str
+    section_name: str | None = None
 
     for term_num, term in enumerate(section_definition.terms):
         match term_num:
@@ -140,12 +146,13 @@ def validate_section_name(section_definition: SourceTerm) -> str:
                 assert term == ";", "Section definition could be followed only by comment."
             case _:
                 continue
+    assert section_name is not None, "Section name not found, line: {}.".format(section_definition.line)
     return section_name
 
 def validate_section_names(section_source_terms: list[SourceTerm]) -> bool:
     unique_avaliable_sections: set[str] = set()
     for source_term in section_source_terms:
-        section_name:str = validate_section_name(source_term)
+        section_name: str = validate_section_name(source_term)
         assert section_name not in unique_avaliable_sections, "Section name should be unique: {}.".format(source_term.line)
         if section_name in unique_avaliable_sections:
             return False
@@ -172,10 +179,11 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
 
     # Cохраняем начала доступных секций.
     for section in section_expressions:
-        section_start: int
+        section_start: int | None = None
         for term in terms_by_line:
             if section == term[1]:
                 section_start = term[0]
+        assert section_start is not None, "Section start is not found"
         sections_starts[section.terms[1]] = (section_start, section)
 
     # Добавляем каждой секции в выходной структуре её содержимое без заголовка секции
@@ -206,7 +214,6 @@ def match_label(term: SourceTerm) -> str | None:
     Возвращает имя лейбла при наличии и None иначе.
     """
     line: list[str] = term.terms
-    print(line)
     # Проверка: есть ли в строке исходного кода двоеточие
     try:
         line.index(":")
@@ -218,15 +225,6 @@ def match_label(term: SourceTerm) -> str | None:
     assert res is not None, "Label name doesn't match requirements"
     return line[0]
 
-curdir = os.path.dirname(__file__)
-ex_file = os.path.join(curdir, "../examples/hello.asm")
-file = open(ex_file)
-code = file.read()
-terms = []
-terms = split_text_to_source_terms(code)
-print("====================")
-sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
-print(sections)
 
 def map_text_to_instructions(command_section_terms: list[SourceTerm], data_labels: dict[str, int]) -> list[StatementTerm]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
@@ -249,29 +247,35 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
     Проверяются лейблы и корректность объявления данных.
     Возвращаемые значения:
     - список термов данных в программе
-    - словарь имён лейблов данных и их адресов
+    - словарь имён лейблов данных и их адресов, согласно длине данных
     """
-    cur_label: str | None = None
     labels: set[str] = set()
-    data_terms: set[DataTerm] = set()
-    for instruction_counter, term in enumerate(data_section_terms, 1):
-        cur_label = match_label(term)
-        size: int
+    data_terms: list[DataTerm] = []
+    labels_addr: dict[str, int] = dict()
+    instruction_counter: int = 0
+    for term_num, term in enumerate(data_section_terms, 1):
+        cur_label: str | None = match_label(term)
+        data_size: int | None = None
+        value: int | str | None = None
         assert cur_label is not None, "Failed to translate: Data declaration or definition can't be done without label, line: {}".format(term.line)
         assert cur_label not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(term.line)
-        assert isinstance(elements[1], int), "Failed to translate: data size should be non-negative int value, line: {}".format(term.line)
         labels.add(cur_label)
-        # Data declaration
-        if len(term.terms) == 4:
-            pass
-        # Data defenition
-        if len(term.terms) == 5:
-            pass
-            
-        
-        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label, length = elements[1], line = term.line)
-        data_terms.add(data_term)
-    return 
+        data_size = try_convert_str_to_int(term.terms[2])
+        assert data_size is not None, "Failed to translate: data size should be non-negative int value, line: {}".format(term.line)
+
+        match len(term.terms):
+            case 4: # Data declaration
+                pass
+            case 5: # Data defenition
+                value = term.terms[4][1:-1]
+            case _:
+                raise AssertionError("Data term doen't fit declaration or definition rules, line: {}".format(term.line))
+
+        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label, line = term.line, value = value)
+        data_terms.append(data_term)
+        labels_addr[cur_label] = instruction_counter
+        instruction_counter += data_size
+    return (data_terms, labels_addr)
 
 def translate(code_text: str) -> Code:
     """ Трансляция текста исходной программы в машинный код для процессора.
@@ -305,6 +309,7 @@ def translate(code_text: str) -> Code:
         pass
 
     return code
+
 
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
