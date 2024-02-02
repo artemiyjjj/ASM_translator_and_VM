@@ -116,7 +116,7 @@ class DataTerm:
     """ Структура для представления значения и длины лейбла в памяти. """
     index: int
     label: str
-    value: int | str
+    value: int | str | None
     line: int
 
     @staticmethod
@@ -126,6 +126,12 @@ class DataTerm:
         except (TypeError, KeyError):
             return None
         return instance
+    
+    def __str__(self) -> str:
+        return "{ index: {}, label: }"
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 class SourceTerm:
     """ Структура для представления строки исходного кода. """
