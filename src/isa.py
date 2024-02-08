@@ -126,9 +126,11 @@ class DataTerm:
         except (TypeError, KeyError):
             return None
         return instance
-    
+
     def __str__(self) -> str:
-        return "{ index: {}, label: }"
+        if self.value is None:
+            return "index: {}, label: {}, line: {}".format(self.index, self.label, self.line)
+        return "index: {}, label: {}, value: {}, line: {}".format(self.index, self.label, self.value, self.line)
 
     def __repr__(self) -> str:
         return self.__str__()
