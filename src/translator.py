@@ -57,7 +57,7 @@ def try_convert_str_to_int(num: str) -> int | None:
         return None
 
 def split_by_spec_symbols(elem: str) -> list[str]:
-        tmp: list[str] = re.split(r"(\:|\;|\,|\*)+", elem)
+        tmp: list[str] = re.split(r"(\:|\;|\,|\*)", elem)
         while "" in tmp:
             tmp.remove("")
         return tmp
@@ -73,6 +73,13 @@ def filter_comments_on_line(terms: list[str]) -> list[str]:
         terms = terms[:comment_start]
     return terms
 
+def count_inverted_commas(term: str) -> int:
+    ic_amount: int = 0
+    for symb in term:
+        if symb == '"':
+            ic_amount += 1
+    return ic_amount
+
 def join_string_literals(terms: list[str]) -> list[str]:
     stack_quotes: list[str] = []
     tmp: list[str] = []
@@ -81,6 +88,8 @@ def join_string_literals(terms: list[str]) -> list[str]:
     for term_num, term in enumerate(terms):
         if '"' in term: # упрощенная обработка разных кавычек
             stack_quotes.append("'")
+            if count_inverted_commas(term):
+                stack_quotes.append("'")
             tmp.append(term)
             indices.append(term_num)
         else:
@@ -257,19 +266,32 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
         cur_label: str | None = match_label(term)
         data_size: int | None = None
         value: int | str | None = None
-        assert cur_label is not None, "Failed to translate: Data declaration or definition can't be done without label, line: {}".format(term.line)
-        assert cur_label not in labels, "Failed to translate: labels in section .bss are not unique. section data -> line: {}".format(term.line)
+        assert cur_label is not None, "Translation failed: Data declaration or definition can't be done without label, line: {}".format(term.line)
+        assert cur_label not in labels, "Translation failed: labels in section data are not unique, line: {}".format(term.line)
         labels.add(cur_label)
-        data_size = try_convert_str_to_int(term.terms[2])
-        assert data_size is not None, "Failed to translate: data size should be non-negative int value, line: {}".format(term.line)
+
+        def validate_string_size(size_str: str) -> int:
+            data_size = try_convert_str_to_int(term.terms[2])
+            assert data_size is not None and data_size > 0, "Translation failed: data size should be non-negative integer value, line: {}".format(term.line)  # noqa: PT018
+            return data_size
 
         match len(term.terms):
-            case 4: # Data declaration
-                pass
-            case 5: # Data defenition
+            case 2: # Number declaration
+                data_size = 4
+            case 3: # Number defenition
+                data_size = 4
+                value = try_convert_str_to_int(term.terms[2])
+                assert value is not None, "Translation failed: number defenition is not correct, line:{}".format(term.line)
+                assert value < 2**31 and value >= -2**32, "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)  # noqa: PT018
+            case 4: # String data declaration
+                data_size = validate_string_size(term.terms[2])
+            case 5: # String data defenition
+                data_size = validate_string_size(term.terms[2])
+                assert try_convert_str_to_int(term.terms[4]) is None, "Translation failed: number shouldn't have length before it, line: {}".format(term.line)
                 value = term.terms[4][1:-1]
+                assert len(value) == data_size, "Translation failed: given data size doen't match given string."
             case _:
-                raise AssertionError("Data term doen't fit declaration or definition rules, line: {}".format(term.line))
+                raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
 
         data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label, line = term.line, value = value)
         data_terms.append(data_term)
@@ -282,7 +304,7 @@ def translate(code_text: str) -> Code:
 
     В процессе трансляции сохраняются адреса лейблов данных и кода для подстановки адресов.
     """
-    code: Code
+    code: Code | None = None
     section_data: list[SourceTerm] | None = None
     section_text: list[SourceTerm] | None = None
     # code_labels: dict[str, int] = {}
@@ -293,16 +315,15 @@ def translate(code_text: str) -> Code:
     source_terms: list[SourceTerm] = split_text_to_source_terms(code_text)
     sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(source_terms)
 
-    section_text = sections.get(".text")
-    assert section_text is not None, "Failed to translate: Section .text is not present in program"
     section_data = sections.get(".data")
     if section_data is not None:
         data_terms, data_labels = map_text_to_data(section_data)
 
-    data_terms, data_labels = map_text_to_data(section_data)
+    section_text = sections.get(".text")
+    assert section_text is not None, "Translation failed: Section .text is not present in program"
     code_terms = map_text_to_instructions(section_text, data_labels)
 
-
+    code = link_sections(text_terms, data_terms)
 
 
     for adress, statement in enumerate(code_terms, 1):
@@ -311,6 +332,18 @@ def translate(code_text: str) -> Code:
     return code
 
 
+curdir = os.path.dirname(__file__)
+ex_file = os.path.join(curdir, "../examples/hello.asm")
+file = open(ex_file)
+code = file.read()
+translate(code)
+# terms = []
+# # print(code)
+# terms = split_text_to_source_terms(code)
+# # print(terms)
+# print("====================")
+# sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
+# print(sections)
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
