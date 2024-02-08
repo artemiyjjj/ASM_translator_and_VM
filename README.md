@@ -43,9 +43,9 @@ programm ::= [section .data], section .text;
 
     data size ::= <positive integer number> ;
 
-    data ::= <integer number> | <str>
+    data ::= <integer number> | '"', <str>, '"' ;
 
-    comment ::= ";", {<any character>}* ;
+    comment ::= ";", {<any character except '"'>}* ;
 ```
 
 Код программы выполняется последовательно. Одна инструкция определяет одну машинную команду.
