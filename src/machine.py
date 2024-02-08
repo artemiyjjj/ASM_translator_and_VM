@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import sys
 
-from isa import Opcode, read_code
+from isa import Code, Opcode, read_code
 
 
 class DataPath:
