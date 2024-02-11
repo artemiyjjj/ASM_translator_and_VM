@@ -4,7 +4,7 @@ import os
 import re
 import sys
 
-from isa import Code, DataTerm, Opcode, SourceTerm, StatementTerm, write_code
+from isa import Code, DataTerm, Mode, Opcode, SourceTerm, StatementTerm, write_code
 
 
 def avaliable_sections() -> dict[str, str]:
@@ -46,7 +46,8 @@ def map_instruction_to_opcode(instruction: str) -> Opcode | None:
         "int": Opcode.INT,
         "eni": Opcode.ENI,
         "dii": Opcode.DII,
-        "hlt": Opcode.HLT
+        "hlt": Opcode.HLT,
+        "nop": Opcode.NOP
     }.get(instruction)
 
 
@@ -95,8 +96,8 @@ def join_string_literals(terms: list[str]) -> list[str]:
         else:
             common.append(term)
     if len(stack_quotes) > 0:
-        assert len(stack_quotes) % 2 == 0, "String literals are incomplete."
-        assert stack_quotes.pop() == stack_quotes.pop(), "Quotes at some string literal are different." # упрощенная валидация
+        assert len(stack_quotes) % 2 == 0, "Translation failed: String literals are incomplete."
+        assert stack_quotes.pop() == stack_quotes.pop(), "Translation failed: Quotes at some string literal are different." # упрощенная валидация
         literal: str = " ".join(tmp)
         common.insert(indices[0], literal)
     return common
@@ -133,36 +134,36 @@ def select_sections_terms(section_source_terms: list[SourceTerm]) -> list[Source
 
 def validate_section_name(section_definition: SourceTerm) -> str:
     """Проверка имени секции. Возвращает имя секции."""
-    assert len(section_definition.terms) >= 3, "Sections definition should contain 3 terms, line: {}.".format(section_definition.line)
+    assert len(section_definition.terms) >= 3, "Translation failed: Sections definition should contain 3 terms, line: {}.".format(section_definition.line)
     section_found: bool = False
     section_name: str | None = None
 
     for term_num, term in enumerate(section_definition.terms):
         match term_num:
             case 0:
-                assert term == "section", "Section definition doesn't have 'section' keyword in place."
-                assert not section_found, "Multiple section defenitions in line: {}.".format(section_definition.line)
+                assert term == "section", "Translation failed: Section definition doesn't have 'section' keyword in place."
+                assert not section_found, "Translation failed: Multiple section defenitions in line: {}.".format(section_definition.line)
                 section_found = True
                 continue
             case 1:
-                assert term in avaliable_sections().keys(), "Unavaliable section name: {}, line: {}.".format(term, section_definition.line)
+                assert term in avaliable_sections().keys(), "Translation failed: Unavaliable section name: {}, line: {}.".format(term, section_definition.line)
                 section_name = term
                 continue
             case 2:
-                assert term == ":", "Section name should be followed by colon, line:{}.".format(section_definition.line)
+                assert term == ":", "Translation failed: Section name should be followed by colon, line:{}.".format(section_definition.line)
                 continue
             case 3:
-                assert term == ";", "Section definition could be followed only by comment."
+                assert term == ";", "Translation failed: Section definition could be followed only by comment."
             case _:
                 continue
-    assert section_name is not None, "Section name not found, line: {}.".format(section_definition.line)
+    assert section_name is not None, "Translation failed: Section name not found, line: {}.".format(section_definition.line)
     return section_name
 
 def validate_section_names(section_source_terms: list[SourceTerm]) -> bool:
     unique_avaliable_sections: set[str] = set()
     for source_term in section_source_terms:
         section_name: str = validate_section_name(source_term)
-        assert section_name not in unique_avaliable_sections, "Section name should be unique: {}.".format(source_term.line)
+        assert section_name not in unique_avaliable_sections, "Translation failed: Section name should be unique: {}.".format(source_term.line)
         if section_name in unique_avaliable_sections:
             return False
         unique_avaliable_sections.update(section_name)
@@ -180,8 +181,8 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
 
     # Находим все секции и проверяем их объявления на корректность.
     section_expressions: list[SourceTerm] = select_sections_terms(programm_text_split)
-    assert len(section_expressions) > 0, "No sections in programm."
-    assert validate_section_names(section_expressions), "Section definition is not correct"
+    assert len(section_expressions) > 0, "Translation failed: No sections in programm."
+    assert validate_section_names(section_expressions), "Translation failed: Section definition is not correct"
 
     # Сохраняем термы исходгого кода с порядковыми номерами после фильтрации от комментариев
     terms_by_line: list[tuple[int, SourceTerm]] = [(term_num, term) for term_num, term in enumerate(programm_text_split)]
@@ -192,7 +193,7 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
         for term in terms_by_line:
             if section == term[1]:
                 section_start = term[0]
-        assert section_start is not None, "Section start is not found"
+        assert section_start is not None, "Translation failed: Section start is not found"
         sections_starts[section.terms[1]] = (section_start, section)
 
     # Добавляем каждой секции в выходной структуре её содержимое без заголовка секции
@@ -218,7 +219,7 @@ def split_source_terms_to_sections(programm_text_split: list[SourceTerm]) -> dic
     return sections
 
 def match_label(term: SourceTerm) -> str | None:
-    """ Проверка строки SourceTerm на наличие лейбла.
+    """ Проверка строки SourceTerm на наличие объявления лейбла.
 
     Возвращает имя лейбла при наличии и None иначе.
     """
@@ -228,32 +229,131 @@ def match_label(term: SourceTerm) -> str | None:
         line.index(":")
     except ValueError:
         return None
-    assert len(line) >= 2 and line[1] == ":", "Label name is not correct, line: {}".format(term.line)  # noqa: PT018
-    assert line[0] not in instructions(), "Label name can't be instructuction name, line: {}".format(term.line)
+    assert len(line) >= 2 and line[1] == ":", "Translation failed: Label name is not correct, line: {}".format(term.line)  # noqa: PT018
+    assert line[0] not in instructions(), "Translation failed: Label name can't be instructuction name, line: {}".format(term.line)
     res = re.fullmatch(r"[a-zA-Z_][\w]*", line[0], 0)
-    assert res is not None, "Label name doesn't match requirements"
+    assert res is not None, "Translation failed: Label name doesn't match requirements"
     return line[0]
 
+def select_remove_statement_mode(statement: SourceTerm) -> tuple[Mode, int | None]:
+    """ Проверка наличия оператора '*' в выражении
 
-def map_text_to_instructions(command_section_terms: list[SourceTerm], data_labels: dict[str, int]) -> list[StatementTerm]:
+    Возвращает соответствующий режим интерпретации аргумента и его позицию в выражении при наличии. """
+    pos: int | None
+    mode: Mode
+    try:
+        pos = statement.terms.index("*")
+        mode = Mode.DEREF
+    except ValueError:
+        pos = None
+        mode = Mode.VALUE
+    return (mode, pos)
+
+def validate_statement_argument(statement: SourceTerm, opcode: Opcode, operation_labels: set[str], data_labels: set[str]) -> str | int | None:
+    """ Проверка соответствия вида аргумента его типу операции
+
+    Возвращается значение агрумента или название лейбла.
+    """
+    def validate_unary_operation_argument() -> int | str:
+        """ Проверка аргументов инструкций с одним аргументом."""
+        arg_term: str | None = statement.terms[1] if len(statement.terms) >= 2 else None
+        assert arg_term is not None, "Translation failed: invalid unary opration argument, line: {}".format(statement.line)
+        arg: int | str | None = None
+        is_control_flow_operation: bool = opcode in Opcode.control_flow_operations()
+        is_data_manipulation_operation: bool = opcode in Opcode.data_manipulation_operations()
+        assert is_control_flow_operation ^ is_data_manipulation_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
+        if is_control_flow_operation:
+            assert arg_term in operation_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
+            arg = arg_term
+        elif is_data_manipulation_operation:
+            assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
+            arg = try_convert_str_to_int(arg_term)
+            if arg is None:
+                assert arg_term in data_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
+                arg = arg_term
+        assert arg is not None
+        return arg
+
+    arg: str | int | None = None
+    is_unary_operation: bool = opcode in Opcode.unary_operations()
+    is_noop_operation: bool = opcode in Opcode.no_operand_operations()
+    assert is_unary_operation ^ is_noop_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
+    if is_unary_operation:
+        arg = validate_unary_operation_argument()
+    elif is_noop_operation:
+        assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(opcode, statement.line)  # noqa: PT018
+    return arg
+
+
+def map_term_to_statement(statement: SourceTerm, instruction_counter: int, operation_labels: set[str], data_labels: set[str]) -> StatementTerm:
+    """ Прербразование выражения текста исходной пргограммы в выражение машинного кода
+
+    Преобразование оставляет имена лейблов в аргументах.
+
+    Возвращает
+    - частичное выражение с лейблом, но без Opcode (когда в исходном коде лейбл отдельно от выражения)
+    - обычное выражение без лейбла
+    - обычное выражение с лейблом
+    """
+    cur_label: str | None = match_label(statement)
+    # Убираем имя лейбла из выражения при наличии
+    if cur_label is not None:
+        del statement.terms[:2]
+
+    deref_sym_pos: int | None = None
+    mode: Mode | None = None
+    mode, deref_sym_pos = select_remove_statement_mode(statement)
+    # Убираем символ косвенной адресации
+    if deref_sym_pos is not None:
+        statement.terms.pop(deref_sym_pos)
+
+    opcode: Opcode | None = None
+    arg: str | int | None = None
+    instruction_name: str | None = statement.terms[0] if len(statement.terms) > 0 else None
+    if instruction_name is not None:
+        opcode = map_instruction_to_opcode(instruction_name) if instruction_name is not None else None
+        assert opcode is not None, "Translation failed: instruction {} is not supported, line: {}".format(instruction_name, statement.line)
+        arg = validate_statement_argument(statement, opcode, operation_labels, data_labels)
+    return StatementTerm(index = instruction_counter, label = cur_label, opcode = opcode, arg = arg, mode = mode, line = statement.line)
+
+def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: set[str]) -> tuple[list[StatementTerm], dict[str, int]]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
 
     Проверяется корректность аргументов, соответствие лейблов данных параметрам инструкций данных
     и уникальность и соответствие лейблов инструкций параметрам инструкций контроля выполнения.
-    """
-    found_labels: set[str] = set()
-    terms: list[StatementTerm] = []
-    cur_label: str | None = None
-    for instruction_counter, term in enumerate(command_section_terms):
-        cur_label = match_label(term)
-        found_labels.add(cur_label) if cur_label is not None and cur_label not in found_labels else found_labels
 
-    return terms
+    Возвращаемые значения:
+    - список термов выражений в программе
+    """
+    operation_labels: set[str] = set()
+    labels_addr: dict[str, int] = dict()
+    terms: list[StatementTerm] = []
+    # Находим все выражения с лейблами
+    for instruction_counter, statement in enumerate(text_section_terms):
+        cur_label: str | None = match_label(statement)
+        if cur_label is not None:
+            operation_labels.add(cur_label) if cur_label not in operation_labels else operation_labels
+            # Фиксируем адрес каждого выражения
+            labels_addr[cur_label] = instruction_counter
+
+    for instruction_counter, statement in enumerate(text_section_terms):
+        prev_label: str | None = None
+        statement_term: StatementTerm = map_term_to_statement(statement, instruction_counter, operation_labels, data_labels)
+        if prev_label is not None:
+            assert statement_term.label is None, "Translation failed: statement shouldn't have more than 1 label, line: {}".format(statement.line)
+            statement_term.label = prev_label
+            prev_label = None
+        if statement_term.opcode is None:
+            prev_label = statement_term.label
+            continue
+        terms.append(statement_term)
+    return (terms, labels_addr)
 
 def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
-    """ Трансляция текста секции данных исходной программы в последовательность термов данных.
+    """ Трансляция последовательности термов секции данных исходной программы в последовательность термов данных.
 
     Проверяются лейблы и корректность объявления данных.
+
     Возвращаемые значения:
     - список термов данных в программе
     - словарь имён лейблов данных и их адресов, согласно длине данных
@@ -288,28 +388,36 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
             case 5: # String data defenition
                 data_size = validate_string_size(term.terms[2])
                 assert try_convert_str_to_int(term.terms[4]) is None, "Translation failed: number shouldn't have length before it, line: {}".format(term.line)
+                # String without quotes
                 value = term.terms[4][1:-1]
+                assert isinstance(value, str)
                 assert len(value) == data_size, "Translation failed: given data size doen't match given string."
             case _:
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
 
-        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label, line = term.line, value = value)
+        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label,  value = value, size = data_size, line = term.line)
         data_terms.append(data_term)
         labels_addr[cur_label] = instruction_counter
         instruction_counter += data_size
     return (data_terms, labels_addr)
 
+def link_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> Code:
+    data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
+    arg = (labels_addr[arg_terms[0]] if arg_terms[0] in data_labels else try_convert_str_to_int(arg_terms[0]) )
+    assert arg is not None, "Translation failed: incorrect data manipulation instruction argument, line: {}".format(statement.line)
+        
+
 def translate(code_text: str) -> Code:
-    """ Трансляция текста исходной программы в машинный код для процессора.
+    """ Трансляция текста исходной программы в машинный код для модели процессора.
 
     В процессе трансляции сохраняются адреса лейблов данных и кода для подстановки адресов.
     """
     code: Code | None = None
     section_data: list[SourceTerm] | None = None
     section_text: list[SourceTerm] | None = None
-    # code_labels: dict[str, int] = {}
-    data_labels: dict[str, int] = {}
-    code_terms: list[StatementTerm] = []
+    code_labels: dict[str, int] = dict()
+    data_labels: dict[str, int] = dict()
+    statement_terms: list[StatementTerm] = []
     data_terms: list[DataTerm] = []
 
     source_terms: list[SourceTerm] = split_text_to_source_terms(code_text)
@@ -321,17 +429,18 @@ def translate(code_text: str) -> Code:
 
     section_text = sections.get(".text")
     assert section_text is not None, "Translation failed: Section .text is not present in program"
-    code_terms = map_text_to_instructions(section_text, data_labels)
+    statement_terms, code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
 
-    code = link_sections(text_terms, data_terms)
+    code = link_sections(statement_terms, code_labels, data_terms, data_labels)
 
 
-    for adress, statement in enumerate(code_terms, 1):
+    for adress, statement in enumerate(statement_terms, 1):
         pass
 
     return code
 
-
+print(Opcode.data_manipulation_operations())
+print("===============")
 curdir = os.path.dirname(__file__)
 ex_file = os.path.join(curdir, "../examples/hello.asm")
 file = open(ex_file)
@@ -361,7 +470,7 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     print("source LoC:", len(source.split("\n")), "code instr:", len(code.contents))
 
 if __name__ == "__main__":
-    assert len(sys.argv) == 3, "Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
+    assert len(sys.argv) == 3, "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
     _, source, target = sys.argv
     main(source, target)
 
