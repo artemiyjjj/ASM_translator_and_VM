@@ -43,7 +43,7 @@ class Opcode(str, Enum):
 
     и на две категории:
 
-    1. Исполняемые без аргументов: "INC", "DEC", "ENI", "DII", "HLT".
+    1. Исполняемые без аргументов: "INC", "DEC", "ENI", "DII", "HLT", "NOP".
 
     2. Исполняемые с одним аргументом: все остальные.
     """
@@ -70,6 +70,24 @@ class Opcode(str, Enum):
     ENI = "enable interruption"
     DII = "disable interruption"
     HLT = "halt"
+    NOP = "no operation"
+
+    @staticmethod
+    def data_manipulation_operations() -> set[Opcode]:
+        return {Opcode.LD, Opcode.ST, Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV,
+                 Opcode.CMP, Opcode.OR, Opcode.AND, Opcode.OUT, Opcode.IN}
+
+    @staticmethod
+    def control_flow_operations() -> set[Opcode]:
+        return {Opcode.JMP, Opcode.JZ, Opcode.JNZ, Opcode.JN, Opcode.JNN, Opcode.INT}
+
+    @staticmethod
+    def unary_operations() -> set[Opcode]:
+        return Opcode.data_manipulation_operations().union(Opcode.control_flow_operations())
+
+    @staticmethod
+    def no_operand_operations() -> set[Opcode]:
+        return {Opcode.HLT, Opcode.ENI, Opcode.DII, Opcode.INC, Opcode.DEC, Opcode.NOP}
 
     def __str__(self) -> str:
         """Переопределение стандартного поведения `__str__` для `Enum`: вместо
@@ -77,15 +95,21 @@ class Opcode(str, Enum):
         """
         return str(self.value)
 
+    def __repr__(self) -> str:
+        return self.__str__()
+
 class Mode(str, Enum):
-    """ Аргумент - адрес, по которому нужно взять значение """
+    """ Указание режима интерпретации аргумента. """
     DEREF = "deref"
-    """ Аргумет - значение, используемое напрямую """
+    """ Аргумент - адрес, по которому находится необходимое значение """
     VALUE = "value"
+    """ Аргумет - непосредственно значение """
 
     def __str__(self) -> str:
-        return str(self.name)
-
+        return str(self.value)
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 
 @dataclass(frozen = True)
 class StatementTerm:
@@ -94,9 +118,10 @@ class StatementTerm:
     Frozen служит для объявления объектов класса иммутабельными для автоматической генерации хэша
     """
     index: int
-    opcode: Opcode
-    arg: int
-    mode: Mode
+    label: str | None
+    opcode: Opcode | None
+    arg: int | None | str
+    mode: Mode | None
     # Source code reference
     line: int
 
@@ -110,13 +135,23 @@ class StatementTerm:
             return None
         return instance
 
+    def __str__(self) -> str:
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
+        # if self.label is None:
+        #     return "index: {}, opcode: {}, arg: {}, mode: {}, line: {}".format(self.index, self.opcode, self.arg, self.mode, self.line)
+        # return "index: {}, label: {}, opcode: {}, arg: {}, mode: {}, line: {}".format(self.index, self.label, self.opcode, self.arg, self.mode, self.line)
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
 
 @dataclass(frozen = True)
 class DataTerm:
-    """ Структура для представления значения и длины лейбла в памяти. """
+    """ Структура для представления данных в памяти. """
     index: int
     label: str
     value: int | str | None
+    size: int
     line: int
 
     @staticmethod
