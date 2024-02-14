@@ -12,8 +12,14 @@ section .text:
 _start:
     ld    msg;load the msg pointer
     st    counter
+bebe:
     ld    *msg ;load the msg value
     st    cur_symbol_addr
+
+    ;add counter
+    ;add *counter
+    ;sub 2
+    ;sub *2
     
 loop: ld    cur_symbol_addr
     inc
