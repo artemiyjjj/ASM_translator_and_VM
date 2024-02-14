@@ -4,6 +4,7 @@ import logging
 import sys
 
 from isa import Code, Opcode, read_code
+from devices import IODevice, SPIController
 
 
 class DataPath:
@@ -28,7 +29,7 @@ class DataPath:
 
     def signal_output(self) -> None:
         output_symbol = chr(self.accumulator_reg)
-        logging.debug("Output: %s + %s", repr("".join(self.output_buffer)), repr(output_symbol))
+        logging.info("Output: %s + %s", repr("".join(self.output_buffer)), repr(output_symbol))
         self.output_buffer.append[output_symbol]
 
     def zero(self) -> bool:
@@ -70,7 +71,6 @@ class ControlUnit:
 
         return 
 
-
 class Machine:
     """ Модель вычислительной машины с фон-Неймановской архитектурой.
     Память представлена отдельным модулем, к которому имеют доступ тракт данных и управляющий модуль.
@@ -81,6 +81,9 @@ class Machine:
 
     # Память машины. Используется трактом данных и управляющим модулем.
     common_memory: list[int]
+
+    # Список "подключённых" устройств ввода/вывода
+    io_devices: list[IODevice] | None = None
 
     # Модель тракта данных в машине.
     _data_path: DataPath
@@ -161,7 +164,7 @@ def main(code: Code, input_file_name: str) -> None:
     print("instr_counter: ", instr_counter, "ticks:", ticks)
 
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
     assert len(sys.argv) == 3, "Wrong arguments: machine.py <code_file> <input_file>"
     _, code_file, input_file = sys.argv
     main(code_file, input_file)
