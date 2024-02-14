@@ -10,10 +10,10 @@
 ### Расширенная форма Бэкуса-Наура
 
 ``` EnhancedBackusNaurForm
-programm ::= [section .data], section .text;
+    programm ::= [section .data], section .text ;
 
     section .data ::=  (label, ":") (<amount of memory words> | <number>, ",", '"', <string>, '"' |
-    <number | char>, {"," <number | char | string>});
+    <number | char>, {"," <number | char | string>}) ;
 
     section .text ::= <label _start>, ":", {statement}+ ;
 
@@ -21,17 +21,17 @@ programm ::= [section .data], section .text;
 
     instruction ::= no operand opcode | data manipulation opcode, data operand | control flow opcode, control flow operand ;
 
-    no operand opcode ::= "hlt" | "eni" | "dii" | "inc" | "dec" ;
+    no operand opcode ::= "hlt" | "eni" | "dii" | "inc" | "dec" | "nop" | "iret" ;
 
     unary opcode ::= data manipulation opcode | control opcode ;
 
-    data manipulation opcode ::= "ld" | "st" | "add" | "sub" | "mul" | "div" | "cmp" | "or" | "and" | "out" | "in"
+    data manipulation opcode ::= "ld" | "st" | "add" | "sub" | "mul" | "div" | "cmp" | "or" | "and" | "out" | "in" ;
 
-    control flow opcode ::= "jmp" | "jz" | "jnz" | "jn" | "jnn" | "int"
+    control flow opcode ::= "jmp" | "jz" | "jnz" | "jn" | "jnn" | "int" ;
 
     operand ::= data operand | control flow operand ;
 
-    data operand ::= number | <data label> |  dereference operator, <data label> ;
+    data operand ::= number | dereference operator, <number> | <data label> | dereference operator, <data label> ;
 
     dereference operator ::= "*" ;
 
@@ -107,9 +107,12 @@ programm ::= [section .data], section .text;
 | jnz | Jump if Not Zero | адрес / значение по адресу | ? | Изменение значения регистра IP на значение параметра при значении 0 в регистре Z. |  
 | jn | Jump if Negative | адрес / значение по адресу | ? | Изменение значения регистра IP на значение параметра при значении 1 в регистре N. |  
 | jp | Jump if Positive | адрес / значение по адресу | ? | Изменение значения регистра IP на значение параметра при значении 0 в регистре N. |  
-| int | interuption |  | ? | Вызов определенного вектора прерываний |  
-| eni | enable interution |  | ? | Разрешить прерывания |  --возможно лишнее
-| dii | disable interuption |  | ? | Запретить прерывания |  --возможно лишнее
+| int | interuption | _ | ? | Вызов определенного вектора прерываний |  
+| eni | enable interution | - | ? | Разрешить прерывания |  
+| dii | disable interuption | - | ? | Запретить прерывания |  
+| fi | finish interruption | - | ? | Завершить обработку прерывания, вернуть AC и PC в состояние "как до прерывания" |  
+| nop | no operation | - | ? | Ничего не выполнять |
+| hlt | halt | - | ? | Остановить работу машины |
 
 ## Кодирование инструкций
 
@@ -126,17 +129,13 @@ programm ::= [section .data], section .text;
         "opcode": "jmp",
         "arg": 1,
         "mode": "deref",
-        "sc_ref": {
-            "line": 2
-        }
+        "line": 2
     },
     {
         "index": 1,
         "label": "a",
         "value": "x",
-        "sc_ref": {
-            "line": 4
-        }
+        "line": 4
     }
 ]
 ```
@@ -156,7 +155,7 @@ programm ::= [section .data], section .text;
 
 ...
 
-Примечание: вопросы отображения переменных на регистры опущены из-за отсутствия оных.
+Примечание: вопросы отображения переменных на регистры опущены из-за отсутствия таковых.
 
 ## Модель процессора
 
