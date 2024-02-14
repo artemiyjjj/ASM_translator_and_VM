@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 import re
 import sys
@@ -235,26 +236,19 @@ def match_label(term: SourceTerm) -> str | None:
     assert res is not None, "Translation failed: Label name doesn't match requirements"
     return line[0]
 
-def select_remove_statement_mode(statement: SourceTerm) -> tuple[Mode, int | None]:
+def select_remove_statement_mode(statement: SourceTerm) -> Mode:
     """ Проверка наличия оператора '*' в выражении
 
     Возвращает соответствующий режим интерпретации аргумента и его позицию в выражении при наличии. """
-    pos: int | None
     mode: Mode
     try:
-        pos = statement.terms.index("*")
+        statement.terms.index("*")
         mode = Mode.DEREF
     except ValueError:
-        pos = None
         mode = Mode.VALUE
-    return (mode, pos)
+    return mode
 
-def validate_statement_argument(statement: SourceTerm, opcode: Opcode, operation_labels: set[str], data_labels: set[str]) -> str | int | None:
-    """ Проверка соответствия вида аргумента его типу операции
-
-    Возвращается значение агрумента или название лейбла.
-    """
-    def validate_unary_operation_argument() -> int | str:
+def validate_unary_operation_argument(statement: SourceTerm, opcode: Opcode, operation_labels: set[str], data_labels: set[str]) -> int | str:
         """ Проверка аргументов инструкций с одним аргументом."""
         arg_term: str | None = statement.terms[1] if len(statement.terms) >= 2 else None
         assert arg_term is not None, "Translation failed: invalid unary opration argument, line: {}".format(statement.line)
@@ -274,21 +268,10 @@ def validate_statement_argument(statement: SourceTerm, opcode: Opcode, operation
         assert arg is not None
         return arg
 
-    arg: str | int | None = None
-    is_unary_operation: bool = opcode in Opcode.unary_operations()
-    is_noop_operation: bool = opcode in Opcode.no_operand_operations()
-    assert is_unary_operation ^ is_noop_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
-    if is_unary_operation:
-        arg = validate_unary_operation_argument()
-    elif is_noop_operation:
-        assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(opcode, statement.line)  # noqa: PT018
-    return arg
-
-
 def map_term_to_statement(statement: SourceTerm, instruction_counter: int, operation_labels: set[str], data_labels: set[str]) -> StatementTerm:
     """ Прербразование выражения текста исходной пргограммы в выражение машинного кода
 
-    Преобразование оставляет имена лейблов в аргументах.
+    Преобразование проверяет соответствие аргумента типу операции и оставляет имена лейблов в аргументах.
 
     Возвращает
     - частичное выражение с лейблом, но без Opcode (когда в исходном коде лейбл отдельно от выражения)
@@ -300,12 +283,11 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
     if cur_label is not None:
         del statement.terms[:2]
 
-    deref_sym_pos: int | None = None
     mode: Mode | None = None
-    mode, deref_sym_pos = select_remove_statement_mode(statement)
+    mode = select_remove_statement_mode(statement)
     # Убираем символ косвенной адресации
-    if deref_sym_pos is not None:
-        statement.terms.pop(deref_sym_pos)
+    if mode == Mode.DEREF is not None:
+        statement.terms.remove("*")
 
     opcode: Opcode | None = None
     arg: str | int | None = None
@@ -313,7 +295,14 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
     if instruction_name is not None:
         opcode = map_instruction_to_opcode(instruction_name) if instruction_name is not None else None
         assert opcode is not None, "Translation failed: instruction {} is not supported, line: {}".format(instruction_name, statement.line)
-        arg = validate_statement_argument(statement, opcode, operation_labels, data_labels)
+        is_unary_operation: bool = opcode in Opcode.unary_operations()
+        is_noop_operation: bool = opcode in Opcode.no_operand_operations()
+        assert is_unary_operation ^ is_noop_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
+        if is_unary_operation:
+            arg = validate_unary_operation_argument(statement, opcode, operation_labels, data_labels)
+        elif is_noop_operation:
+            assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(opcode, statement.line)  # noqa: PT018
+            mode = None
     return StatementTerm(index = instruction_counter, label = cur_label, opcode = opcode, arg = arg, mode = mode, line = statement.line)
 
 def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: set[str]) -> tuple[list[StatementTerm], dict[str, int]]:
@@ -325,6 +314,7 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
     Возвращаемые значения:
     - список термов выражений в программе
     """
+    instruction_counter: int = 0
     operation_labels: set[str] = set()
     labels_addr: dict[str, int] = dict()
     terms: list[StatementTerm] = []
@@ -336,8 +326,9 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
             # Фиксируем адрес каждого выражения
             labels_addr[cur_label] = instruction_counter
 
-    for instruction_counter, statement in enumerate(text_section_terms):
-        prev_label: str | None = None
+    instruction_counter = 0
+    prev_label: str | None = None
+    for statement in text_section_terms:
         statement_term: StatementTerm = map_term_to_statement(statement, instruction_counter, operation_labels, data_labels)
         if prev_label is not None:
             assert statement_term.label is None, "Translation failed: statement shouldn't have more than 1 label, line: {}".format(statement.line)
@@ -347,6 +338,15 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
             prev_label = statement_term.label
             continue
         terms.append(statement_term)
+        instruction_counter += 1
+    logging.debug
+    logging.debug("==========================")
+    logging.debug("Code terms:")
+    [logging.debug(term) for term in terms]
+    logging.debug("==========================")
+    logging.debug("Code labels indicies:")
+    logging.debug(labels_addr)
+    logging.debug("==========================")
     return (terms, labels_addr)
 
 def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
@@ -399,13 +399,28 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
         data_terms.append(data_term)
         labels_addr[cur_label] = instruction_counter
         instruction_counter += data_size
+
+    logging.debug("Data terms :")
+    [logging.debug(term) for term in data_terms]
+    logging.debug("==========================")
+    logging.debug("Data labels indicies:")
+    logging.debug(labels_addr)
+    logging.debug("==========================")
     return (data_terms, labels_addr)
 
 def link_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> Code:
     data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
+
+    programm_start: int | None = None
+    for statement in statement_terms:
+        if statement.label is not None and statement.label == "_start":
+            programm_start = statement.index
+            # либо перемещать части программы, чтобы старт была на 0 позиции в памяти
+            # либо создавать логику загрузки PC в машину (сложно)
+
     arg = (labels_addr[arg_terms[0]] if arg_terms[0] in data_labels else try_convert_str_to_int(arg_terms[0]) )
     assert arg is not None, "Translation failed: incorrect data manipulation instruction argument, line: {}".format(statement.line)
-        
+    
 
 def translate(code_text: str) -> Code:
     """ Трансляция текста исходной программы в машинный код для модели процессора.
@@ -439,20 +454,20 @@ def translate(code_text: str) -> Code:
 
     return code
 
-print(Opcode.data_manipulation_operations())
-print("===============")
+logging.debug(Opcode.data_manipulation_operations())
+logging.debug("===============")
 curdir = os.path.dirname(__file__)
 ex_file = os.path.join(curdir, "../examples/hello.asm")
 file = open(ex_file)
 code = file.read()
 translate(code)
 # terms = []
-# # print(code)
+# # logging.debug(code)
 # terms = split_text_to_source_terms(code)
-# # print(terms)
-# print("====================")
+# # logging.debug(terms)
+# logging.debug("====================")
 # sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
-# print(sections)
+# logging.debug(sections)
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
@@ -467,10 +482,21 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     code: Code = translate(source)
 
     write_code(target_file_name, code)
-    print("source LoC:", len(source.split("\n")), "code instr:", len(code.contents))
+    logging.info("source LoC:", len(source.split("\n")), "code instr:", len(code.contents))
 
 if __name__ == "__main__":
+    # logging.basicConfig(
+    #     level = logging.DEBUG,
+    #     format="%(asctime)s [%(levelname)s] %(message)s",
+    #     handlers=[
+    #         # logging.FileHandler(os.path.join(os.path.dirname(__file__), "../log/translator.log")),
+    #         logging.StreamHandler(sys.stdout)
+    #     ])
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    logging.getLogger().setLevel(logging.DEBUG)
+    logging.info("Translation started...")
     assert len(sys.argv) == 3, "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
     _, source, target = sys.argv
     main(source, target)
+    logging.info("Transation ended.")
 

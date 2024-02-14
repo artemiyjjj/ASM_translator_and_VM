@@ -107,15 +107,15 @@ class Mode(str, Enum):
 
     def __str__(self) -> str:
         return str(self.value)
-    
+
     def __repr__(self) -> str:
         return self.__str__()
 
-@dataclass(frozen = True)
+# @dataclass(frozen = True)
 class StatementTerm:
     """ Структура для описания команды с аргументом из кода программы.
 
-    Frozen служит для объявления объектов класса иммутабельными для автоматической генерации хэша
+    # Frozen служит для объявления объектов класса иммутабельными для автоматической генерации конструктора и хэша
     """
     index: int
     label: str | None
@@ -124,6 +124,15 @@ class StatementTerm:
     mode: Mode | None
     # Source code reference
     line: int
+
+    def __init__(self, index: int, label: str | None, opcode: Opcode | None,
+                 arg: int | None, mode: Mode | None, line: int) -> None:
+        self.index = index
+        self.label = label
+        self.opcode = opcode
+        self.arg = arg
+        self.mode = mode
+        self.line = line
 
     @staticmethod
     def from_json(json_obj: Any) -> StatementTerm | None:
