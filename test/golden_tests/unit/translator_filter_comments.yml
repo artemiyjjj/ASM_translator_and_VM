@@ -6,6 +6,8 @@ in_code_after_section: |-
   section A:sdsd;wrong section def
 in_code_two_coments: |-
   ;section A:sdsd;wrong section def
+in_incorrect_label: |-
+  :;blabla ;
 out_code_after: |-
   aaa
 out_code_before: |-
@@ -16,3 +18,5 @@ out_code_after_section: |-
   ddd
 out_code_two_comments: |-
   eee
+out_incorrect_label: |-
+  fff
