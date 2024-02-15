@@ -408,18 +408,53 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
     logging.debug("==========================")
     return (data_terms, labels_addr)
 
-def link_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> Code:
-    data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
-
+def map_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> tuple[Code, dict[str, int], dict[str, int]]:
+    """ Отображение термов программы на память."""
+    code: Code = Code()
     programm_start: int | None = None
-    for statement in statement_terms:
-        if statement.label is not None and statement.label == "_start":
-            programm_start = statement.index
-            # либо перемещать части программы, чтобы старт была на 0 позиции в памяти
-            # либо создавать логику загрузки PC в машину (сложно)
+    for statement_pos, statement in enumerate(statement_terms):
+            if statement.label is not None and statement.label == "_start":
+                programm_start = statement_pos
+                break
+                # либо перемещать части программы, чтобы старт была на 0 позиции в памяти
+                # либо создавать логику загрузки PC в машину (сложно)
 
-    arg = (labels_addr[arg_terms[0]] if arg_terms[0] in data_labels else try_convert_str_to_int(arg_terms[0]) )
-    assert arg is not None, "Translation failed: incorrect data manipulation instruction argument, line: {}".format(statement.line)
+    assert programm_start is not None, "Translation failed: can not find programm start label."
+
+    code.contents.extend(statement_terms[programm_start:])
+    code.contents.extend(statement_terms[:programm_start])
+    code.contents.extend(data_terms)
+
+    term_index: int = 0
+    for term in code.contents:
+        term.index = term_index
+        if isinstance(term, StatementTerm):
+            if term.label is not None:
+                statement_labels_addr[term.label] = term_index
+        elif isinstance(term, DataTerm):
+            data_labels_addr[term.label] = term_index
+        term_index += 1
+
+    print("code")
+    [print(term) for term in code.contents]
+    print("========================")
+    print("updated statement")
+    print(statement_labels_addr)
+    print("updated data")
+    print(data_labels_addr)
+    return (code, statement_labels_addr, data_labels_addr)
+
+def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels_addr: dict[str, int]) -> Code:
+    """ Линковка секций программы
+
+    Подстановка адресов термов вместо лейблов в аргументах инструкций в соответствии с типом инструкции.
+    """
+    # data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
+
+    for term in code.contents:
+        if isinstance(term, StatementTerm) and isinstance(term.arg, str):
+            # term.arg = data_labels_addr[term.arg] if term.arg in data_labels_addr.keys() else 
+            assert arg is not None, "Translation failed: incorrect data manipulation instruction argument, line: {}".format(statement.line)
     
 
 def translate(code_text: str) -> Code:
@@ -446,7 +481,8 @@ def translate(code_text: str) -> Code:
     assert section_text is not None, "Translation failed: Section .text is not present in program"
     statement_terms, code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
 
-    code = link_sections(statement_terms, code_labels, data_terms, data_labels)
+    code, code_labels, data_labels = map_sections(statement_terms, code_labels, data_terms, data_labels)
+    code = link_sections(code, code_labels, data_labels)
 
 
     for adress, statement in enumerate(statement_terms, 1):

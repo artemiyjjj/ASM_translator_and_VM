@@ -150,9 +150,9 @@ class StatementTerm:
 class DataTerm:
     """ Структура для представления данных в памяти. """
     index: int
-    label: str
+    label: str | None
     value: int | str | None
-    size: int
+    size: int | None
     line: int
 
     def __init__(self, index: int, label: str, value: int | str | None,
