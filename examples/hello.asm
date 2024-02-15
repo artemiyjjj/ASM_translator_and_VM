@@ -9,6 +9,10 @@ section .data:
 ;section A:sdsd;wrong section def
 ; :; bad label try
 section .text:
+int1: 
+    in 4
+    out 2
+
 _start:
     ld    msg;load the msg pointer
     st    counter
