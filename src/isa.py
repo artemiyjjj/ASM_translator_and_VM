@@ -12,7 +12,7 @@ class Code:
     # Контейнер для хранения машинных инструкций.
     contents: list[StatementTerm | DataTerm]
 
-    def __init__(self) -> None:
+    def __init__(self, contents: list[StatementTerm | DataTerm] = []) -> None:
         self.contents = []
 
     def __str__(self) -> str:
@@ -111,12 +111,8 @@ class Mode(str, Enum):
     def __repr__(self) -> str:
         return self.__str__()
 
-# @dataclass(frozen = True)
 class StatementTerm:
-    """ Структура для описания команды с аргументом из кода программы.
-
-    # Frozen служит для объявления объектов класса иммутабельными для автоматической генерации конструктора и хэша
-    """
+    """ Структура для описания команды с аргументом из кода программы."""
     index: int
     label: str | None
     opcode: Opcode | None
@@ -146,15 +142,11 @@ class StatementTerm:
 
     def __str__(self) -> str:
         return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
-        # if self.label is None:
-        #     return "index: {}, opcode: {}, arg: {}, mode: {}, line: {}".format(self.index, self.opcode, self.arg, self.mode, self.line)
-        # return "index: {}, label: {}, opcode: {}, arg: {}, mode: {}, line: {}".format(self.index, self.label, self.opcode, self.arg, self.mode, self.line)
 
     def __repr__(self) -> str:
         return self.__str__()
 
 
-@dataclass(frozen = True)
 class DataTerm:
     """ Структура для представления данных в памяти. """
     index: int
@@ -162,6 +154,14 @@ class DataTerm:
     value: int | str | None
     size: int
     line: int
+
+    def __init__(self, index: int, label: str, value: int | str | None,
+                 size: int, line: int) -> None:
+        self.index = index
+        self.label = label
+        self.value = value
+        self.size = size
+        self.line = line
 
     @staticmethod
     def from_json(json_obj: Any) -> DataTerm | None:
@@ -172,9 +172,7 @@ class DataTerm:
         return instance
 
     def __str__(self) -> str:
-        if self.value is None:
-            return "index: {}, label: {}, line: {}".format(self.index, self.label, self.line)
-        return "index: {}, label: {}, value: {}, line: {}".format(self.index, self.label, self.value, self.line)
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
 
     def __repr__(self) -> str:
         return self.__str__()
