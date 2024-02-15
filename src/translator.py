@@ -349,7 +349,25 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
     logging.debug("==========================")
     return (terms, labels_addr)
 
-def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
+def map_string_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
+    terms: list[DataTerm] = []
+    is_label_set: bool = False
+
+    if data_term.value is None:
+        pass
+    assert isinstance(data_term.value, str)
+    for index, elem in enumerate(data_term.value, 0):
+        terms.append(DataTerm(
+            index = data_term.index + index,
+            label = data_term.label if not is_label_set else None,
+            value = data_term.value[index],
+            size = None,
+            line = data_term.line))
+        is_label_set = True
+        index += 1
+    return terms
+
+def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
     """ Трансляция последовательности термов секции данных исходной программы в последовательность термов данных.
 
     Проверяются лейблы и корректность объявления данных.
@@ -359,16 +377,19 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
     - словарь имён лейблов данных и их адресов, согласно длине данных
     """
     labels: set[str] = set()
-    data_terms: list[DataTerm] = []
+    complete_data_terms: list[DataTerm] = []
     labels_addr: dict[str, int] = dict()
-    instruction_counter: int = 0
-    for term_num, term in enumerate(data_section_terms, 1):
+    data_index: int = 0
+    for term in data_section_terms:
         cur_label: str | None = match_label(term)
         data_size: int | None = None
         value: int | str | None = None
         assert cur_label is not None, "Translation failed: Data declaration or definition can't be done without label, line: {}".format(term.line)
         assert cur_label not in labels, "Translation failed: labels in section data are not unique, line: {}".format(term.line)
         labels.add(cur_label)
+
+        data_terms: list[DataTerm] = []
+        str_data_term: DataTerm | None = None
 
         def validate_string_size(size_str: str) -> int:
             data_size = try_convert_str_to_int(term.terms[2])
@@ -377,14 +398,16 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
 
         match len(term.terms):
             case 2: # Number declaration
-                data_size = 4
+                data_terms.append(DataTerm(index = data_index, label = cur_label,  value = value, size = data_size, line = term.line))
             case 3: # Number defenition
-                data_size = 4
                 value = try_convert_str_to_int(term.terms[2])
                 assert value is not None, "Translation failed: number defenition is not correct, line:{}".format(term.line)
                 assert value < 2**31 and value >= -2**32, "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)  # noqa: PT018
+                data_terms.append(DataTerm(index = data_index, label = cur_label,  value = value, size = data_size, line = term.line))
             case 4: # String data declaration
                 data_size = validate_string_size(term.terms[2])
+                str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
+                data_terms.extend(map_string_to_data_terms(str_data_term))
             case 5: # String data defenition
                 data_size = validate_string_size(term.terms[2])
                 assert try_convert_str_to_int(term.terms[4]) is None, "Translation failed: number shouldn't have length before it, line: {}".format(term.line)
@@ -392,21 +415,21 @@ def map_text_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTer
                 value = term.terms[4][1:-1]
                 assert isinstance(value, str)
                 assert len(value) == data_size, "Translation failed: given data size doen't match given string."
+                str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
+                data_terms.extend(map_string_to_data_terms(str_data_term))
             case _:
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
-
-        data_term: DataTerm = DataTerm(index = instruction_counter, label = cur_label,  value = value, size = data_size, line = term.line)
-        data_terms.append(data_term)
-        labels_addr[cur_label] = instruction_counter
-        instruction_counter += data_size
+        complete_data_terms.extend(data_terms)
+        labels_addr[cur_label] = data_index
+        data_index += 1
 
     logging.debug("Data terms :")
-    [logging.debug(term) for term in data_terms]
+    [logging.debug(term) for term in complete_data_terms]
     logging.debug("==========================")
     logging.debug("Data labels indicies:")
     logging.debug(labels_addr)
     logging.debug("==========================")
-    return (data_terms, labels_addr)
+    return (complete_data_terms, labels_addr)
 
 def map_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> tuple[Code, dict[str, int], dict[str, int]]:
     """ Отображение термов программы на память."""
@@ -428,20 +451,15 @@ def map_sections(statement_terms: list[StatementTerm], statement_labels_addr: di
     term_index: int = 0
     for term in code.contents:
         term.index = term_index
-        if isinstance(term, StatementTerm):
-            if term.label is not None:
-                statement_labels_addr[term.label] = term_index
-        elif isinstance(term, DataTerm):
+        if isinstance(term, StatementTerm) and term.label is not None:
+            statement_labels_addr[term.label] = term_index
+        elif isinstance(term, DataTerm) and term.label is not None:
             data_labels_addr[term.label] = term_index
         term_index += 1
 
-    print("code")
+    print("code maped")
     [print(term) for term in code.contents]
     print("========================")
-    print("updated statement")
-    print(statement_labels_addr)
-    print("updated data")
-    print(data_labels_addr)
     return (code, statement_labels_addr, data_labels_addr)
 
 def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels_addr: dict[str, int]) -> Code:
@@ -452,10 +470,15 @@ def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels
     # data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
 
     for term in code.contents:
-        if isinstance(term, StatementTerm) and isinstance(term.arg, str):
-            # term.arg = data_labels_addr[term.arg] if term.arg in data_labels_addr.keys() else 
-            assert arg is not None, "Translation failed: incorrect data manipulation instruction argument, line: {}".format(statement.line)
-    
+        if isinstance(term, StatementTerm) and term.arg is not None and isinstance(term.arg, str):
+            if term.opcode in Opcode.control_flow_operations():
+                term.arg = statement_labels_addr[term.arg]
+            elif term.opcode in Opcode.data_manipulation_operations():
+                term.arg = data_labels_addr[term.arg]
+
+    print("code linked")
+    [print(term) for term in code.contents]
+    return code
 
 def translate(code_text: str) -> Code:
     """ Трансляция текста исходной программы в машинный код для модели процессора.
@@ -475,7 +498,7 @@ def translate(code_text: str) -> Code:
 
     section_data = sections.get(".data")
     if section_data is not None:
-        data_terms, data_labels = map_text_to_data(section_data)
+        data_terms, data_labels = map_terms_to_data(section_data)
 
     section_text = sections.get(".text")
     assert section_text is not None, "Translation failed: Section .text is not present in program"
@@ -483,10 +506,6 @@ def translate(code_text: str) -> Code:
 
     code, code_labels, data_labels = map_sections(statement_terms, code_labels, data_terms, data_labels)
     code = link_sections(code, code_labels, data_labels)
-
-
-    for adress, statement in enumerate(statement_terms, 1):
-        pass
 
     return code
 
@@ -497,13 +516,6 @@ ex_file = os.path.join(curdir, "../examples/hello.asm")
 file = open(ex_file)
 code = file.read()
 translate(code)
-# terms = []
-# # logging.debug(code)
-# terms = split_text_to_source_terms(code)
-# # logging.debug(terms)
-# logging.debug("====================")
-# sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(terms)
-# logging.debug(sections)
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
@@ -523,13 +535,20 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
 if __name__ == "__main__":
     # logging.basicConfig(
     #     level = logging.DEBUG,
-    #     format="%(asctime)s [%(levelname)s] %(message)s",
+    #     # filemode="w+",
+    #     # format="%(asctime)s [%(levelname)s] %(message)s",
     #     handlers=[
-    #         # logging.FileHandler(os.path.join(os.path.dirname(__file__), "../log/translator.log")),
+    #         logging.FileHandler("logs/translator.log"),
     #         logging.StreamHandler(sys.stdout)
     #     ])
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))
     logging.getLogger().setLevel(logging.DEBUG)
+
+    def excepthook(*args: Any) -> None:
+        """ Логирование всех необрабатываемых исключений"""
+        logging.getLogger().error("Uncaught exception:", exc_info=args)
+    sys.excepthook = excepthook
+
     logging.info("Translation started...")
     assert len(sys.argv) == 3, "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
     _, source, target = sys.argv
