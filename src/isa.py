@@ -50,7 +50,7 @@ class Opcode(str, Enum):
 
     LD = "load"
     ST = "store"
-    OUT = "print"
+    OUT = "output"
     IN = "input"
     ADD = "add"
     SUB = "substract"
@@ -74,19 +74,32 @@ class Opcode(str, Enum):
 
     @staticmethod
     def data_manipulation_operations() -> set[Opcode]:
+        """ Множество манипулирующих данными команд с одним аргументом
+
+        Аргументами этих команд являются индексы данных(адреса), значения или лейблы данных.
+        """
         return {Opcode.LD, Opcode.ST, Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV,
                  Opcode.CMP, Opcode.OR, Opcode.AND, Opcode.OUT, Opcode.IN}
 
     @staticmethod
     def control_flow_operations() -> set[Opcode]:
+        """ Множество управляющих потоком управления команд с одним аргументом
+
+        Аргументами этих команд являются лейблы инструкций.
+        """
         return {Opcode.JMP, Opcode.JZ, Opcode.JNZ, Opcode.JN, Opcode.JNN, Opcode.INT}
 
     @staticmethod
     def unary_operations() -> set[Opcode]:
+        """ Множество команд с одним аргументом
+
+        Аргументами этих команд являются индексы, значения или лейблы инструкций / данных.
+        """
         return Opcode.data_manipulation_operations().union(Opcode.control_flow_operations())
 
     @staticmethod
     def no_operand_operations() -> set[Opcode]:
+        """ Множество команд без аргументов"""
         return {Opcode.HLT, Opcode.ENI, Opcode.DII, Opcode.INC, Opcode.DEC, Opcode.NOP}
 
     def __str__(self) -> str:
