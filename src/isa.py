@@ -117,6 +117,8 @@ class Mode(str, Enum):
     """ Аргумент - адрес, по которому находится необходимое значение """
     VALUE = "value"
     """ Аргумет - непосредственно значение """
+    DOUBLE_DEREF = "double deref"
+    """ Аргумент - адрес, по которому находится адрес искомого значения """
 
     def __str__(self) -> str:
         return str(self.value)
@@ -134,8 +136,8 @@ class StatementTerm:
     # Source code reference
     line: int
 
-    def __init__(self, index: int, label: str | None, opcode: Opcode | None,
-                 arg: int | None, mode: Mode | None, line: int) -> None:
+    def __init__(self, index: int, line: int, label: str | None = None, opcode: Opcode | None = None,
+                 arg: int | None = None, mode: Mode | None = None) -> None:
         self.index = index
         self.label = label
         self.opcode = opcode
@@ -168,8 +170,7 @@ class DataTerm:
     size: int | None
     line: int
 
-    def __init__(self, index: int, label: str, value: int | str | None,
-                 size: int, line: int) -> None:
+    def __init__(self, index: int, line: int, label: str | None = None, size: int | None = None, value: int | str | None = None) -> None:
         self.index = index
         self.label = label
         self.value = value
