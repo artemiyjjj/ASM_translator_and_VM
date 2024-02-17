@@ -248,25 +248,25 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
         mode = Mode.VALUE
     return mode
 
-def validate_unary_operation_argument(statement: SourceTerm, opcode: Opcode, operation_labels: set[str], data_labels: set[str]) -> int | str:
-        """ Проверка аргументов инструкций с одним аргументом."""
-        arg_term: str | None = statement.terms[1] if len(statement.terms) >= 2 else None
-        assert arg_term is not None, "Translation failed: invalid unary opration argument, line: {}".format(statement.line)
-        arg: int | str | None = None
-        is_control_flow_operation: bool = opcode in Opcode.control_flow_operations()
-        is_data_manipulation_operation: bool = opcode in Opcode.data_manipulation_operations()
-        assert is_control_flow_operation ^ is_data_manipulation_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
-        if is_control_flow_operation:
-            assert arg_term in operation_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
+def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str]) -> int | str:
+    """ Проверка аргументов инструкций с одним аргументом."""
+    arg_term: int | str | None = statement.arg
+
+    is_control_flow_operation: bool = statement.opcode in Opcode.control_flow_operations()
+    is_data_manipulation_operation: bool = statement.opcode in Opcode.data_manipulation_operations()
+    assert is_control_flow_operation ^ is_data_manipulation_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(statement.opcode, statement.line)
+    if is_control_flow_operation:
+        assert arg_term in operation_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
+        arg = arg_term
+    elif is_data_manipulation_operation:
+        assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
+        assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)  # noqa: PT018
+        arg = try_convert_str_to_int(arg_term)
+        if arg is None:
+            assert arg_term in data_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
             arg = arg_term
-        elif is_data_manipulation_operation:
-            assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
-            arg = try_convert_str_to_int(arg_term)
-            if arg is None:
-                assert arg_term in data_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
-                arg = arg_term
-        assert arg is not None
-        return arg
+    assert arg is not None
+    return arg
 
 def map_term_to_statement(statement: SourceTerm, instruction_counter: int, operation_labels: set[str], data_labels: set[str]) -> StatementTerm:
     """ Прербразование выражения текста исходной пргограммы в выражение машинного кода
@@ -278,32 +278,32 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
     - обычное выражение без лейбла
     - обычное выражение с лейблом
     """
-    cur_label: str | None = match_label(statement)
+    statement_term: StatementTerm = StatementTerm(index = instruction_counter, line = statement.line)
+    statement_term.label = match_label(statement)
     # Убираем имя лейбла из выражения при наличии
-    if cur_label is not None:
+    if statement_term.label is not None:
         del statement.terms[:2]
 
-    mode: Mode | None = None
-    mode = select_remove_statement_mode(statement)
+    statement_term.mode = select_remove_statement_mode(statement)
     # Убираем символ косвенной адресации
-    if mode == Mode.DEREF is not None:
+    if statement_term.mode == Mode.DEREF is not None:
         statement.terms.remove("*")
 
-    opcode: Opcode | None = None
-    arg: str | int | None = None
     instruction_name: str | None = statement.terms[0] if len(statement.terms) > 0 else None
     if instruction_name is not None:
-        opcode = map_instruction_to_opcode(instruction_name) if instruction_name is not None else None
-        assert opcode is not None, "Translation failed: instruction {} is not supported, line: {}".format(instruction_name, statement.line)
-        is_unary_operation: bool = opcode in Opcode.unary_operations()
-        is_noop_operation: bool = opcode in Opcode.no_operand_operations()
-        assert is_unary_operation ^ is_noop_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(opcode, statement.line)
+        statement_term.opcode = map_instruction_to_opcode(instruction_name) if instruction_name is not None else None
+        assert statement_term.opcode is not None, "Translation failed: instruction {} is not supported, line: {}".format(instruction_name, statement.line)
+        is_unary_operation: bool = statement_term.opcode in Opcode.unary_operations()
+        is_noop_operation: bool = statement_term.opcode in Opcode.no_operand_operations()
+        assert is_unary_operation ^ is_noop_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(statement_term.opcode, statement.line)
         if is_unary_operation:
-            arg = validate_unary_operation_argument(statement, opcode, operation_labels, data_labels)
+            statement_term.arg = statement.terms[1] if len(statement.terms) >= 2 else None
+            assert statement_term.arg is not None, "Translation failed: invalid unary opration argument, line: {}".format(statement.line)
+            statement_term.arg = validate_unary_operation_argument(statement_term, operation_labels, data_labels)
         elif is_noop_operation:
-            assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(opcode, statement.line)  # noqa: PT018
+            assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(statement_term.opcode, statement.line)  # noqa: PT018
             mode = None
-    return StatementTerm(index = instruction_counter, label = cur_label, opcode = opcode, arg = arg, mode = mode, line = statement.line)
+    return statement_term
 
 def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: set[str]) -> tuple[list[StatementTerm], dict[str, int]]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
