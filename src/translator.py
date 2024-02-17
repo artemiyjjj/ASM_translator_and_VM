@@ -260,7 +260,7 @@ def validate_unary_operation_argument(statement: StatementTerm, operation_labels
         arg = arg_term
     elif is_data_manipulation_operation:
         assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
-        assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)  # noqa: PT018
+        # assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)
         arg = try_convert_str_to_int(arg_term)
         if arg is None:
             assert arg_term in data_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
@@ -302,7 +302,7 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
             statement_term.arg = validate_unary_operation_argument(statement_term, operation_labels, data_labels)
         elif is_noop_operation:
             assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(statement_term.opcode, statement.line)  # noqa: PT018
-            mode = None
+            statement_term.mode = None
     return statement_term
 
 def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: set[str]) -> tuple[list[StatementTerm], dict[str, int]]:
@@ -350,20 +350,25 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
     return (terms, labels_addr)
 
 def map_string_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
+    """ Трансляция терма данных, представляющего п-сторку, в последовательность термов данных - символов с размером строки."""
     terms: list[DataTerm] = []
-    is_label_set: bool = False
 
+    terms.append(DataTerm(
+        index = data_term.index,
+         label = data_term.label,
+         value = data_term.size,
+         size = None,
+         line = data_term.line))
     if data_term.value is None:
         pass
     assert isinstance(data_term.value, str)
-    for index, elem in enumerate(data_term.value, 0):
+    for index, elem in enumerate(data_term.value, 1):
         terms.append(DataTerm(
             index = data_term.index + index,
-            label = data_term.label if not is_label_set else None,
-            value = data_term.value[index],
+            label = None,
+            value = data_term.value[index - 1],
             size = None,
             line = data_term.line))
-        is_label_set = True
         index += 1
     return terms
 
@@ -467,7 +472,6 @@ def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels
 
     Подстановка адресов термов вместо лейблов в аргументах инструкций в соответствии с типом инструкции.
     """
-    # data_section_end_addr: int = data_terms[-1].index + data_terms[-1].size
 
     for term in code.contents:
         if isinstance(term, StatementTerm) and term.arg is not None and isinstance(term.arg, str):
@@ -505,9 +509,7 @@ def translate(code_text: str) -> Code:
     statement_terms, code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
 
     code, code_labels, data_labels = map_sections(statement_terms, code_labels, data_terms, data_labels)
-    code = link_sections(code, code_labels, data_labels)
-
-    return code
+    return link_sections(code, code_labels, data_labels)
 
 logging.debug(Opcode.data_manipulation_operations())
 logging.debug("===============")
