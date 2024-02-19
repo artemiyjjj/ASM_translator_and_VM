@@ -241,11 +241,16 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
 
     Возвращает соответствующий режим интерпретации аргумента и его позицию в выражении при наличии. """
     mode: Mode
-    try:
-        statement.terms.index("*")
-        mode = Mode.DEREF
-    except ValueError:
-        mode = Mode.VALUE
+    symb_count: int = len([term for term in statement.terms if term == "*"])
+    match symb_count:
+        case 0:
+            mode = Mode.VALUE
+        case 1:
+            mode = Mode.DEREF
+        case 2:
+            mode = Mode.DOUBLE_DEREF
+        case _:
+            raise AssertionError("Translation failed: too much deref symbols for 1 line, line: {}".format(statement.line))
     return mode
 
 def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str]) -> int | str:
@@ -286,8 +291,14 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
 
     statement_term.mode = select_remove_statement_mode(statement)
     # Убираем символ косвенной адресации
-    if statement_term.mode == Mode.DEREF is not None:
-        statement.terms.remove("*")
+    match statement_term.mode:
+        case Mode.VALUE:
+            pass
+        case Mode.DEREF:
+            statement.terms.remove("*")
+        case Mode.DOUBLE_DEREF:
+            statement.terms.remove("*")
+            statement.terms.remove("*")
 
     instruction_name: str | None = statement.terms[0] if len(statement.terms) > 0 else None
     if instruction_name is not None:
@@ -472,7 +483,6 @@ def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels
 
     Подстановка адресов термов вместо лейблов в аргументах инструкций в соответствии с типом инструкции.
     """
-
     for term in code.contents:
         if isinstance(term, StatementTerm) and term.arg is not None and isinstance(term.arg, str):
             if term.opcode in Opcode.control_flow_operations():
