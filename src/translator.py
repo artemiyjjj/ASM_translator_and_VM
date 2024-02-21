@@ -361,9 +361,10 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
     logging.debug("==========================")
     return (terms, labels_addr)
 
-def map_string_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
+def map_literal_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
     """ Трансляция терма данных, представляющего п-сторку, в последовательность термов данных - символов с размером строки."""
     terms: list[DataTerm] = []
+    literal: str | list[int] = data_term.value if data_term.value is not None else [0] * data_term.size
 
     terms.append(DataTerm(
         index = data_term.index,
@@ -371,14 +372,12 @@ def map_string_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
          value = data_term.size,
          size = None,
          line = data_term.line))
-    if data_term.value is None:
-        pass
-    assert isinstance(data_term.value, str)
-    for index, elem in enumerate(data_term.value, 1):
+    print(data_term.value)
+    for index, elem in enumerate(literal, 1):
         terms.append(DataTerm(
             index = data_term.index + index,
             label = "{}(+ {})".format(data_term.label, index),
-            value = data_term.value[index - 1],
+            value = literal[index - 1],
             size = None,
             line = data_term.line))
         index += 1
@@ -424,7 +423,7 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
             case 4: # String data declaration
                 data_size = validate_string_size(term.terms[2])
                 str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
-                data_terms.extend(map_string_to_data_terms(str_data_term))
+                data_terms.extend(map_literal_to_data_terms(str_data_term))
             case 5: # String data defenition
                 data_size = validate_string_size(term.terms[2])
                 assert try_convert_str_to_int(term.terms[4]) is None, "Translation failed: number shouldn't have length before it, line: {}".format(term.line)
@@ -433,7 +432,7 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
                 assert isinstance(value, str)
                 assert len(value) == data_size, "Translation failed: given data size doen't match given string."
                 str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
-                data_terms.extend(map_string_to_data_terms(str_data_term))
+                data_terms.extend(map_literal_to_data_terms(str_data_term))
             case _:
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
         complete_data_terms.extend(data_terms)
