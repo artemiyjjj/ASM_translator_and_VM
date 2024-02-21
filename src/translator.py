@@ -256,6 +256,7 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
 def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str]) -> int | str:
     """ Проверка аргументов инструкций с одним аргументом."""
     arg_term: int | str | None = statement.arg
+    arg: int | str
 
     is_control_flow_operation: bool = statement.opcode in Opcode.control_flow_operations()
     is_data_manipulation_operation: bool = statement.opcode in Opcode.data_manipulation_operations()
@@ -376,7 +377,7 @@ def map_string_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
     for index, elem in enumerate(data_term.value, 1):
         terms.append(DataTerm(
             index = data_term.index + index,
-            label = None,
+            label = "{}(+ {})".format(data_term.label, index),
             value = data_term.value[index - 1],
             size = None,
             line = data_term.line))
@@ -539,7 +540,7 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     with open(source_code_file_name, encoding="utf-8") as f:
         source = f.read()
 
-    code: Code = translate(source)
+    code = translate(source)
 
     write_code(target_file_name, code)
     logging.info("source LoC:", len(source.split("\n")), "code instr:", len(code.contents))
