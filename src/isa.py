@@ -35,15 +35,15 @@ class Opcode(str, Enum):
 
     Могут быть поделёны на две группы:
 
-    1. Операции управления выполнением: "JMP", "JZ", "JNZ", "JN",
-     "JNN", "HLT", "INT", "ENI", "DII".
+    1. Операции управления потоком исполнения: "JMP", "JZ", "JNZ", "JN",
+     "JP", "HLT", "INT", "FI", "ENI", "DII".
 
     2. Операции над данными: все остальные
 
 
     и на две категории:
 
-    1. Исполняемые без аргументов: "INC", "DEC", "ENI", "DII", "HLT", "NOP".
+    1. Исполняемые без аргументов: "INC", "DEC", "LSL", "ASR", "ENI", "DII", "FI", "HLT", "NOP".
 
     2. Исполняемые с одним аргументом: все остальные.
     """
@@ -59,14 +59,18 @@ class Opcode(str, Enum):
     DEC = "decrement"
     MUL = "multiply"
     DIV = "divide"
+    MOD = "modulo"
     OR = "or"
     AND = "and"
+    LSL = "logical bit shift left"
+    ASR = "arithmetic bit shift right"
     JMP = "jump"
     JZ = "jump zero"
     JNZ = "jump not zero"
     JN = "jump neg"
-    JNN = "jump not neg"
+    JP = "jump pos"
     INT = "interruption"
+    FI = "finish interruption"
     ENI = "enable interruption"
     DII = "disable interruption"
     HLT = "halt"
@@ -79,7 +83,7 @@ class Opcode(str, Enum):
         Аргументами этих команд являются индексы данных(адреса), значения или лейблы данных.
         """
         return {Opcode.LD, Opcode.ST, Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV,
-                 Opcode.CMP, Opcode.OR, Opcode.AND, Opcode.OUT, Opcode.IN}
+                 Opcode.MOD, Opcode.CMP, Opcode.OR, Opcode.AND, Opcode.OUT, Opcode.IN}
 
     @staticmethod
     def control_flow_operations() -> set[Opcode]:
@@ -87,7 +91,7 @@ class Opcode(str, Enum):
 
         Аргументами этих команд являются лейблы инструкций.
         """
-        return {Opcode.JMP, Opcode.JZ, Opcode.JNZ, Opcode.JN, Opcode.JNN, Opcode.INT}
+        return {Opcode.JMP, Opcode.JZ, Opcode.JNZ, Opcode.JN, Opcode.JP, Opcode.INT}
 
     @staticmethod
     def unary_operations() -> set[Opcode]:
@@ -100,7 +104,8 @@ class Opcode(str, Enum):
     @staticmethod
     def no_operand_operations() -> set[Opcode]:
         """ Множество команд без аргументов"""
-        return {Opcode.HLT, Opcode.ENI, Opcode.DII, Opcode.INC, Opcode.DEC, Opcode.NOP}
+        return {Opcode.HLT, Opcode.ENI, Opcode.DII, Opcode.FI, Opcode.INC, Opcode.DEC,
+                Opcode.NOP, Opcode.LSL, Opcode.ASR}
 
     def __str__(self) -> str:
         """Переопределение стандартного поведения `__str__` для `Enum`: вместо
@@ -113,11 +118,11 @@ class Opcode(str, Enum):
 
 class Mode(str, Enum):
     """ Указание режима интерпретации аргумента. """
-    DEREF = "deref"
+    DIRECT = "direct"
     """ Аргумент - адрес, по которому находится необходимое значение """
     VALUE = "value"
     """ Аргумет - непосредственно значение """
-    DOUBLE_DEREF = "double deref"
+    INDIRECT = "indirect"
     """ Аргумент - адрес, по которому находится адрес искомого значения """
 
     def __str__(self) -> str:
@@ -134,10 +139,10 @@ class StatementTerm:
     arg: int | None | str
     mode: Mode | None
     # Source code reference
-    line: int
+    line: int | None
 
-    def __init__(self, index: int, line: int, label: str | None = None, opcode: Opcode | None = None,
-                 arg: int | None = None, mode: Mode | None = None) -> None:
+    def __init__(self, index: int, label: str | None = None, opcode: Opcode | None = None,
+                 arg: int | None = None, mode: Mode | None = None, line: int | None = None) -> None:
         self.index = index
         self.label = label
         self.opcode = opcode
@@ -168,9 +173,10 @@ class DataTerm:
     label: str | None
     value: int | str | None
     size: int | None
-    line: int
+    line: int | None
 
-    def __init__(self, index: int, line: int, label: str | None = None, size: int | None = None, value: int | str | None = None) -> None:
+    def __init__(self, index: int, label: str | None = None, size: int | None = None,
+                value: int | str | None = None, line: int | None = None) -> None:
         self.index = index
         self.label = label
         self.value = value
