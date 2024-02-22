@@ -6,6 +6,7 @@ import re
 import sys
 
 from isa import Code, DataTerm, Mode, Opcode, SourceTerm, StatementTerm, write_code
+from machine import get_interruption_vector_length, get_machine_start_addr
 
 
 def avaliable_sections() -> dict[str, str]:
@@ -37,14 +38,18 @@ def map_instruction_to_opcode(instruction: str) -> Opcode | None:
         "dec": Opcode.DEC,
         "mul": Opcode.MUL,
         "div": Opcode.DIV,
+        "mod": Opcode.MOD,
         "or": Opcode.OR,
         "and": Opcode.AND,
+        "lsl": Opcode.LSL,
+        "asr": Opcode.ASR,
         "jmp": Opcode.JMP,
         "jz": Opcode.JZ,
         "jnz": Opcode.JNZ,
         "jn": Opcode.JN,
-        "jnn": Opcode.JNN,
+        "jp": Opcode.JP,
         "int": Opcode.INT,
+        "fi": Opcode.FI,
         "eni": Opcode.ENI,
         "dii": Opcode.DII,
         "hlt": Opcode.HLT,
@@ -246,9 +251,9 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
         case 0:
             mode = Mode.VALUE
         case 1:
-            mode = Mode.DEREF
+            mode = Mode.DIRECT
         case 2:
-            mode = Mode.DOUBLE_DEREF
+            mode = Mode.INDIRECT
         case _:
             raise AssertionError("Translation failed: too much deref symbols for 1 line, line: {}".format(statement.line))
     return mode
@@ -295,9 +300,9 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
     match statement_term.mode:
         case Mode.VALUE:
             pass
-        case Mode.DEREF:
+        case Mode.DIRECT:
             statement.terms.remove("*")
-        case Mode.DOUBLE_DEREF:
+        case Mode.INDIRECT:
             statement.terms.remove("*")
             statement.terms.remove("*")
 
@@ -447,7 +452,9 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
     logging.debug("==========================")
     return (complete_data_terms, labels_addr)
 
-def map_sections(statement_terms: list[StatementTerm], statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]) -> tuple[Code, dict[str, int], dict[str, int]]:
+def map_sections(interruption_vector: list[StatementTerm | DataTerm], statement_terms: list[StatementTerm],
+                    statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]
+                ) -> tuple[Code, dict[str, int], dict[str, int]]:
     """ Отображение термов программы на память."""
     code: Code = Code()
     programm_start: int | None = None
@@ -455,11 +462,10 @@ def map_sections(statement_terms: list[StatementTerm], statement_labels_addr: di
             if statement.label is not None and statement.label == "_start":
                 programm_start = statement_pos
                 break
-                # либо перемещать части программы, чтобы старт была на 0 позиции в памяти
-                # либо создавать логику загрузки PC в машину (сложно)
 
     assert programm_start is not None, "Translation failed: can not find programm start label."
 
+    code.contents.extend(interruption_vector)
     code.contents.extend(statement_terms[programm_start:])
     code.contents.extend(statement_terms[:programm_start])
     code.contents.extend(data_terms)
@@ -494,6 +500,33 @@ def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels
     [print(term) for term in code.contents]
     return code
 
+def create_interruption_vector() -> tuple(list[DataTerm], dict[str, int], dict[str, int]):
+    """ Создание вектора прерываний и словаря лейблов и их индексов.
+
+    Вектор прерываний состоит из адресов обработчиков прерываний и инструкция int относится к категории
+     инструкций управления выполнения, поэтому состоит из термов данных, хранящих адреса обработчиков.
+    По умолчанию, вектор прерываний неинициализирован, поэтому разработчику необходимо инициализировать его вручную,
+    сохраняя адреса лейблов в необходимые вектора прерываний при старте программы.
+
+    Возвращает список термов содержащих вектор прерывания и ячейки памяти для регистров, словарь лейблов вектора
+     прерываний и словарь лейблов ячеек памяти для регистров.
+    """
+    interruption_vector: [list[DataTerm]] = []
+    interruption_vector_labels: dict[str, int] = dict()
+    interruption_register_labels: dict[str, int] = dict()
+
+    for index in range(0, get_interruption_vector_length() + 1):
+        if index < get_interruption_vector_length():
+            label: str = "int{}".format(index)
+            interruption_vector.append(DataTerm(index = index, label = label, value = 0))
+            interruption_vector_labels[label] = index
+        else:
+            interruption_vector.append(DataTerm(index = index, label = "int_acc", value = 0))
+            interruption_vector.append(DataTerm(index = index + 1, label = "int_pc", value = 0))
+            interruption_register_labels["int_acc"] = index
+            interruption_register_labels["int_pc"] = index + 1
+    return (interruption_vector, interruption_vector_labels, interruption_register_labels)
+
 def translate(code_text: str) -> Code:
     """ Трансляция текста исходной программы в машинный код для модели процессора.
 
@@ -504,6 +537,9 @@ def translate(code_text: str) -> Code:
     section_text: list[SourceTerm] | None = None
     code_labels: dict[str, int] = dict()
     data_labels: dict[str, int] = dict()
+    interruption_vector: list[StatementTerm | DataTerm] = []
+    interruption_vector_labels: dict[str, int] = dict()
+    interruption_registers_labels: dict[str, int] = dict()
     statement_terms: list[StatementTerm] = []
     data_terms: list[DataTerm] = []
 
@@ -514,11 +550,17 @@ def translate(code_text: str) -> Code:
     if section_data is not None:
         data_terms, data_labels = map_terms_to_data(section_data)
 
+    interruption_vector, interruption_vector_labels, interruption_registers_labels = create_interruption_vector()
+    data_labels.update(interruption_registers_labels)
+    print(interruption_registers_labels)
+    print(interruption_vector_labels)
+
     section_text = sections.get(".text")
     assert section_text is not None, "Translation failed: Section .text is not present in program"
     statement_terms, code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
+    code_labels.update(interruption_vector_labels)
 
-    code, code_labels, data_labels = map_sections(statement_terms, code_labels, data_terms, data_labels)
+    code, code_labels, data_labels = map_sections(interruption_vector, statement_terms, code_labels, data_terms, data_labels)
     return link_sections(code, code_labels, data_labels)
 
 logging.debug(Opcode.data_manipulation_operations())
