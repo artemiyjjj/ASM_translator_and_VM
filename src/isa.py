@@ -9,8 +9,9 @@ from typing import Any
 
 class Code:
     """ Представление структуры для хранения машинного кода"""
-    # Контейнер для хранения машинных инструкций.
+
     contents: list[StatementTerm | DataTerm]
+    """Список инструкций машинного кода."""
 
     def __init__(self, contents: list[StatementTerm | DataTerm] = []) -> None:
         self.contents = []
@@ -53,28 +54,28 @@ class Opcode(str, Enum):
     OUT = "output"
     IN = "input"
     ADD = "add"
-    SUB = "substract"
+    SUB = "sub"
     CMP = "compare"
-    INC = "increment"
-    DEC = "decrement"
-    MUL = "multiply"
-    DIV = "divide"
-    MOD = "modulo"
+    INC = "inc"
+    DEC = "dec"
+    MUL = "mul"
+    DIV = "div"
+    MOD = "mod"
     OR = "or"
     AND = "and"
-    LSL = "logical bit shift left"
-    ASR = "arithmetic bit shift right"
+    LSL = "shift ←"
+    ASR = "shift →"
     JMP = "jump"
     JZ = "jump zero"
     JNZ = "jump not zero"
     JN = "jump neg"
     JP = "jump pos"
-    INT = "interruption"
-    FI = "finish interruption"
-    ENI = "enable interruption"
-    DII = "disable interruption"
+    INT = "int"
+    FI = "finish int"
+    ENI = "enable int"
+    DII = "disable int"
     HLT = "halt"
-    NOP = "no operation"
+    NOP = "no op"
 
     @staticmethod
     def data_manipulation_operations() -> set[Opcode]:
@@ -154,7 +155,7 @@ class StatementTerm:
     def from_json(json_obj: Any) -> StatementTerm | None:
         try:
             json_obj["opcode"] = Opcode(json_obj["opcode"])
-            json_obj["mode"] = Mode(json_obj["mode"])
+            json_obj["mode"] = Mode(json_obj["mode"]) if json_obj["mode"] is not None else None
             instance: StatementTerm = StatementTerm(**json_obj)
         except (TypeError, KeyError):
             return None
@@ -230,9 +231,6 @@ def read_code(filename: str) -> Code:
         if term is None:
             # В случае неудачи, конвертация в экземпляр DataTerm
             term = DataTerm.from_json(instr)
-
-        assert term is not None
-
         code.append(term)
 
     return code
