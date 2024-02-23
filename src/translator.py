@@ -536,6 +536,7 @@ def translate(code_text: str) -> Code:
     section_data: list[SourceTerm] | None = None
     section_text: list[SourceTerm] | None = None
     code_labels: dict[str, int] = dict()
+    tmp_code_labels: dict[str, int] = dict()
     data_labels: dict[str, int] = dict()
     interruption_vector: list[StatementTerm | DataTerm] = []
     interruption_vector_labels: dict[str, int] = dict()
@@ -552,24 +553,16 @@ def translate(code_text: str) -> Code:
 
     interruption_vector, interruption_vector_labels, interruption_registers_labels = create_interruption_vector()
     data_labels.update(interruption_registers_labels)
-    print(interruption_registers_labels)
-    print(interruption_vector_labels)
 
     section_text = sections.get(".text")
     assert section_text is not None, "Translation failed: Section .text is not present in program"
-    statement_terms, code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
+    statement_terms, tmp_code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
     code_labels.update(interruption_vector_labels)
+    code_labels.update(tmp_code_labels)
+    print(code_labels)
 
     code, code_labels, data_labels = map_sections(interruption_vector, statement_terms, code_labels, data_terms, data_labels)
     return link_sections(code, code_labels, data_labels)
-
-logging.debug(Opcode.data_manipulation_operations())
-logging.debug("===============")
-curdir = os.path.dirname(__file__)
-ex_file = os.path.join(curdir, "../examples/hello.asm")
-file = open(ex_file)
-code = file.read()
-translate(code)
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
@@ -584,7 +577,7 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     code = translate(source)
 
     write_code(target_file_name, code)
-    logging.info("source LoC:", len(source.split("\n")), "code instr:", len(code.contents))
+    logging.info("source LoC: {} code instr: {}".format(len(source.split("\n")), len(code.contents)))
 
 if __name__ == "__main__":
     # logging.basicConfig(
@@ -596,7 +589,8 @@ if __name__ == "__main__":
     #         logging.StreamHandler(sys.stdout)
     #     ])
     logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    logging.getLogger().setLevel(logging.INFO)
 
     def excepthook(*args: Any) -> None:
         """ Логирование всех необрабатываемых исключений"""
