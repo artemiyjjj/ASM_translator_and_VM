@@ -1,6 +1,7 @@
 section .data:
     msg:  12, "Hello world!";
-    msg2: 1, "S" ; declared length doesn't match string literal length
+    msg2: 1, "S" 
+    some: 5, 
     counter:          ; fix bss comment parsing
     cur_symbol_addr:        688
 
@@ -15,7 +16,7 @@ int1:
 
 _start:
     ld    msg;load the msg pointer
-    st    counter
+    st    **counter
 bebe:
     ld    *msg ;load the msg value
     st    cur_symbol_addr
