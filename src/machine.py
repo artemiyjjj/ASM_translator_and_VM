@@ -76,8 +76,7 @@ class DataPath:
 
         def __init__(self) -> None:
             self._output_buffer_register = 0
-            self._left_register = 0
-            self._right_register = 0
+            self.reset_registers()
             self._res_zero = True
             self._res_neg = False
 
@@ -400,6 +399,7 @@ class ControlUnit:
         self._data_path._alu.inc(select[2])
         self._data_path._alu.dec(select[3])
         self._data_path._alu.operation(select[4])
+        self._data_path._alu.update_flags()
         self._data_path._alu.reset_registers()
 
     def signal_latch_programm_counter_register(self, select: int) -> None:
@@ -653,7 +653,7 @@ class Machine:
         """Вернуть строковое представление состояния процессора."""
         def bool2int(val: bool) -> int:
             return 1 if val else 0
-        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {} AR: {:3} BR: {:3} N: {}, Z: {}".format(
+        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {:^10} AR: {:3} BR: {:3} N: {}, Z: {}".format(
             self._control_unit.get_tick(),
             self._control_unit._programm_counter_register,
             self._control_unit._instruction_register.opcode,
