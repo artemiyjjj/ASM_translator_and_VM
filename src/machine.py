@@ -11,24 +11,27 @@ MACHINE_START_ADDR: int = 10
 
 INTERRRUPTION_VECTOR_LENGTH: int = 8
 
+
 def get_machine_start_addr() -> int:
     return MACHINE_START_ADDR
+
 
 def get_interruption_vector_length() -> int:
     return INTERRRUPTION_VECTOR_LENGTH
 
-def raise_error() -> None:
-    raise ValueError("Internal error ◑﹏◐")
+
+def raise_error(err_msg: str = "") -> None:
+    raise ValueError("Internal error X_X : " + err_msg)
+
 
 class DataPath:
-
     # Регистр - аккумулятор
-    _accumulator_reg: int
+    _accumulator_register: int
 
     # AR регистр
     _address_register: int
 
-     # Буфферный регистр для хранения
+    # Буфферный регистр для хранения
     _buffer_register: int
 
     # Флаг, сигнализирующий о знаке результата последнего цикла исполнения команды
@@ -38,7 +41,7 @@ class DataPath:
     _zero_flag: bool
 
     # Устройство, хранящее таблицу соответствия номеров устройств - векторам прерывания.
-    _device_interpution_table: list[tuple[int, int]]
+    # _device_interpution_table: list[tuple[int, int]]
 
     # Общая память, к которой DataPath обращается для чтения/записи данных
     _memory: list[StatementTerm | DataTerm]
@@ -46,26 +49,25 @@ class DataPath:
     # Арифметико - логическое устройство
     _alu: ALU
 
-    # Буффер выходных данных
-    _output_buffer: list[str]
-
-    def __init__(self, common_memory: list[StatementTerm | DataTerm], interruption_table: list[tuple[int, int]]) -> None:
-        self._accumulator_reg = 0
+    def __init__(
+        self, common_memory: list[StatementTerm | DataTerm]
+    ) -> None:
+        self._accumulator_register = 0
         self._address_register = 0
         self._buffer_register = 0
         self._neg_flag = False
         self._zero_flag = True
-        self._device_interpution_table = interruption_table
         self._memory = common_memory
-        self._alu = ALU()
+        self._alu = DataPath.ALU()
 
     class ALU:
-        """ Арифметико - логическое устройство
+        """Арифметико - логическое устройство
 
         Выполняет операции над данными из аккумулятора и буферного регистров согласно поданым сигналам.
         Левый вход присоединён к буфферному регистру, правый - к аккумуляторному.
         Содержит внутренние регистры для проведения операций над данными.
         """
+
         _output_buffer_register: int
         _left_register: int
         _right_register: int
@@ -80,13 +82,12 @@ class DataPath:
             self._res_neg = False
 
         def reset_registers(self) -> None:
-            """ Загрузка '0' во внутренние регистры"""
+            """Загрузка '0' во внутренние регистры"""
             self._left_register = 0
             self._right_register = 0
 
-
         def negative(self, mode: int) -> None:
-            """ Инверсия данных
+            """Инверсия данных
 
             Опции:
             0 - только левый вход
@@ -105,10 +106,10 @@ class DataPath:
                 case 3:
                     pass
                 case _:
-                    raise_error()
+                    raise_error("Incorrect data_path/alu/negative mode")
 
         def inc(self, mode: int) -> None:
-            """ Инкремент данных
+            """Инкремент данных
 
             Опции:
             0 - только левый вход
@@ -120,17 +121,17 @@ class DataPath:
                 case 0:
                     self._left_register += 1
                 case 1:
-                    self._right_register +=  1
+                    self._right_register += 1
                 case 2:
                     self._left_register += 1
                     self._right_register += 1
                 case 3:
                     pass
                 case _:
-                    raise_error()
+                    raise_error("Incorrect data_path/alu/zero mode")
 
         def dec(self, mode: int) -> None:
-            """ Декремент данных
+            """Декремент данных
 
             Опции:
             0 - только левый вход
@@ -142,17 +143,17 @@ class DataPath:
                 case 0:
                     self._left_register -= 1
                 case 1:
-                    self._right_register -=  1
+                    self._right_register -= 1
                 case 2:
                     self._left_register -= 1
                     self._right_register -= 1
                 case 3:
                     pass
                 case _:
-                    raise_error()
+                    raise_error("Incorrect data_path/alu/dec mode")
 
         def operation(self, mode: int) -> None:
-            """ Операция над данными
+            """Операция над данными
 
             Опции:
             0 - сложение
@@ -185,7 +186,7 @@ class DataPath:
                 case 8:
                     self._output_buffer_register = self._left_register >> self._right_register
                 case _:
-                    raise_error()
+                    raise_error("Incorrect data_path/alu/operation mode")
             self._res_neg = self._output_buffer_register < 0
             self._res_zero = self._output_buffer_register == 0
 
@@ -194,12 +195,15 @@ class DataPath:
         self._neg_flag = self._alu._res_neg
 
     def _read_memory(self) -> int:
-        return self._memory[self._address_register]
+        """Чтение из памяти по адресу равному значению адресного регистра значения в аккумулятор."""
+        return self._memory[self._address_register].value
 
     def _write_memory(self) -> None:
-        self._memory[self._address_register] = self._accumulator_reg
+        """Запись в память по значению адресного регистра значения аккумулятора."""
+        self._memory[self._address_register].value = self._accumulator_register
 
     def zero(self) -> bool:
+        """Возврат значения"""
         return self._zero_flag
 
     def negative(self) -> bool:
@@ -207,33 +211,43 @@ class DataPath:
 
 
 class ControlUnit:
-    # Счётчик тактов с начала работы модели машины
+    """Логический модуль машины, отвечающий за управление потоком выполнения машины."""
+
     _tick: int
+    """ Счётчик тактов с начала работы модели машины."""
 
-    # IP регистр - используется для доступа к памяти при передаче адреса, значение по которому необходимо "достать"
     _programm_counter_register: int
+    """ IP регистр - используется для доступа к памяти при передаче адреса, значение по которому необходимо "достать"."""
 
-    # Регистр инструкций. Хранит в себе текущее выражение на исполенние (инструкцию с аргументом) после цикла выборки команд
     _instruction_register: StatementTerm | None
+    """ Регистр инструкций. Хранит в себе текущее выражение на исполенние (инструкцию с аргументом) после цикла выборки команд."""
 
-
-    # Регистр - указывающий возможно ли выполнить прерывание в текущем цикле исполнения инструкции.
     _interruption_enabled: bool
+    """ Регистр - указывающий возможно ли выполнить прерывание в текущем цикле исполнения инструкции."""
 
-    # Модуль дешифрации команд
+    _interruption_request: bool
+    """ Регистр - указывающий есть ли запрос на прерывание от подключённых устройств."""
+
+    _interruption_state: bool
+    """ Флаг нахождения машины в состоянии прерывания."""
+
     _instruction_decoder: InstructionDecoder
+    """ Дешифратор инструкций."""
 
-    # Общая память, из которой выбираются команды
     _memory: list[StatementTerm | DataTerm]
+    """ Общая память, из которой модулем управления выбираются команды."""
 
     _data_path: DataPath
+    """ Соединение с DataPath для управления манипулированием данными."""
 
     def __init__(self, common_memory: list[StatementTerm | DataTerm], data_path: DataPath) -> None:
         self._tick = 0
         self._interruption_enabled = False
+        self._interruption_request = False
+        self._interruption_state = False
         self._programm_counter_register = MACHINE_START_ADDR
         self._instruction_register = None
-        self._instruction_decoder = InstructionDecoder()
+        self._instruction_decoder = ControlUnit.InstructionDecoder()
         self._memory = common_memory
         self._data_path = data_path
 
@@ -255,9 +269,8 @@ class ControlUnit:
         def signal_latch_mode(self, mode: Mode) -> None:
             self._mode = mode
 
-
     def perform_tick(self) -> None:
-        """ Увеличение счётчика процессорных тактов. """
+        """Увеличение счётчика процессорных тактов."""
         self._tick += 1
 
     def get_tick(self) -> int:
@@ -266,49 +279,59 @@ class ControlUnit:
     def signal_interrupt(self) -> None:
         pass
 
+        # ???
+
     def signal_output(self) -> None:
-        output_symbol = chr(self._accumulator_reg)
+        output_symbol = chr(self._accumulator_register)
         logging.info("Output: %s + %s", repr("".join(self.output_buffer)), repr(output_symbol))
         self._output_buffer.append[output_symbol]
 
     def signal_latch_address_register(self, select: int) -> None:
-        """ Сигнал записи данных в адресный регистр через мультиплексор.
+        """Сигнал записи данных в адресный регистр через мультиплексор.
 
         Происходит посредством установки селектора. Каждый вариант селектора влияет на источник поступаемых данных.
         Селекторы:
         0 - instr_arg (control_unit/instruction_register.arg)
         1 - buf_reg (data_path/buffer_register)
-        2 - ...
+        2 - int_acc (fix address in memory)
+        3 - int_pc (fix address in memory)
         """
         match select:
             case 0:
                 self._data_path._address_register = self._instruction_register.arg
             case 1:
                 self._data_path._address_register = self._data_path._buffer_register
+            case 2:
+                self._data_path._address_register = INTERRRUPTION_VECTOR_LENGTH
+            case 3:
+                self._data_path._address_register = INTERRRUPTION_VECTOR_LENGTH + 1
             case _:
-                raise_error()
+                raise_error("Incorrect control_unit/signal_address select")
 
     def signal_latch_accumulator_register(self, select: int) -> None:
-        """ Сигнал записи данных в аккумуляторный регистр через мультиплексор.
+        """Сигнал записи данных в аккумуляторный регистр через мультиплексор.
 
         Происходит посредством установки селектора. Каждый вариант селектора влияет на источник поступаемых данных.
         Селекторы:
         0 - mem (data_path/memory)
         1 - alu (data_path/arithmetical_logical_unit)
         2 - io (data_path/SPI...)
+        3 - pc (control_unit/programm_counter_register)
         """
         match select:
             case 0:
-                self._data_path._accumulator_reg = self._data_path._read_memory()
+                self._data_path._accumulator_register = self._data_path._read_memory()
             case 1:
-                self._data_path._accumulator_reg = self._data_path._alu._output_buffer_register
+                self._data_path._accumulator_register = self._data_path._alu._output_buffer_register
             case 2:
-                pass ...
+                pass  # ...I/O
+            case 3:
+                self._data_path._accumulator_register = self._programm_counter_register
             case _:
-                raise_error()
+                raise_error("Incorrect control_unit/signal_acc select")
 
     def signal_latch_buffer_register(self, select: int) -> None:
-        """ Сигнал записи данных в буфферный регистр через мультиплексор.
+        """Сигнал записи данных в буфферный регистр через мультиплексор.
 
         Происходит посредством установки селектора. Каждый вариант селектора влияет на источник поступаемых данных.
         Селекторы:
@@ -322,10 +345,10 @@ class ControlUnit:
             case 1:
                 self._data_path._buffer_register = self._data_path._read_memory()
             case _:
-                raise_error()
+                raise_error("Incorrect control_unit/signal_buff select")
 
     def signal_latch_arithmetical_logical_unit(self, select: list[int] = [1, 3, 3, 3, 6]) -> None:
-        """ Сигнал передачи данных в арифметико-логическое устройство.
+        """Сигнал передачи данных в арифметико-логическое устройство.
 
         Происходит посредством установки селекторов. Представлена списком опций.
         Каждая позиция в списке селектора влияет на способ обработки данных АЛУ.
@@ -365,14 +388,14 @@ class ControlUnit:
             case 0:
                 self._data_path._alu._left_register = self._data_path._buffer_register
             case 1:
-                self._data_path._alu._right_register = self._data_path._accumulator_reg
+                self._data_path._alu._right_register = self._data_path._accumulator_register
             case 2:
                 self._data_path._alu._left_register = self._data_path._buffer_register
-                self._data_path._alu._right_register = self._data_path._accumulator_reg
+                self._data_path._alu._right_register = self._data_path._accumulator_register
             case 3:
                 pass
             case _:
-                raise_error()
+                raise_error("Incorrect control_unit/signal_alu select")
         self._data_path._alu.negative(select[1])
         self._data_path._alu.inc(select[2])
         self._data_path._alu.dec(select[3])
@@ -380,7 +403,7 @@ class ControlUnit:
         self._data_path._alu.reset_registers()
 
     def signal_latch_programm_counter_register(self, select: int) -> None:
-        """ Сигнал записи данных в регистр - счётчик команд через мультиплексор.
+        """Сигнал записи данных в регистр - счётчик команд через мультиплексор.
 
         Происходит посредством установки селектора. Каждый вариант селектора влияет на источник поступаемых данных.
         Селекторы:
@@ -394,147 +417,213 @@ class ControlUnit:
             case 1:
                 self._programm_counter_register += 1
             case _:
-                raise_error()
-
+                raise_error("Incorrect control_unit/signal_pc select")
 
     def _select_instruction(self) -> None:
-        """ Цикл выборки инструкции из памяти по адресу счётчика команд.
+        """Цикл выборки инструкции из памяти по адресу счётчика команд.
 
-        Имеет место быть допущение, что доступ к памяти происходит за такт процессора."""
+        Имеет место допущение, что доступ к памяти происходит за такт процессора."""
         self._instruction_register = self._memory[self._programm_counter_register]
+        self.perform_tick()
+        self.signal_latch_programm_counter_register(select=1)
         self.perform_tick()
 
     def _decode_instruction(self) -> None:
         self._instruction_decoder.signal_latch_opcode(self._instruction_register.opcode)
         self._instruction_decoder.signal_latch_mode(self._instruction_register.mode)
+        print("decoder: ", self._instruction_decoder._opcode, self._instruction_decoder._mode)
         self.perform_tick()
 
     def _select_argumet(self) -> None:
-        """ Цикл выборки аргумента"""
+        """Цикл выборки аргумента"""
         match self._instruction_decoder._mode:
             # Непосредственная адресация - запись в буфер аргумента команды
             case Mode.VALUE:
-                self.signal_latch_buffer_register(select = 0)
+                self.signal_latch_buffer_register(select=0)
                 self.perform_tick()
             # Прямая адресация - запись в буфер значения по адресу из аргумента команды
             case Mode.DIRECT:
-                self.signal_latch_address_register(select = 0)
+                self.signal_latch_address_register(select=0)
                 self.perform_tick()
-                self.signal_latch_buffer_register(select = 1)
+                self.signal_latch_buffer_register(select=1)
                 self.perform_tick()
             # Косвенная адресация - запись в буфер значения по адресу, располагающемуся по адресу из аргумента команды
             case Mode.INDIRECT:
-                self.signal_latch_address_register(select = 0)
+                self.signal_latch_address_register(select=0)
                 self.perform_tick()
-                self.signal_latch_buffer_register(select = 1)
+                self.signal_latch_buffer_register(select=1)
                 self.perform_tick()
-                self.signal_latch_address_register(select = 1)
+                self.signal_latch_address_register(select=1)
                 self.perform_tick()
-                self.signal_latch_buffer_register(select = 1)
+                self.signal_latch_buffer_register(select=1)
                 self.perform_tick()
             case None:
                 self.perform_tick()
             case _:
-                raise ValueError("Mode at instruction on line {} in source code is incorrect.".format(self._instruction_register.line))
+                raise ValueError(
+                    "Mode at instruction on line {} in source code is incorrect.".format(
+                        self._instruction_register.line
+                    )
+                )
 
     def _execute_instruction(self) -> None:
         match self._instruction_decoder._opcode:
             case Opcode.LD:
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[0, 3, 3, 3, 6])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.ST:
-                self.signal_latch_address_register(select = 1)
+                self.signal_latch_address_register(select=1)
                 self.perform_tick()
                 self._data_path._write_memory()
                 self.perform_tick()
+            case Opcode.IN:
+                pass
+
+            case Opcode.OUT:
+                pass
+
             case Opcode.ADD:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 0])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 0])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.SUB:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 1])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 1])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.CMP:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 1])
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 1])
+                self.perform_tick()
+            case Opcode.INC:
+                self.signal_latch_arithmetical_logical_unit(select=[1, 3, 1, 3, 6])
+                self.signal_latch_accumulator_register(select=1)
+                self.perform_tick()
+            case Opcode.DEC:
+                self.signal_latch_arithmetical_logical_unit(select=[1, 3, 3, 1, 6])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.MUL:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 2])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 2])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.DIV:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 3])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 3])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.MOD:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 4])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 4])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.AND:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 5])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 5])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.OR:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 6])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 6])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.LSL:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 7])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 7])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.ASR:
-                self.signal_latch_arithmetical_logical_unit(select = [2, 3, 3, 3, 8])
-                self.signal_latch_accumulator_register(select = 1)
+                self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 8])
+                self.signal_latch_accumulator_register(select=1)
                 self.perform_tick()
             case Opcode.JMP:
-                self.signal_latch_programm_counter_register(select = 0)
+                self.signal_latch_programm_counter_register(select=0)
                 self.perform_tick()
             case Opcode.JZ:
-                if self._data_path._zero_flag:
+                if self._data_path.zero():
                     self.perform_tick()
-                    self.signal_latch_programm_counter_register(select = 0)
+                    self.signal_latch_programm_counter_register(select=0)
                 self.perform_tick()
             case Opcode.JNZ:
-                if not self._data_path._zero_flag:
+                if not self._data_path.zero():
                     self.perform_tick()
-                    self.signal_latch_programm_counter_register(select = 0)
+                    self.signal_latch_programm_counter_register(select=0)
                 self.perform_tick()
             case Opcode.JN:
-                if self._data_path._neg_flag:
+                if self._data_path.negative():
                     self.perform_tick()
-                    self.signal_latch_programm_counter_register(select = 0)
+                    self.signal_latch_programm_counter_register(select=0)
                 self.perform_tick()
             case Opcode.JP:
-                if not self._data_path._neg_flag:
+                if not self._data_path.negative():
                     self.perform_tick()
-                    self.signal_latch_programm_counter_register(select = 0)
+                    self.signal_latch_programm_counter_register(select=0)
                 self.perform_tick()
+            case Opcode.INT:
+                # Запись в память значения аккумулятора
+                self.signal_latch_address_register(select=2)
+                self.perform_tick()
+                self._data_path._write_memory()
+                self.perform_tick()
+                # Запись в память значения регистра - счётчика команд
+                self.signal_latch_accumulator_register(select=3)
+                self.perform_tick()
+                self.signal_latch_address_register(select=3)
+                self.perform_tick()
+                self._data_path._write_memory()
+                self.perform_tick()
+                # Изменение значения счётчика команд
+                self.signal_latch_address_register(select=1)
+                self.perform_tick()
+                self.signal_latch_buffer_register(select=1)
+                self.perform_tick()
+                self.signal_latch_programm_counter_register(select=0)
+                self.perform_tick()
+            case Opcode.FI:
+                # Чтение из памяти значение счётчика команд
+                self.signal_latch_address_register(select=3)
+                self.perform_tick()
+                self.signal_latch_buffer_register(select=1)
+                self.perform_tick()
+                self.signal_latch_programm_counter_register(select=0)
+                self.perform_tick()
+                # Чтение из памяти значения аккумулятора
+                self.signal_latch_address_register(select=2)
+                self.perform_tick()
+                self.signal_latch_accumulator_register(select=0)
+                self.perform_tick()
+            case Opcode.ENI:
+                self._interruption_enabled = True
+                self.perform_tick()
+            case Opcode.DII:
+                self._interruption_enabled = False
+                self.perform_tick()
+            case Opcode.NOP:
+                self.perform_tick()
+            case Opcode.HLT:
+                raise StopIteration()
             case _:
-                raise_error()
+                raise_error("Unknown opcode in instruction execute cycle")
 
-    def _check_interrution(self) -> None:
+    def _check_interruption(self) -> None:
+        if self._interruption_enabled and self._interruption_request:
+            pass
+            # вызов программного обработчика прерываний для опроса slaves о прерывании
         pass
 
     def execute_next_command(self) -> None:
-        """ Выполнение циклов исполнения команды."""
+        """Выполнение циклов исполнения команды."""
         self._select_instruction()
         self._decode_instruction()
         self._select_argumet()
-        self._execute_command()
+        self._execute_instruction()
         self._check_interruption()
-        # self.signal_latch_programm_counter_register(select = 1)
 
 
 class Machine:
-    """ Модель вычислительной машины с фон-Неймановской архитектурой.
+    """Модель вычислительной машины с фон-Неймановской архитектурой.
     Память представлена отдельным модулем, к которому имеют доступ тракт данных и управляющий модуль.
     """
 
     # Кол-во ячеек памяти машины (в размерах машинного слова - 4 байта)
-    memory_size: int
+    _memory_size: int
 
     # Память машины. Используется трактом данных и управляющим модулем.
-    common_memory: list[StatementTerm | DataTerm]
+    _common_memory: list[StatementTerm | DataTerm]
 
     # Список "подключённых" устройств ввода/вывода
     # io_devices: list[IODevice] = []
@@ -548,52 +637,67 @@ class Machine:
     # Буфер для хранения расписания ввода символов
     _input_buffer: list[tuple[int, str]]
 
-    def __init__(self, memory_size: int = 4096, input_buffer: list[tuple[int, str]] = [], limit: int = 1000):
-        assert memory_size > 0, "Memory size should not be zero."
-        assert limit > 0, "Limit can not be negative or zero."
-        self.memory_size = memory_size
-        self.common_memory = [0] * memory_size
-        self.data_path = DataPath(self.common_memory)
-        self.control_unit = ControlUnit(self.common_memory)
-        self._input_buffer = input_buffer
+    _output_buffer: list[str]
 
+    def __init__(self, memory_size: int = 4096, input_buffer: list[tuple[int, str]] = []):
+        assert memory_size > 0, "Memory size should not be zero."
+        self._memory_size = memory_size
+        # Возможность для использования стека, если не задавать размер памяти, равный количеству машинных выражений
+        self._common_memory = [DataTerm(index = index) for index in range(0, memory_size)]
+        self._data_path = DataPath(self._common_memory)
+        self._control_unit = ControlUnit(common_memory = self._common_memory, data_path = self._data_path)
+        self._input_buffer = input_buffer
+        self._output_buffer = []
 
     def __repr__(self) -> str:
         """Вернуть строковое представление состояния процессора."""
-        return "TICK: {:3} PC: {:3} ADDR: {:3} MEM_OUT: {} ACC: {}".format(
-            self._tick,
-            self.program_counter,
-            self.data_path.data_address,
-            self.data_path.data_memory[self.data_path.data_address],
-            self.data_path.acc,
+        def bool2int(val: bool) -> int:
+            return 1 if val else 0
+        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {} AR: {:3} BR: {:3} N: {}, Z: {}".format(
+            self._control_unit.get_tick(),
+            self._control_unit._programm_counter_register,
+            self._control_unit._instruction_register.opcode,
+            bool2int(self._control_unit._interruption_request),
+            bool2int(self._control_unit._interruption_enabled),
+            bool2int(self._control_unit._interruption_state),
+            self._control_unit._data_path._accumulator_register,
+            self._control_unit._data_path._address_register,
+            self._control_unit._data_path._buffer_register,
+            bool2int(self._control_unit._data_path.negative),
+            bool2int(self._control_unit._data_path.zero)
         )
 
     @staticmethod
-    def parse_schedule(self, list_tuple_text: str) -> list[tuple[int, str]]:
-        """ Парсинг расписания ввода символов по тактам из текста с соответствующими данными.
-        """
+    def parse_schedule(list_tuple_text: str) -> list[tuple[int, str]]:
+        """Парсинг расписания ввода символов по тактам из текста с соответствующими данными."""
         list_schedule: list[tuple[int, str]] = []
         for t in list_tuple_text:
             a, b = t.strip("()").split(",")
             list_schedule.append((int(a), int(b)))
         return list_schedule
 
-
-    def simulation(self, code: Code, input_schedule: list[tuple[int, str]], limit: int) -> tuple[output: str, instr_counter: int, ticks: int]:
+    def simulation(
+        self, code: Code, input_schedule: list[tuple[int, str]] = [], limit: int = 1000
+    ) -> tuple[str, int, int]:
         """Подготовка модели и запуск симуляции процессора.
 
         Возвращает вывод программы, значение счётчика команд и кол-во исполненных тактов.
         """
+        assert limit > 0, "Simulation failed: Limit can not be negative or zero."
+        self._common_memory[:len(code.contents)] = code.contents
         try:
-            while self._control_unit.get_tick() < self.limit:
+            while self._control_unit.get_tick() < limit:
                 self._control_unit.execute_next_command()
-
-                
-
-        except ValueError:
-            logging.error("Instruction parameters are incorrect.")
+                logging.info(self.__repr__())
         except StopIteration:
-            pass
+            logging.info(self.__repr__())
+
+        if self._control_unit.get_tick() >= limit:
+            logging.warning("Instruction limit exceeded!")
+        logging.info("Output_buffer:\n" + repr("".join(self._output_buffer)))
+        return ("".join(self._output_buffer),
+                self._control_unit._programm_counter_register,
+                self._control_unit.get_tick())
 
 
 def main(code: Code, input_file_name: str) -> None:
@@ -602,25 +706,54 @@ def main(code: Code, input_file_name: str) -> None:
     """
     machine: Machine
 
+    try:
+        code = read_code(code_file)
+    except ValueError:
+        # use logging.exception to see the stacktrace
+        logging.error("Binary instructions can not be loaded properly.")
+        return
 
-    code = read_code(code_file)
-    with open(input_file_name, encoding="utf-8") as file:
-        input_text: str = file.read()
-        input_schedule: list[tuple[int, str]] = Machine.parse_schedule(input_text)
+    [print(inst) for inst in code.contents]
 
-    machine = Machine(memory_size = code.contents[-1].index, limit = 1000)
+    try:
+        with open(input_file_name, encoding="utf-8") as file:
+            input_text: str = file.read()
+            input_schedule: list[tuple[int, str]] = Machine.parse_schedule(input_text)
+            logging.info("Schedule: {}".format(input_schedule))
+    except FileNotFoundError as e:
+        logging.error(e)
+        return
 
-    output, instr_counter, ticks = machine.simulation(
-        code = code,
-        input_schedule = input_schedule,
-    )
+    machine = Machine(memory_size = len(code.contents))
+
+    try:
+        output, instr_counter, ticks = machine.simulation(
+            code = code,
+            input_schedule = input_schedule,
+        )
+    except ValueError as e:
+        # use logging.exception to see the stacktrace
+        logging.error("Error: Instruction parameters are incorrect or instruction decoder doesn't know how to handle some instructions.")
+        logging.error("Watch latest instruction in logs.")
+        logging.error(e.args[0])
+        return
+    except TypeError as e:
+        # use logging.exception to see the stacktrace
+        logging.error("Internal error")
+        logging.exception(e.args[0])
+        return
+
     print("".join(output))
-    print("instr_counter: ", instr_counter, "ticks:", ticks)
+    logging.info("instr_counter: {} ticks: {}".format(machine._control_unit._programm_counter_register, machine._control_unit.get_tick()))
+
 
 if __name__ == "__main__":
     # logging.getLogger().setLevel(logging.INFO)
     logging.getLogger().addHandler(logging.FileHandler("logs/machine.log"))
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.getLogger().setLevel(logging.DEBUG)
     assert len(sys.argv) == 3, "Wrong arguments: machine.py <code_file> <input_file>"
     _, code_file, input_file = sys.argv
+    logging.info("====================\nExecution started...")
     main(code_file, input_file)
+    logging.info("Execution ended.")
