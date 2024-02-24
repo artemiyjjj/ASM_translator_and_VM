@@ -4,7 +4,7 @@ import logging
 import sys
 
 from devices import IODevice, SPIController
-from isa import Code, DataTerm, Mode, Opcode, StatementTerm, read_code
+from isa import Code, MachineWordData, MachineWordInstruction, Mode, Opcode, read_code
 
 # Начальное состояние регистра - счётчика команд
 MACHINE_START_ADDR: int = 10
@@ -47,13 +47,13 @@ class DataPath:
     # _device_interpution_table: list[tuple[int, int]]
 
     # Общая память, к которой DataPath обращается для чтения/записи данных
-    _memory: list[StatementTerm | DataTerm]
+    _memory: list[MachineWordInstruction | MachineWordData]
 
     # Арифметико - логическое устройство
     _alu: ALU
 
     def __init__(
-        self, common_memory: list[StatementTerm | DataTerm]
+        self, common_memory: list[MachineWordInstruction | MachineWordData]
     ) -> None:
         self._accumulator_register = 0
         self._address_register = 0
@@ -222,7 +222,7 @@ class ControlUnit:
     _programm_counter_register: int
     """ IP регистр - используется для доступа к памяти при передаче адреса, значение по которому необходимо "достать"."""
 
-    _instruction_register: StatementTerm | None
+    _instruction_register: MachineWordInstruction | None
     """ Регистр инструкций. Хранит в себе текущее выражение на исполенние (инструкцию с аргументом) после цикла выборки команд."""
 
     _interruption_enabled: bool
@@ -237,7 +237,7 @@ class ControlUnit:
     _instruction_decoder: InstructionDecoder
     """ Дешифратор инструкций."""
 
-    _memory: list[StatementTerm | DataTerm]
+    _memory: list[MachineWordInstruction | MachineWordData]
     """ Общая память, из которой модулем управления выбираются команды."""
 
     _spi_controller: SPIController
@@ -246,7 +246,11 @@ class ControlUnit:
     _data_path: DataPath
     """ Соединение с DataPath для управления манипулированием данными."""
 
-    def __init__(self, common_memory: list[StatementTerm | DataTerm], data_path: DataPath, spi_controller: SPIController) -> None:
+    def __init__(self,
+                common_memory: list[MachineWordInstruction | MachineWordData],
+                data_path: DataPath,
+                spi_controller: SPIController
+            ) -> None:
         self._tick = 0
         self._interruption_enabled = False
         self._interruption_request = False
@@ -708,7 +712,7 @@ class Machine:
     _memory_size: int
 
     # Память машины. Используется трактом данных и управляющим модулем.
-    _common_memory: list[StatementTerm | DataTerm]
+    _common_memory: list[MachineWordData | MachineWordInstruction]
 
     # Список "подключённых" устройств ввода/вывода
     _io_devices: dict[int, IODevice]
@@ -731,7 +735,14 @@ class Machine:
         assert memory_size > 0, "Memory size should not be zero."
         self._memory_size = memory_size
         # Возможность для использования стека, если не задавать размер памяти, равный количеству машинных выражений
-        self._common_memory = [DataTerm(index = index) for index in range(0, memory_size)]
+        self._common_memory = [
+            MachineWordData(
+                index = index,
+                label = index,
+                value = 0,
+                line = 0)
+            for index in range(0, memory_size)
+        ]
         self._io_devices = io_devices
         self._data_path = DataPath(self._common_memory)
         self._spi_controller = SPIController(slaves = self._io_devices)
