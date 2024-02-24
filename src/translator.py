@@ -1,12 +1,21 @@
 from __future__ import annotations
 
 import logging
-import os
 import re
 import sys
 
-from isa import Code, DataTerm, Mode, Opcode, SourceTerm, StatementTerm, write_code
-from machine import get_interruption_vector_length, get_machine_start_addr
+from isa import (
+    Code,
+    DataTerm,
+    MachineWordData,
+    MachineWordInstruction,
+    Mode,
+    Opcode,
+    SourceTerm,
+    StatementTerm,
+    write_code,
+)
+from machine import get_interruption_vector_length
 
 
 def avaliable_sections() -> dict[str, str]:
@@ -57,9 +66,9 @@ def map_instruction_to_opcode(instruction: str) -> Opcode | None:
     }.get(instruction)
 
 
-def try_convert_str_to_int(num: str) -> int | None:
+def try_convert_str_to_int(num_str: str) -> int | None:
     try:
-        return int(num)
+        return int(num_str)
     except ValueError:
         return None
 
@@ -258,38 +267,45 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
             raise AssertionError("Translation failed: too much deref symbols for 1 line, line: {}".format(statement.line))
     return mode
 
-def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str]) -> int | str:
-    """ Проверка аргументов инструкций с одним аргументом."""
-    arg_term: int | str | None = statement.arg
-    arg: int | str
+def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str], interruption_handler_labels: set[str]) -> int | str:
+    """ Проверка аргументов инструкций с одним аргументом.
+
+    Производится 
+    """
+    num_arg: int | None = try_convert_str_to_int(statement.arg)
+    str_arg: str | None = statement.arg if isinstance(statement.arg, str) else None
 
     is_control_flow_operation: bool = statement.opcode in Opcode.control_flow_operations()
     is_data_manipulation_operation: bool = statement.opcode in Opcode.data_manipulation_operations()
     assert is_control_flow_operation ^ is_data_manipulation_operation, "Translation bug: ISA represents opcode '{}' incorrectly, line: {}".format(statement.opcode, statement.line)
     if is_control_flow_operation:
-        assert arg_term in operation_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
-        arg = arg_term
-    elif is_data_manipulation_operation:
-        assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
-        # assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)
-        arg = try_convert_str_to_int(arg_term)
-        if arg is None:
-            assert arg_term in data_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
-            arg = arg_term
-    assert arg is not None
-    return arg
+        if num_arg is not None:
+            return num_arg
+        assert str_arg in operation_labels | interruption_handler_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
+        return str_arg
+    # elif is_data_manipulation_operation
+    # assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
+    # assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)
+    if num_arg is None:
+        assert str_arg in data_labels | interruption_handler_labels | operation_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
+        return str_arg
+    return num_arg
 
-def map_term_to_statement(statement: SourceTerm, instruction_counter: int, operation_labels: set[str], data_labels: set[str]) -> StatementTerm:
+def map_term_to_statement(statement: SourceTerm,
+                            operation_labels: set[str],
+                            data_labels: set[str],
+                            interruption_handler_labels: set[str]
+                        ) -> StatementTerm:
     """ Прербразование выражения текста исходной пргограммы в выражение машинного кода
 
     Преобразование проверяет соответствие аргумента типу операции и оставляет имена лейблов в аргументах.
 
-    Возвращает
-    - частичное выражение с лейблом, но без Opcode (когда в исходном коде лейбл отдельно от выражения)
-    - обычное выражение без лейбла
-    - обычное выражение с лейблом
+    Каждое возвращаемое значение не имеет index и:
+    - ЛИБО неполное выражение с лейблом, но без Opcode (когда в исходном коде лейбл отдельно от выражения)
+    - ЛИБО выражение без лейбла
+    - ЛИБО выражение с лейблом
     """
-    statement_term: StatementTerm = StatementTerm(index = instruction_counter, line = statement.line)
+    statement_term: StatementTerm = StatementTerm(line = statement.line)
     statement_term.label = match_label(statement)
     # Убираем имя лейбла из выражения при наличии
     if statement_term.label is not None:
@@ -316,37 +332,36 @@ def map_term_to_statement(statement: SourceTerm, instruction_counter: int, opera
         if is_unary_operation:
             statement_term.arg = statement.terms[1] if len(statement.terms) >= 2 else None
             assert statement_term.arg is not None, "Translation failed: invalid unary opration argument, line: {}".format(statement.line)
-            statement_term.arg = validate_unary_operation_argument(statement_term, operation_labels, data_labels)
+            statement_term.arg = validate_unary_operation_argument(statement_term, operation_labels, data_labels, interruption_handler_labels)
         elif is_noop_operation:
             assert is_noop_operation and len(statement.terms) == 1, "Translation failed: instruction {} works without arguments, line: {}".format(statement_term.opcode, statement.line)  # noqa: PT018
             statement_term.mode = None
     return statement_term
 
-def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: set[str]) -> tuple[list[StatementTerm], dict[str, int]]:
+def map_terms_to_statements(text_section_terms: list[SourceTerm],
+                            data_labels: set[str],
+                            interruption_handler_labels: set[str]
+                            ) -> tuple[list[StatementTerm], set[str]]:
     """ Трансляция тескта секции инструкций исходной программы в последовательность термов команд.
 
     Проверяется корректность аргументов, соответствие лейблов данных параметрам инструкций данных
     и уникальность и соответствие лейблов инструкций параметрам инструкций контроля выполнения.
 
     Возвращаемые значения:
-    - список термов выражений в программе
+    - Список термов выражений в программе
+    - Множество лейблов выражений программы
     """
-    instruction_counter: int = 0
     operation_labels: set[str] = set()
-    labels_addr: dict[str, int] = dict()
     terms: list[StatementTerm] = []
     # Находим все выражения с лейблами
-    for instruction_counter, statement in enumerate(text_section_terms):
+    for statement in text_section_terms:
         cur_label: str | None = match_label(statement)
         if cur_label is not None:
-            operation_labels.add(cur_label) if cur_label not in operation_labels else operation_labels
-            # Фиксируем адрес каждого выражения
-            labels_addr[cur_label] = instruction_counter
+            operation_labels.add(cur_label)
 
-    instruction_counter = 0
     prev_label: str | None = None
     for statement in text_section_terms:
-        statement_term: StatementTerm = map_term_to_statement(statement, instruction_counter, operation_labels, data_labels)
+        statement_term: StatementTerm = map_term_to_statement(statement, operation_labels, data_labels, interruption_handler_labels)
         if prev_label is not None:
             assert statement_term.label is None, "Translation failed: statement shouldn't have more than 1 label, line: {}".format(statement.line)
             statement_term.label = prev_label
@@ -355,40 +370,37 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm], data_labels: s
             prev_label = statement_term.label
             continue
         terms.append(statement_term)
-        instruction_counter += 1
     logging.debug
     logging.debug("==========================")
     logging.debug("Code terms:")
     [logging.debug(term) for term in terms]
     logging.debug("==========================")
-    logging.debug("Code labels indicies:")
-    logging.debug(labels_addr)
+    logging.debug("Code labels:")
+    logging.debug(operation_labels)
     logging.debug("==========================")
-    return (terms, labels_addr)
+    return (terms, operation_labels)
 
 def map_literal_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
     """ Трансляция терма данных, представляющего п-сторку, в последовательность термов данных - символов с размером строки."""
     terms: list[DataTerm] = []
     literal: str | list[int] = data_term.value if data_term.value is not None else [0] * data_term.size
 
+    # Терм данных с длиной всего литерала
     terms.append(DataTerm(
-        index = data_term.index,
-         label = data_term.label,
-         value = data_term.size,
-         size = None,
-         line = data_term.line))
-    print(data_term.value)
+        label = data_term.label,
+        value = data_term.size,
+        line = data_term.line)
+    )
+
     for index, elem in enumerate(literal, 1):
         terms.append(DataTerm(
-            index = data_term.index + index,
             label = "{}(+ {})".format(data_term.label, index),
             value = literal[index - 1],
-            size = None,
-            line = data_term.line))
-        index += 1
+            line = data_term.line)
+        )
     return terms
 
-def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], dict[str, int]]:
+def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTerm], set[str]]:
     """ Трансляция последовательности термов секции данных исходной программы в последовательность термов данных.
 
     Проверяются лейблы и корректность объявления данных.
@@ -399,8 +411,7 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
     """
     labels: set[str] = set()
     complete_data_terms: list[DataTerm] = []
-    labels_addr: dict[str, int] = dict()
-    data_index: int = 0
+
     for term in data_section_terms:
         cur_label: str | None = match_label(term)
         data_size: int | None = None
@@ -419,15 +430,15 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
 
         match len(term.terms):
             case 2: # Number declaration
-                data_terms.append(DataTerm(index = data_index, label = cur_label,  value = value, size = data_size, line = term.line))
+                data_terms.append(DataTerm(label = cur_label,  value = value, size = data_size, line = term.line))
             case 3: # Number defenition
                 value = try_convert_str_to_int(term.terms[2])
                 assert value is not None, "Translation failed: number defenition is not correct, line:{}".format(term.line)
                 assert value < 2**31 and value >= -2**32, "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)  # noqa: PT018
-                data_terms.append(DataTerm(index = data_index, label = cur_label,  value = value, size = data_size, line = term.line))
+                data_terms.append(DataTerm(label = cur_label,  value = value, size = data_size, line = term.line))
             case 4: # String data declaration
                 data_size = validate_string_size(term.terms[2])
-                str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
+                str_data_term = DataTerm(label = cur_label, value = value, size = data_size, line = term.line)
                 data_terms.extend(map_literal_to_data_terms(str_data_term))
             case 5: # String data defenition
                 data_size = validate_string_size(term.terms[2])
@@ -436,27 +447,34 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
                 value = term.terms[4][1:-1]
                 assert isinstance(value, str)
                 assert len(value) == data_size, "Translation failed: given data size doen't match given string."
-                str_data_term = DataTerm(index = data_index, label = cur_label, value = value, size = data_size, line = term.line)
+                str_data_term = DataTerm(label = cur_label, value = value, size = data_size, line = term.line)
                 data_terms.extend(map_literal_to_data_terms(str_data_term))
             case _:
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
         complete_data_terms.extend(data_terms)
-        labels_addr[cur_label] = data_index
-        data_index += 1
 
     logging.debug("Data terms :")
     [logging.debug(term) for term in complete_data_terms]
     logging.debug("==========================")
-    logging.debug("Data labels indicies:")
-    logging.debug(labels_addr)
+    logging.debug("Data labels:")
+    logging.debug(labels)
     logging.debug("==========================")
-    return (complete_data_terms, labels_addr)
+    return (complete_data_terms, labels)
 
-def map_sections(interruption_vector: list[StatementTerm | DataTerm], statement_terms: list[StatementTerm],
-                    statement_labels_addr: dict[str, int], data_terms: list[DataTerm], data_labels_addr: dict[str, int]
-                ) -> tuple[Code, dict[str, int], dict[str, int]]:
-    """ Отображение термов программы на память."""
-    code: Code = Code()
+def map_sections(interruption_vector: list[StatementTerm | DataTerm],
+                statement_terms: list[StatementTerm],
+                data_terms: list[DataTerm]
+                ) -> tuple[list[DataTerm | StatementTerm], dict[str, int], dict[str, int]]:
+    """ Отображение термов программы на память.
+
+    Возвращаемые значения:
+    - Код программы, представленный списком
+    - Словарь имён лейблов инструкций и соответствующих им индексов памяти
+    - Словарь имён леблов данных и соответствующих им индексов памяти
+    """
+    code_list: list[StatementTerm | DataTerm] = []
+    statement_labels_addr: dict[str, int] = dict()
+    data_labels_addr: dict[str, int] = dict()
     programm_start: int | None = None
     for statement_pos, statement in enumerate(statement_terms):
             if statement.label is not None and statement.label == "_start":
@@ -465,13 +483,13 @@ def map_sections(interruption_vector: list[StatementTerm | DataTerm], statement_
 
     assert programm_start is not None, "Translation failed: can not find programm start label."
 
-    code.contents.extend(interruption_vector)
-    code.contents.extend(statement_terms[programm_start:])
-    code.contents.extend(statement_terms[:programm_start])
-    code.contents.extend(data_terms)
+    code_list.extend(interruption_vector)
+    code_list.extend(statement_terms[programm_start:])
+    code_list.extend(statement_terms[:programm_start])
+    code_list.extend(data_terms)
 
     term_index: int = 0
-    for term in code.contents:
+    for term in code_list:
         term.index = term_index
         if isinstance(term, StatementTerm) and term.label is not None:
             statement_labels_addr[term.label] = term_index
@@ -480,27 +498,52 @@ def map_sections(interruption_vector: list[StatementTerm | DataTerm], statement_
         term_index += 1
 
     print("code maped")
-    [print(term) for term in code.contents]
+    [print(term) for term in code_list]
     print("========================")
-    return (code, statement_labels_addr, data_labels_addr)
+    return (code_list, statement_labels_addr, data_labels_addr)
 
-def link_sections(code: Code, statement_labels_addr: dict[str, int], data_labels_addr: dict[str, int]) -> Code:
+def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_addr: dict[str, int], data_labels_addr: dict[str, int]) -> Code:
     """ Линковка секций программы
 
     Подстановка адресов термов вместо лейблов в аргументах инструкций в соответствии с типом инструкции.
     """
-    for term in code.contents:
-        if isinstance(term, StatementTerm) and term.arg is not None and isinstance(term.arg, str):
+    code: Code = Code()
+
+    for term in code_list:
+        if isinstance(term, DataTerm):
+            data: MachineWordData = MachineWordData(
+                index = term.index,
+                label = term.label,
+                value = term.value,
+                line = term.line
+            )
+            code.contents.append(data)
+
+        elif isinstance(term, StatementTerm):
+            instruction: MachineWordInstruction
+            arg: int
             if term.opcode in Opcode.control_flow_operations():
-                term.arg = statement_labels_addr[term.arg]
-            elif term.opcode in Opcode.data_manipulation_operations():
-                term.arg = data_labels_addr[term.arg]
+                arg = statement_labels_addr[term.arg] if isinstance(term.arg, str) else term.arg
+            elif term.opcode in Opcode.data_manipulation_operations() | Opcode.no_operand_operations():
+                arg_data_label: int | None = data_labels_addr.get(term.arg)
+                arg_statement_label: int | None = statement_labels_addr.get(term.arg)
+                arg = arg_data_label if arg_data_label is not None else arg_statement_label if arg_statement_label is not None else term.arg
+
+            instruction = MachineWordInstruction(
+                index = term.index,
+                opcode = term.opcode,
+                line = term.line,
+                label = term.label,
+                arg = arg,
+                mode = term.mode
+            )
+            code.contents.append(instruction)
 
     print("code linked")
     [print(term) for term in code.contents]
     return code
 
-def create_interruption_vector() -> tuple(list[DataTerm], dict[str, int], dict[str, int]):
+def create_interruption_vector() -> tuple[list[DataTerm], set[str], set[str]]:
     """ Создание вектора прерываний и словаря лейблов и их индексов.
 
     Вектор прерываний состоит из адресов обработчиков прерываний и инструкция int относится к категории
@@ -508,23 +551,25 @@ def create_interruption_vector() -> tuple(list[DataTerm], dict[str, int], dict[s
     По умолчанию, вектор прерываний неинициализирован, поэтому разработчику необходимо инициализировать его вручную,
     сохраняя адреса лейблов в необходимые вектора прерываний при старте программы.
 
-    Возвращает список термов содержащих вектор прерывания и ячейки памяти для регистров, словарь лейблов вектора
-     прерываний и словарь лейблов ячеек памяти для регистров.
+    Возвращает
+    - Список термов содержащих вектор прерывания и ячейки памяти для сохранения значений регистров
+    - Множество лейблов вектора прерываний
+    - Множество лейблов ячеек памяти для регистров.
     """
-    interruption_vector: [list[DataTerm]] = []
-    interruption_vector_labels: dict[str, int] = dict()
-    interruption_register_labels: dict[str, int] = dict()
+    interruption_vector: list[DataTerm] = []
+    interruption_vector_labels: set[str] = set()
+    interruption_register_labels: set[str] = set()
 
     for index in range(0, get_interruption_vector_length() + 1):
         if index < get_interruption_vector_length():
             label: str = "int{}".format(index)
-            interruption_vector.append(DataTerm(index = index, label = label, value = 0))
-            interruption_vector_labels[label] = index
+            interruption_vector.append(DataTerm(label = label, value = 0))
+            interruption_vector_labels.add(label)
         else:
-            interruption_vector.append(DataTerm(index = index, label = "int_acc", value = 0))
-            interruption_vector.append(DataTerm(index = index + 1, label = "int_pc", value = 0))
-            interruption_register_labels["int_acc"] = index
-            interruption_register_labels["int_pc"] = index + 1
+            interruption_vector.append(DataTerm(label = "int_acc", value = 0))
+            interruption_vector.append(DataTerm(label = "int_pc", value = 0))
+            interruption_register_labels.add("int_acc")
+            interruption_register_labels.add("int_pc")
     return (interruption_vector, interruption_vector_labels, interruption_register_labels)
 
 def translate(code_text: str) -> Code:
@@ -532,17 +577,21 @@ def translate(code_text: str) -> Code:
 
     В процессе трансляции сохраняются адреса лейблов данных и кода для подстановки адресов.
     """
-    code: Code | None = None
     section_data: list[SourceTerm] | None = None
     section_text: list[SourceTerm] | None = None
-    code_labels: dict[str, int] = dict()
-    tmp_code_labels: dict[str, int] = dict()
-    data_labels: dict[str, int] = dict()
-    interruption_vector: list[StatementTerm | DataTerm] = []
-    interruption_vector_labels: dict[str, int] = dict()
-    interruption_registers_labels: dict[str, int] = dict()
+
+    code_labels: set[str] = set()
+    tmp_code_labels: set[str] = set()
+    data_labels: set[str] = set()
+
+    interruption_vector_labels: set[str] = set()
+    interruption_registers_labels: set[str] = set()
+
+    interruption_vector: list[DataTerm] = []
     statement_terms: list[StatementTerm] = []
     data_terms: list[DataTerm] = []
+
+    code: Code | None = None
 
     source_terms: list[SourceTerm] = split_text_to_source_terms(code_text)
     sections: dict[str, list[SourceTerm]] = split_source_terms_to_sections(source_terms)
@@ -556,13 +605,20 @@ def translate(code_text: str) -> Code:
 
     section_text = sections.get(".text")
     assert section_text is not None, "Translation failed: Section .text is not present in program"
-    statement_terms, tmp_code_labels = map_terms_to_statements(section_text, {key for key in data_labels.keys()})
+    statement_terms, tmp_code_labels = map_terms_to_statements(
+                                        text_section_terms = section_text,
+                                        data_labels = data_labels,
+                                        interruption_handler_labels = interruption_vector_labels)
+
     code_labels.update(interruption_vector_labels)
     code_labels.update(tmp_code_labels)
-    print(code_labels)
+    print("code labels", code_labels) # delete
 
-    code, code_labels, data_labels = map_sections(interruption_vector, statement_terms, code_labels, data_terms, data_labels)
-    return link_sections(code, code_labels, data_labels)
+    code_labels_addr: dict[str, int] = dict()
+    data_labels_addr: dict[str, int] = dict()
+
+    code, code_labels_addr, data_labels_addr = map_sections(interruption_vector, statement_terms, data_terms)
+    return link_sections(code, code_labels_addr, data_labels_addr)
 
 def main(source_code_file_name: str, target_file_name: str) -> None:
     """ Функция запуска транслятора.
@@ -571,13 +627,22 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     - Файл с исходным кодом программы.
     - Файл, в который в случае успеха трансляции будет записан машинный код.
     """
+    code: Code
+
     with open(source_code_file_name, encoding="utf-8") as f:
         source = f.read()
 
-    code = translate(source)
+    try:
+        code = translate(source)
+    except AssertionError as e:
+        logging.exception(e.args[0])
+        return
 
     write_code(target_file_name, code)
-    logging.info("source LoC: {} code instr: {}".format(len(source.split("\n")), len(code.contents)))
+    logging.info("source LoC: {} code instr: {}".format(
+        len(source.split("\n")),
+        len(code.contents))
+    )
 
 if __name__ == "__main__":
     # logging.basicConfig(
@@ -591,11 +656,6 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.getLogger().setLevel(logging.INFO)
-
-    def excepthook(*args: Any) -> None:
-        """ Логирование всех необрабатываемых исключений"""
-        logging.getLogger().error("Uncaught exception:", exc_info=args)
-    sys.excepthook = excepthook
 
     logging.info("Translation started...")
     assert len(sys.argv) == 3, "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
