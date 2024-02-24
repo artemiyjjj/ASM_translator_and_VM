@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from enum import Enum
 from json import JSONEncoder
 from typing import Any
@@ -10,21 +9,22 @@ from typing import Any
 class Code:
     """ Представление структуры для хранения машинного кода"""
 
-    contents: list[StatementTerm | DataTerm]
+    contents: list[MachineWordInstruction | MachineWordData]
     """Список инструкций машинного кода."""
 
-    def __init__(self, contents: list[StatementTerm | DataTerm] = []) -> None:
-        self.contents = []
+    def __init__(self, contents: list[MachineWordInstruction | MachineWordData] = []) -> None:
+        self.contents = contents
 
     def __str__(self) -> str:
         return self.contents.__str__()
 
-    def append(self, elem: StatementTerm | DataTerm) -> None:
+    def append(self, elem: MachineWordData | MachineWordInstruction) -> None:
         self.contents.append(elem)
 
     @staticmethod
     def to_json(code: Code) -> str:
-        return CodeEncoder().encode(code.contents)
+        # "".join([json.dumps(machine_word) for machine_word in code.contents])
+        return CodeEncoder(indent = 4).encode(code.contents)
 
 class CodeEncoder(JSONEncoder):
     """ Вспомогательный класс для получения строкового представления машинного кода. """
@@ -117,89 +117,9 @@ class Opcode(str, Enum):
     def __repr__(self) -> str:
         return self.__str__()
 
-class Mode(str, Enum):
-    """ Указание режима интерпретации аргумента. """
-    DIRECT = "direct"
-    """ Аргумент - адрес, по которому находится необходимое значение """
-    VALUE = "value"
-    """ Аргумет - непосредственно значение """
-    INDIRECT = "indirect"
-    """ Аргумент - адрес, по которому находится адрес искомого значения """
-
-    def __str__(self) -> str:
-        return str(self.value)
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-class StatementTerm:
-    """ Структура для описания команды с аргументом из кода программы."""
-    index: int
-    label: str | None
-    opcode: Opcode | None
-    arg: int | None | str
-    mode: Mode | None
-    # Source code reference
-    line: int | None
-
-    def __init__(self, index: int, label: str | None = None, opcode: Opcode | None = None,
-                 arg: int | None = None, mode: Mode | None = None, line: int | None = None) -> None:
-        self.index = index
-        self.label = label
-        self.opcode = opcode
-        self.arg = arg
-        self.mode = mode
-        self.line = line
-
-    @staticmethod
-    def from_json(json_obj: Any) -> StatementTerm | None:
-        try:
-            json_obj["opcode"] = Opcode(json_obj["opcode"])
-            json_obj["mode"] = Mode(json_obj["mode"]) if json_obj["mode"] is not None else None
-            instance: StatementTerm = StatementTerm(**json_obj)
-        except (TypeError, KeyError):
-            return None
-        return instance
-
-    def __str__(self) -> str:
-        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-
-class DataTerm:
-    """ Структура для представления данных в памяти. """
-    index: int
-    label: str | None
-    value: int | str | None
-    size: int | None
-    line: int | None
-
-    def __init__(self, index: int, label: str | None = None, size: int | None = None,
-                value: int | str | None = None, line: int | None = None) -> None:
-        self.index = index
-        self.label = label
-        self.value = value
-        self.size = size
-        self.line = line
-
-    @staticmethod
-    def from_json(json_obj: Any) -> DataTerm | None:
-        try:
-            instance: DataTerm = DataTerm(**json_obj)
-        except (TypeError, KeyError):
-            return None
-        return instance
-
-    def __str__(self) -> str:
-        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
 class SourceTerm:
     """ Структура для представления строки исходного кода. """
+
     line: int
     terms: list[str]
 
@@ -218,6 +138,127 @@ class SourceTerm:
             return self.line == other.line and self.terms == other.terms
         return False
 
+class Mode(str, Enum):
+    """ Указание режима интерпретации аргумента. """
+    DIRECT = "direct"
+    """ Аргумент - адрес, по которому находится необходимое значение """
+    VALUE = "value"
+    """ Аргумет - непосредственно значение """
+    INDIRECT = "indirect"
+    """ Аргумент - адрес, по которому находится адрес искомого значения """
+
+    def __str__(self) -> str:
+        return str(self.value)
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+class StatementTerm:
+    """ Структура для описания команды с аргументом из кода программы."""
+    label: str | None
+    opcode: Opcode | None
+    arg: int | None | str
+    mode: Mode | None
+    # Source code reference
+    line: int | None
+
+    def __init__(self, index: int | None = None, opcode: Opcode | None = None, label: str | None = None,
+                 arg: int | None = None, mode: Mode | None = None, line: int | None = None) -> None:
+        self.index = index
+        self.label = label
+        self.opcode = opcode
+        self.arg = arg
+        self.mode = mode
+        self.line = line
+
+    def __str__(self) -> str:
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+
+class MachineWordInstruction:
+    index: int
+    label: str | None
+    opcode: Opcode
+    arg: int | None
+    mode: Mode | None
+    line: int
+
+    def __init__(self, index: int, opcode: Opcode, line: int, label: str | None = None,
+                 arg: int | None = None, mode: Mode | None = None) -> None:
+        self.index = index
+        self.label = label
+        self.opcode = opcode
+        self.arg = arg
+        self.mode = mode
+        self.line = line
+
+    @staticmethod
+    def from_json(json_obj: Any) -> MachineWordInstruction | None:
+        try:
+            json_obj["opcode"] = Opcode(json_obj["opcode"])
+            json_obj["mode"] = Mode(json_obj["mode"]) if json_obj["mode"] is not None else None
+            instance: MachineWordInstruction = MachineWordInstruction(**json_obj)
+        except (TypeError, KeyError):
+            return None
+        return instance
+
+    def __str__(self) -> str:
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+class DataTerm:
+    """ Структура для представления данных в памяти. """
+    index: int | None
+    label: str | None
+    value: int | str | None
+    size: int | None
+    line: int | None
+
+    def __init__(self, index: int | None = None, label: str | None = None, size: int | None = None,
+                value: int | str | None = None, line: int | None = None) -> None:
+        self.index = index
+        self.label = label
+        self.value = value
+        self.size = size
+        self.line = line
+
+    def __str__(self) -> str:
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+class MachineWordData:
+    index: int
+    label: str
+    value: int
+    line: int
+
+    def __init__(self, index: int, label: str, value: int, line: int) -> None:
+        self.index = index
+        self.label = label
+        self.value = value
+        self.line = line
+
+    @staticmethod
+    def from_json(json_obj: Any) -> MachineWordData | None:
+        try:
+            instance: MachineWordData = MachineWordData(**json_obj)
+        except (TypeError, KeyError):
+            return None
+        return instance
+
+    def __str__(self) -> str:
+        return {key: value for key, value in self.__dict__.items() if value is not None}.__str__()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
 def read_code(filename: str) -> Code:
     """ Чтение машинного кода из файла. """
 
@@ -226,11 +267,12 @@ def read_code(filename: str) -> Code:
         code: Code = Code()
 
     for instr in code_text:
-        # Конвертация json объекта в экземпляр StatementTerm
-        term: StatementTerm | DataTerm | None = StatementTerm.from_json(instr)
+        # Конвертация json объекта в экземпляр MachineWordInstruction
+        term: MachineWordInstruction | MachineWordData | None = MachineWordInstruction.from_json(instr)
         if term is None:
-            # В случае неудачи, конвертация в экземпляр DataTerm
-            term = DataTerm.from_json(instr)
+            # В случае неудачи, конвертация в экземпляр MachineWordData
+            term = MachineWordData.from_json(instr)
+        assert term is not None
         code.append(term)
 
     return code
