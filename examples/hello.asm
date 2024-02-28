@@ -1,36 +1,50 @@
 section .data:
     msg:  12, "Hello world!";
-    msg2: 1, "S" 
-    some: 5, 
-    counter:          ; fix bss comment parsing
+    counter:          0
     cur_symbol_addr:        688
+    cur_symb:   
+    spi_counter: 
 
-;section     text
-
-;section A:sdsd;wrong section def
-; :; bad label try
 section .text:
-int1: 
-    in 4
-    out 2
 
 _start:
-    ld    msg;load the msg pointer
-    st    **counter
-bebe:
-    ld    *msg ;load the msg value
-    st    cur_symbol_addr
+    ld  print_out
+    st  int4; init int vector
 
-    ;add counter
-    ;add *counter
-    ;sub 2
-    ;sub *2
-    
-loop: ld    cur_symbol_addr
+    ld    msg ;load the msg value
     inc
-    out 0
+    st    cur_symbol_addr
+     
+loop: int   4
+    ld      cur_symbol_addr
+    inc
+    st      cur_symbol_addr
     ld    counter
-    dec
+    inc
     st    counter
     jnz loop
 hlt
+
+print_out: 
+    ld      0
+    st      spi_counter
+    out     0
+
+    ld      **cur_symbol_addr
+    st      cur_symb
+out_loop:
+    ld      *cur_symb
+    out     1
+    lsl
+    st      cur_symb
+    ld      0
+    out     7
+    ld      *spi_counter
+    inc
+    out     0
+    st      spi_counter
+    cmp     8
+    jz      out_end
+    jmp     out_loop
+out_end:
+    fi

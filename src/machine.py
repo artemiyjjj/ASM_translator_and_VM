@@ -184,9 +184,9 @@ class DataPath:
                 case 6:
                     self._output_buffer_register = self._left_register | self._right_register
                 case 7:
-                    self._output_buffer_register = self._left_register << self._right_register
+                    self._output_buffer_register = self._right_register << 1
                 case 8:
-                    self._output_buffer_register = self._left_register >> self._right_register
+                    self._output_buffer_register = self._right_register >> 1
                 case _:
                     raise_error("Incorrect data_path/alu/operation mode")
             self._res_neg = self._output_buffer_register < 0
@@ -198,7 +198,8 @@ class DataPath:
 
     def _read_memory(self) -> int:
         """Чтение из памяти по адресу из адресного регистра значения в аккумулятор."""
-        assert isinstance(self._memory[self._address_register].value, int)
+        assert len(self._memory) >= self._address_register, "Access memory out of limited bounds."
+        assert isinstance(self._memory[self._address_register].value, int), "Mem bounds or get value from MemWordInstr"
         return self._memory[self._address_register].value
 
     def _write_memory(self) -> None:
@@ -262,6 +263,24 @@ class ControlUnit:
         self._data_path = data_path
         self._spi_controller = spi_controller
 
+    def __repr__(self) -> str:
+        """Вернуть строковое представление состояния процессора."""
+        assert self._instruction_register is not None
+        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {:^10} BR: {:3} AR: {:3} MEM_AR: {} N: {}, Z: {}".format(
+            self.get_tick(),
+            self._programm_counter_register,
+            self._instruction_register.opcode,
+            bool2int(self._interruption_request),
+            bool2int(self._interruption_enabled),
+            bool2int(self._interruption_state),
+            self._data_path._accumulator_register,
+            self._data_path._buffer_register,
+            self._data_path._address_register,
+            self._data_path._read_memory(),
+            bool2int(self._data_path.negative()),
+            bool2int(self._data_path.zero())
+        )
+
     class InstructionDecoder:
         _step_counter: int
 
@@ -283,6 +302,7 @@ class ControlUnit:
     def perform_tick(self) -> None:
         """Увеличение счётчика процессорных тактов."""
         self._tick += 1
+        # logging.debug(self.__repr__())
 
     def get_tick(self) -> int:
         return self._tick
@@ -347,7 +367,7 @@ class ControlUnit:
             case 2:
                 pass
             case 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10:
-                self._spi_controller.signal_cs(chip_select = select, signal = signal)
+                self._spi_controller.signal_cs(chip_index = select, signal = signal)
             case 11:
                 self._spi_controller._interruption_request = signal
             case _:
@@ -752,7 +772,7 @@ class Machine:
     def __repr__(self) -> str:
         """Вернуть строковое представление состояния процессора."""
         assert self._control_unit._instruction_register is not None
-        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {:^10} AR: {:3} BR: {:3} N: {}, Z: {}".format(
+        return "TICK: {:3} PC: {:3} IR: '{:^11}' IRQ: {} IE: {} IS: {} AC: {:^10} BR: {:3} AR: {:3} MEM_AR: {} N: {}, Z: {}".format(
             self._control_unit.get_tick(),
             self._control_unit._programm_counter_register,
             self._control_unit._instruction_register.opcode,
@@ -760,8 +780,9 @@ class Machine:
             bool2int(self._control_unit._interruption_enabled),
             bool2int(self._control_unit._interruption_state),
             self._control_unit._data_path._accumulator_register,
-            self._control_unit._data_path._address_register,
             self._control_unit._data_path._buffer_register,
+            self._control_unit._data_path._address_register,
+            self._control_unit._data_path._read_memory(),
             bool2int(self._control_unit._data_path.negative()),
             bool2int(self._control_unit._data_path.zero())
         )
@@ -783,6 +804,7 @@ class Machine:
         """
         assert limit > 0, "Simulation failed: Limit can not be negative or zero."
         self._common_memory[:len(code.contents)] = code.contents
+        print("loaded", self._common_memory)
         cur_schedule: int | None = 0 if len(input_schedule) > 0 else None
         try:
             while self._control_unit.get_tick() < limit:
@@ -821,8 +843,6 @@ def main(code: Code, input_file_name: str) -> None:
         logging.error("Binary instructions can not be loaded properly.")
         return
 
-    [print(inst) for inst in code.contents]
-
     try:
         with open(input_file_name, encoding="utf-8") as file:
             input_text: str = file.read()
@@ -835,12 +855,13 @@ def main(code: Code, input_file_name: str) -> None:
     machine = Machine(
         memory_size = len(code.contents),
         io_devices = {index: IODevice() for index in [0, 1, 2, 3, 4, 5, 6]}
-        )
+    )
 
     try:
         output, instr_counter, ticks = machine.simulation(
             code = code,
             input_schedule = input_schedule,
+            limit = 1500
         )
     except ValueError as e:
         # use logging.exception to see the stacktrace
