@@ -63,8 +63,8 @@ class Opcode(str, Enum):
     MOD = "mod"
     OR = "or"
     AND = "and"
-    LSL = "shift ←"
-    ASR = "shift →"
+    LSL = "shift left"
+    ASR = "shift right"
     JMP = "jump"
     JZ = "jump zero"
     JNZ = "jump not zero"
@@ -239,7 +239,7 @@ class MachineWordData:
     value: int
     line: int
 
-    def __init__(self, index: int, label: str, value: int, line: int) -> None:
+    def __init__(self, index: int, label: str, line: int, value: int = 0) -> None:
         self.index = index
         self.label = label
         self.value = value

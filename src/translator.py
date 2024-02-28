@@ -430,12 +430,12 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
 
         match len(term.terms):
             case 2: # Number declaration
-                data_terms.append(DataTerm(label = cur_label,  value = value, size = data_size, line = term.line))
+                data_terms.append(DataTerm(label = cur_label, value = value, size = data_size, line = term.line))
             case 3: # Number defenition
                 value = try_convert_str_to_int(term.terms[2])
                 assert value is not None, "Translation failed: number defenition is not correct, line:{}".format(term.line)
                 assert value < 2**31 and value >= -2**32, "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)  # noqa: PT018
-                data_terms.append(DataTerm(label = cur_label,  value = value, size = data_size, line = term.line))
+                data_terms.append(DataTerm(label = cur_label, value = value, size = data_size, line = term.line))
             case 4: # String data declaration
                 data_size = validate_string_size(term.terms[2])
                 str_data_term = DataTerm(label = cur_label, value = value, size = data_size, line = term.line)
@@ -511,10 +511,12 @@ def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_ad
 
     for term in code_list:
         if isinstance(term, DataTerm):
+            print("Term",term)
+            value: int = 0 if term.value is None else ord(term.value) if isinstance(term.value, str) else term.value
             data: MachineWordData = MachineWordData(
                 index = term.index,
                 label = term.label,
-                value = term.value,
+                value = value,
                 line = term.line
             )
             code.contents.append(data)
