@@ -1,5 +1,5 @@
 section .data:
-    msg:  12, "Hello world!";
+    msg:  3, "Hi!";
     counter:          0
     cur_symbol_addr:        688
     cur_symb:   
