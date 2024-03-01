@@ -23,7 +23,6 @@ class Code:
 
     @staticmethod
     def to_json(code: Code) -> str:
-        # "".join([json.dumps(machine_word) for machine_word in code.contents])
         return CodeEncoder(indent = 4).encode(code.contents)
 
 class CodeEncoder(JSONEncoder):
