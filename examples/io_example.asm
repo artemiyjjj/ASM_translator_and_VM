@@ -10,6 +10,7 @@ section .data:
     ; 2 - MISO
     ; 3 - CS - in dev
     ; 4 - CS - out dev
+    ; ...
 section .text:
     _start:
         ld input
