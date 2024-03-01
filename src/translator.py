@@ -98,7 +98,6 @@ def count_inverted_commas(term: str) -> int:
 
 def join_string_literals(terms: list[str]) -> list[str]:
     """ Joins string literal parts, separated by space"""
-    print("term+lit", terms)
     quotes_count: int = 0
     tmp: list[str] = []
     common: list[str] = []
@@ -123,9 +122,7 @@ def join_string_literals(terms: list[str]) -> list[str]:
             if elem != '"' and elem_num != len(tmp) - 2:
                 tmp[elem_num] = elem + " "
         literal: str = "".join(tmp)
-        print("literal ", literal)
         common.append(literal)
-        print(common)
     return common
 
 
@@ -282,7 +279,7 @@ def select_remove_statement_mode(statement: SourceTerm) -> Mode:
 def validate_unary_operation_argument(statement: StatementTerm, operation_labels: set[str], data_labels: set[str], interruption_handler_labels: set[str]) -> int | str:
     """ Проверка аргументов инструкций с одним аргументом.
 
-    Производится 
+    Производится проверка аргумента-лейбла на принадлежность тем или иным группам лейблов.
     """
     num_arg: int | None = try_convert_str_to_int(statement.arg)
     str_arg: str | None = statement.arg if isinstance(statement.arg, str) else None
@@ -296,8 +293,6 @@ def validate_unary_operation_argument(statement: StatementTerm, operation_labels
         assert str_arg in operation_labels | interruption_handler_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
         return str_arg
     # elif is_data_manipulation_operation
-    # assert arg_term not in operation_labels, "Translation failed: statement label provided to data manipulation instruction, line: {}".format(statement.line)
-    # assert statement.opcode != Opcode.ST or statement.mode == Mode.VALUE, "Translation failed: store instruction argument should be address, line: {}".format(statement.line)
     if num_arg is None:
         assert str_arg in data_labels | interruption_handler_labels | operation_labels, "Translation failed: data label in argument is not defined, line: {}".format(statement.line)
         return str_arg
@@ -382,14 +377,6 @@ def map_terms_to_statements(text_section_terms: list[SourceTerm],
             prev_label = statement_term.label
             continue
         terms.append(statement_term)
-    logging.debug
-    logging.debug("==========================")
-    logging.debug("Code terms:")
-    [logging.debug(term) for term in terms]
-    logging.debug("==========================")
-    logging.debug("Code labels:")
-    logging.debug(operation_labels)
-    logging.debug("==========================")
     return (terms, operation_labels)
 
 def map_literal_to_data_terms(data_term: DataTerm) -> list[DataTerm]:
@@ -462,16 +449,8 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
                 str_data_term = DataTerm(label = cur_label, value = value, size = data_size, line = term.line)
                 data_terms.extend(map_literal_to_data_terms(str_data_term))
             case _:
-                print(term)
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
         complete_data_terms.extend(data_terms)
-
-    logging.debug("Data terms :")
-    [logging.debug(term) for term in complete_data_terms]
-    logging.debug("==========================")
-    logging.debug("Data labels:")
-    logging.debug(labels)
-    logging.debug("==========================")
     return (complete_data_terms, labels)
 
 def map_sections(interruption_vector: list[StatementTerm | DataTerm],
@@ -509,10 +488,6 @@ def map_sections(interruption_vector: list[StatementTerm | DataTerm],
         elif isinstance(term, DataTerm) and term.label is not None:
             data_labels_addr[term.label] = term_index
         term_index += 1
-
-    print("code maped")
-    [print(term) for term in code_list]
-    print("========================")
     return (code_list, statement_labels_addr, data_labels_addr)
 
 def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_addr: dict[str, int], data_labels_addr: dict[str, int]) -> Code:
@@ -524,7 +499,6 @@ def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_ad
 
     for term in code_list:
         if isinstance(term, DataTerm):
-            print("Term",term)
             value: int = 0 if term.value is None else ord(term.value) if isinstance(term.value, str) else term.value
             data: MachineWordData = MachineWordData(
                 index = term.index,
@@ -554,8 +528,9 @@ def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_ad
             )
             code.contents.append(instruction)
 
-    print("code linked")
-    [print(term) for term in code.contents]
+    logging.debug("Linked code:\n===========")
+    for term in code.contents:
+        logging.debug(term)
     return code
 
 def create_interruption_vector() -> tuple[list[DataTerm], set[str], set[str]]:
@@ -628,7 +603,6 @@ def translate(code_text: str) -> Code:
 
     code_labels.update(interruption_vector_labels)
     code_labels.update(tmp_code_labels)
-    print("code labels", code_labels) # delete
 
     code_labels_addr: dict[str, int] = dict()
     data_labels_addr: dict[str, int] = dict()
@@ -661,17 +635,9 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     )
 
 if __name__ == "__main__":
-    # logging.basicConfig(
-    #     level = logging.DEBUG,
-    #     # filemode="w+",
-    #     # format="%(asctime)s [%(levelname)s] %(message)s",
-    #     handlers=[
-    #         logging.FileHandler("logs/translator.log"),
-    #         logging.StreamHandler(sys.stdout)
-    #     ])
     logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
-    logging.getLogger().setLevel(logging.INFO)
+    logging.getLogger().setLevel(logging.DEBUG)
 
     logging.info("Translation started...")
     assert len(sys.argv) == 3, "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
