@@ -73,7 +73,7 @@ def try_convert_str_to_int(num_str: str) -> int | None:
         return None
 
 def split_by_spec_symbols(elem: str) -> list[str]:
-        tmp: list[str] = re.split(r"(\:|\;|\,|\*)", elem)
+        tmp: list[str] = re.split(r"(\:|\;|\,|\*|\")", elem)
         while "" in tmp:
             tmp.remove("")
         return tmp
@@ -97,24 +97,35 @@ def count_inverted_commas(term: str) -> int:
     return ic_amount
 
 def join_string_literals(terms: list[str]) -> list[str]:
-    stack_quotes: list[str] = []
+    """ Joins string literal parts, separated by space"""
+    print("term+lit", terms)
+    quotes_count: int = 0
     tmp: list[str] = []
     common: list[str] = []
     indices: list[int] = []
-    for term_num, term in enumerate(terms):
-        if '"' in term: # упрощенная обработка разных кавычек
-            stack_quotes.append("'")
-            if count_inverted_commas(term):
-                stack_quotes.append("'")
-            tmp.append(term)
+    append_literal: bool = False
+    for term_num, part in enumerate(terms):
+        assert "'" not in part, "Translation failed: incorrect quotes in string literal"
+        cur_quotes_count: int = count_inverted_commas(part)
+        if cur_quotes_count > 0:
+            quotes_count += cur_quotes_count
+            tmp.append(part)
             indices.append(term_num)
+            append_literal = True if cur_quotes_count % 2 == 1 else False
+        elif append_literal:
+            tmp.append(part)
         else:
-            common.append(term)
-    if len(stack_quotes) > 0:
-        assert len(stack_quotes) % 2 == 0, "Translation failed: String literals are incomplete."
-        assert stack_quotes.pop() == stack_quotes.pop(), "Translation failed: Quotes at some string literal are different." # упрощенная валидация
-        literal: str = " ".join(tmp)
-        common.insert(indices[0], literal)
+            common.append(part)
+    if quotes_count > 0:
+        assert quotes_count % 2 == 0, "Translation failed: String literals are incomplete."
+        # add spaces
+        for elem_num, elem in enumerate(tmp[1:-1], 1):
+            if elem != '"' and elem_num != len(tmp) - 2:
+                tmp[elem_num] = elem + " "
+        literal: str = "".join(tmp)
+        print("literal ", literal)
+        common.append(literal)
+        print(common)
     return common
 
 
@@ -127,7 +138,7 @@ def split_programm_line_to_terms(line: str) -> list[str]:
     for term in terms:
         tmp = split_by_spec_symbols(term)
         complete_terms.extend(tmp)
-    return join_string_literals(complete_terms)
+    return complete_terms
 
 
 def split_text_to_source_terms(programm_text: str) -> list[SourceTerm]:
@@ -137,6 +148,7 @@ def split_text_to_source_terms(programm_text: str) -> list[SourceTerm]:
     for line_num, line in enumerate(programm_text.split("\n"), 1):
         term_line = split_programm_line_to_terms(line)
         term_line = filter_comments_on_line(term_line)
+        term_line = join_string_literals(term_line)
         if len(term_line) == 0:
             continue
         source_terms.append(SourceTerm(line_num, term_line))
@@ -450,6 +462,7 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
                 str_data_term = DataTerm(label = cur_label, value = value, size = data_size, line = term.line)
                 data_terms.extend(map_literal_to_data_terms(str_data_term))
             case _:
+                print(term)
                 raise AssertionError("Translation failed: data term doen't fit declaration or definition rules, line: {}".format(term.line))
         complete_data_terms.extend(data_terms)
 
@@ -562,16 +575,17 @@ def create_interruption_vector() -> tuple[list[DataTerm], set[str], set[str]]:
     interruption_vector_labels: set[str] = set()
     interruption_register_labels: set[str] = set()
 
-    for index in range(0, get_interruption_vector_length() + 1):
+    for index in range(0, get_interruption_vector_length()):
         if index < get_interruption_vector_length():
             label: str = "int{}".format(index)
-            interruption_vector.append(DataTerm(label = label, value = 0))
+            interruption_vector.append(DataTerm(label = label, value = 10))
             interruption_vector_labels.add(label)
-        else:
-            interruption_vector.append(DataTerm(label = "int_acc", value = 0))
-            interruption_vector.append(DataTerm(label = "int_pc", value = 0))
-            interruption_register_labels.add("int_acc")
-            interruption_register_labels.add("int_pc")
+    interruption_vector.append(DataTerm(label = "int_acc", value = 0))
+    interruption_vector.append(DataTerm(label = "int_pc", value = 0))
+    interruption_vector.append(StatementTerm(opcode = Opcode.FI, line = 0))
+    interruption_register_labels.add("int_acc")
+    interruption_register_labels.add("int_pc")
+    interruption_register_labels.add("int_default")
     return (interruption_vector, interruption_vector_labels, interruption_register_labels)
 
 def translate(code_text: str) -> Code:
