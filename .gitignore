@@ -4,6 +4,7 @@
 
 *.log
 log
+*.bin
 tmp/
 .DS_Store
 
