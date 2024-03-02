@@ -12,6 +12,7 @@ section .data:
     return_address: 0
 section .text:
 _start:
+    ld  *return_address; check
     ld  question
     st  output_position
     st  printing_literal_len
@@ -29,8 +30,9 @@ print_literal:
     ld  *output_counter
     inc
     st  output_counter
-    cmp *printing_literal_len
-    jnz print_literal
+    cmp **printing_literal_len
+    jnz  print_literal
+    jmp  *return_address
     ; finish printing
 prepare_read_input:
     ld  0
