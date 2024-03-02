@@ -36,8 +36,6 @@ check_untyped_defs = true
 show_error_context = true
 ignore_missing_imports = true
 
-exclude = ["test"]
-
 [tool.ruff]
 line-length = 120
 select = [

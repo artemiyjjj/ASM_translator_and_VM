@@ -1,0 +1,1492 @@
+in_programm: |-
+  section .data:
+      message: 12, "Hello World!"
+      output_counter: 0
+      output_position: 0
+  section .text:
+  _start:
+    ld  message
+    st  output_position
+    loop:
+    ld *output_position
+    inc
+    st  output_position
+    ld  **output_position
+    out 3
+    ld  *output_counter
+    inc
+    st  output_counter
+    cmp *message
+    jnz loop
+    hlt
+out_code: |-
+  {'index': 0, 'label': 'int0', 'value': 10}
+  {'index': 1, 'label': 'int1', 'value': 10}
+  {'index': 2, 'label': 'int2', 'value': 10}
+  {'index': 3, 'label': 'int3', 'value': 10}
+  {'index': 4, 'label': 'int4', 'value': 10}
+  {'index': 5, 'label': 'int5', 'value': 10}
+  {'index': 6, 'label': 'int6', 'value': 10}
+  {'index': 7, 'label': 'int7', 'value': 10}
+  {'index': 8, 'label': 'int_acc', 'value': 0}
+  {'index': 9, 'label': 'int_pc', 'value': 0}
+  {'index': 10, 'opcode': finish int, 'line': 0}
+  {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}
+  {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}
+  {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}
+  {'index': 14, 'opcode': inc, 'line': 11}
+  {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}
+  {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}
+  {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}
+  {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}
+  {'index': 19, 'opcode': inc, 'line': 16}
+  {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}
+  {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}
+  {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}
+  {'index': 23, 'opcode': halt, 'line': 20}
+  {'index': 24, 'label': 'message', 'value': 12, 'line': 2}
+  {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}
+  {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}
+  {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}
+  {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}
+  {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}
+  {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}
+  {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}
+  {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}
+  {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}
+  {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}
+  {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}
+  {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}
+  {'index': 37, 'label': 'output_counter', 'value': 0, 'line': 3}
+  {'index': 38, 'label': 'output_position', 'value': 0, 'line': 4}
+out_log: |-
+  ====================
+  Execution started...
+  Schedule: []
+  select arg cycle
+  TICK:   1 | PC:  11 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  TICK:   2 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  decode cycle
+  TICK:   3 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  select arg cycle
+  TICK:   4 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:  24 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  exec cycle
+  TICK:   5 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:   6 | PC:  12 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK:   7 | PC:  13 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  decode cycle
+  TICK:   8 | PC:  13 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  select arg cycle
+  TICK:   9 | PC:  13 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  exec cycle
+  TICK:  10 | PC:  13 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 0 | N: 0 | Z: 0
+  TICK:  11 | PC:  13 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  12 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  TICK:  13 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  decode cycle
+  TICK:  14 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  15 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  TICK:  16 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  exec cycle
+  TICK:  17 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  18 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  TICK:  19 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  decode cycle
+  TICK:  20 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  21 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     24     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  exec cycle
+  TICK:  22 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  23 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  TICK:  24 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  decode cycle
+  TICK:  25 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  24 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  26 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  exec cycle
+  TICK:  27 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 24 | N: 0 | Z: 0
+  TICK:  28 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  29 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  30 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  decode cycle
+  TICK:  31 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  32 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  33 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  34 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  TICK:  35 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  72 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  exec cycle
+  TICK:  36 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  37 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  TICK:  38 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  decode cycle
+  TICK:  39 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  select arg cycle
+  TICK:  40 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  exec cycle
+  TICK:  41 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: True
+  int cycle
+  output: '['H']' << 'H'
+  select arg cycle
+  TICK:  42 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  TICK:  43 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  decode cycle
+  TICK:  44 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  25 | MEM_AR: 72 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  45 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  TICK:  46 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  exec cycle
+  TICK:  47 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 1
+  int cycle
+  select arg cycle
+  TICK:  48 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 1
+  TICK:  49 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 1
+  decode cycle
+  TICK:  50 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 1
+  select arg cycle
+  TICK:  51 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 1
+  exec cycle
+  TICK:  52 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  53 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  TICK:  54 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  decode cycle
+  TICK:  55 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  56 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  exec cycle
+  TICK:  57 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 0 | N: 0 | Z: 0
+  TICK:  58 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  59 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  TICK:  60 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  decode cycle
+  TICK:  61 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  62 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK:  63 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK:  64 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  65 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK:  66 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK:  67 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  68 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK:  69 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK:  70 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK:  71 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  72 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK:  73 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK:  74 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  75 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  13 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  76 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  exec cycle
+  TICK:  77 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  78 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  79 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  decode cycle
+  TICK:  80 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  81 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     25     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  exec cycle
+  TICK:  82 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  83 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  84 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  decode cycle
+  TICK:  85 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  25 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  86 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  exec cycle
+  TICK:  87 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 25 | N: 0 | Z: 0
+  TICK:  88 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  89 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK:  90 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  decode cycle
+  TICK:  91 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  select arg cycle
+  TICK:  92 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK:  93 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK:  94 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  TICK:  95 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR: 101 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  exec cycle
+  TICK:  96 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK:  97 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: False
+  TICK:  98 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: False
+  decode cycle
+  TICK:  99 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: False
+  select arg cycle
+  TICK: 100 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: False
+  exec cycle
+  TICK: 101 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e']' << 'e'
+  select arg cycle
+  TICK: 102 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  TICK: 103 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  decode cycle
+  TICK: 104 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  26 | MEM_AR: 101 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 105 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  TICK: 106 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  exec cycle
+  TICK: 107 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 108 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  TICK: 109 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  decode cycle
+  TICK: 110 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 111 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  exec cycle
+  TICK: 112 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 113 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  TICK: 114 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  decode cycle
+  TICK: 115 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 116 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  exec cycle
+  TICK: 117 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 1 | N: 0 | Z: 0
+  TICK: 118 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 119 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  TICK: 120 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  decode cycle
+  TICK: 121 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 122 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 123 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 124 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 125 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 126 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 127 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 128 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 129 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 130 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 131 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 132 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 133 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 134 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 135 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  13 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK: 136 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  exec cycle
+  TICK: 137 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 138 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK: 139 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  decode cycle
+  TICK: 140 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 141 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  exec cycle
+  TICK: 142 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 143 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK: 144 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  decode cycle
+  TICK: 145 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  26 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 146 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  exec cycle
+  TICK: 147 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 26 | N: 0 | Z: 0
+  TICK: 148 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 149 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 150 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  decode cycle
+  TICK: 151 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 152 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 153 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 154 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 155 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR: 108 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  exec cycle
+  TICK: 156 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 157 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: False
+  TICK: 158 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: False
+  decode cycle
+  TICK: 159 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: False
+  select arg cycle
+  TICK: 160 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: False
+  exec cycle
+  TICK: 161 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l']' << 'l'
+  select arg cycle
+  TICK: 162 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 163 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  decode cycle
+  TICK: 164 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  27 | MEM_AR: 108 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 165 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  TICK: 166 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  exec cycle
+  TICK: 167 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 168 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  TICK: 169 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  decode cycle
+  TICK: 170 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 171 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  exec cycle
+  TICK: 172 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 173 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  TICK: 174 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  decode cycle
+  TICK: 175 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 176 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  exec cycle
+  TICK: 177 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 2 | N: 0 | Z: 0
+  TICK: 178 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 179 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  TICK: 180 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  decode cycle
+  TICK: 181 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 182 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 183 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 184 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 185 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 186 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 187 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 188 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 189 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 190 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 191 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 192 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 193 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 194 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 195 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  13 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 196 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  exec cycle
+  TICK: 197 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 198 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 199 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  decode cycle
+  TICK: 200 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 201 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     27     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  exec cycle
+  TICK: 202 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 203 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 204 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  decode cycle
+  TICK: 205 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  27 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 206 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  exec cycle
+  TICK: 207 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 27 | N: 0 | Z: 0
+  TICK: 208 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 209 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 210 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  decode cycle
+  TICK: 211 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 212 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 213 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 214 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 215 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR: 108 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  exec cycle
+  TICK: 216 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 217 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  TICK: 218 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  decode cycle
+  TICK: 219 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  select arg cycle
+  TICK: 220 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  exec cycle
+  TICK: 221 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l']' << 'l'
+  select arg cycle
+  TICK: 222 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 223 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  decode cycle
+  TICK: 224 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  28 | MEM_AR: 108 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 225 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  TICK: 226 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  exec cycle
+  TICK: 227 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 228 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  TICK: 229 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  decode cycle
+  TICK: 230 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 231 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  exec cycle
+  TICK: 232 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 233 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  TICK: 234 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  decode cycle
+  TICK: 235 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 236 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  exec cycle
+  TICK: 237 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 3 | N: 0 | Z: 0
+  TICK: 238 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 239 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  TICK: 240 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  decode cycle
+  TICK: 241 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 242 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 243 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 244 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 245 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 246 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 247 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 248 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 249 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 250 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 251 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 252 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 253 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 254 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 255 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  13 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 256 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  exec cycle
+  TICK: 257 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 258 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 259 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  decode cycle
+  TICK: 260 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 261 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     28     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  exec cycle
+  TICK: 262 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 263 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 264 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  decode cycle
+  TICK: 265 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  28 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 266 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  exec cycle
+  TICK: 267 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 28 | N: 0 | Z: 0
+  TICK: 268 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 269 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 270 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  decode cycle
+  TICK: 271 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 272 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 273 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 274 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  TICK: 275 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR: 111 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  exec cycle
+  TICK: 276 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 277 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  TICK: 278 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  decode cycle
+  TICK: 279 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  select arg cycle
+  TICK: 280 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  exec cycle
+  TICK: 281 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o']' << 'o'
+  select arg cycle
+  TICK: 282 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  TICK: 283 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  decode cycle
+  TICK: 284 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  29 | MEM_AR: 111 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 285 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  TICK: 286 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  exec cycle
+  TICK: 287 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 288 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  TICK: 289 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  decode cycle
+  TICK: 290 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 291 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  exec cycle
+  TICK: 292 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 293 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  TICK: 294 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  decode cycle
+  TICK: 295 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 296 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  exec cycle
+  TICK: 297 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 4 | N: 0 | Z: 0
+  TICK: 298 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 299 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  TICK: 300 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  decode cycle
+  TICK: 301 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 302 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 303 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 304 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 305 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 306 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 307 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 308 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 309 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 310 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 311 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 312 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 313 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 314 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 315 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  13 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 316 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  exec cycle
+  TICK: 317 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 318 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 319 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  decode cycle
+  TICK: 320 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 321 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     29     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  exec cycle
+  TICK: 322 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 323 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 324 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  decode cycle
+  TICK: 325 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  29 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 326 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  exec cycle
+  TICK: 327 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 29 | N: 0 | Z: 0
+  TICK: 328 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 329 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 330 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  decode cycle
+  TICK: 331 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 332 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 333 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 334 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 335 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  32 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  exec cycle
+  TICK: 336 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 337 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  TICK: 338 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  decode cycle
+  TICK: 339 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  select arg cycle
+  TICK: 340 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  exec cycle
+  TICK: 341 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ']' << ' '
+  select arg cycle
+  TICK: 342 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 343 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  decode cycle
+  TICK: 344 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  30 | MEM_AR: 32 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 345 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  TICK: 346 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  exec cycle
+  TICK: 347 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 348 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  TICK: 349 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  decode cycle
+  TICK: 350 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 351 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  exec cycle
+  TICK: 352 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 353 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  TICK: 354 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  decode cycle
+  TICK: 355 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 356 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  exec cycle
+  TICK: 357 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 5 | N: 0 | Z: 0
+  TICK: 358 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 359 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  TICK: 360 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  decode cycle
+  TICK: 361 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 362 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 363 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 364 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 365 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 366 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 367 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 368 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 369 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 370 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 371 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 372 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 373 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 374 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 375 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  13 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 376 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  exec cycle
+  TICK: 377 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 378 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 379 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  decode cycle
+  TICK: 380 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 381 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  exec cycle
+  TICK: 382 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 383 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 384 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  decode cycle
+  TICK: 385 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  30 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 386 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  exec cycle
+  TICK: 387 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 30 | N: 0 | Z: 0
+  TICK: 388 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 389 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 390 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  decode cycle
+  TICK: 391 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 392 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 393 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 394 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  TICK: 395 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  87 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  exec cycle
+  TICK: 396 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 397 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: False
+  TICK: 398 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: False
+  decode cycle
+  TICK: 399 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: False
+  select arg cycle
+  TICK: 400 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: False
+  exec cycle
+  TICK: 401 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W']' << 'W'
+  select arg cycle
+  TICK: 402 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  TICK: 403 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  decode cycle
+  TICK: 404 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  31 | MEM_AR: 87 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 405 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  TICK: 406 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  exec cycle
+  TICK: 407 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 408 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  TICK: 409 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  decode cycle
+  TICK: 410 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 411 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  exec cycle
+  TICK: 412 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 413 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  TICK: 414 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  decode cycle
+  TICK: 415 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 416 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  exec cycle
+  TICK: 417 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 6 | N: 0 | Z: 0
+  TICK: 418 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 419 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  TICK: 420 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  decode cycle
+  TICK: 421 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 422 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 423 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 424 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 425 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 426 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 427 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 428 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 429 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 430 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 431 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 432 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 433 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 434 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 435 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  13 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 436 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  exec cycle
+  TICK: 437 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 438 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 439 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  decode cycle
+  TICK: 440 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 441 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     31     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  exec cycle
+  TICK: 442 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 443 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 444 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  decode cycle
+  TICK: 445 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  31 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 446 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  exec cycle
+  TICK: 447 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 31 | N: 0 | Z: 0
+  TICK: 448 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 449 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 450 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  decode cycle
+  TICK: 451 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 452 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 453 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 454 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  TICK: 455 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR: 111 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  exec cycle
+  TICK: 456 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 457 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: False
+  TICK: 458 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: False
+  decode cycle
+  TICK: 459 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: False
+  select arg cycle
+  TICK: 460 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: False
+  exec cycle
+  TICK: 461 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o']' << 'o'
+  select arg cycle
+  TICK: 462 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  TICK: 463 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  decode cycle
+  TICK: 464 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  32 | MEM_AR: 111 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 465 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  TICK: 466 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  exec cycle
+  TICK: 467 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 468 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  TICK: 469 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  decode cycle
+  TICK: 470 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 471 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  exec cycle
+  TICK: 472 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 473 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  TICK: 474 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  decode cycle
+  TICK: 475 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   7 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 476 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  exec cycle
+  TICK: 477 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 7 | N: 0 | Z: 0
+  TICK: 478 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 479 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  TICK: 480 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  decode cycle
+  TICK: 481 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 482 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 483 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 484 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 485 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 486 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 487 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 488 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 489 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 490 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 491 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 492 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 493 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 494 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 495 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  13 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 496 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  exec cycle
+  TICK: 497 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 498 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 499 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  decode cycle
+  TICK: 500 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 501 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  exec cycle
+  TICK: 502 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 503 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 504 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  decode cycle
+  TICK: 505 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  32 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 506 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  exec cycle
+  TICK: 507 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 32 | N: 0 | Z: 0
+  TICK: 508 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 509 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 510 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  decode cycle
+  TICK: 511 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 512 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 513 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 514 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  TICK: 515 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR: 114 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  exec cycle
+  TICK: 516 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 517 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  TICK: 518 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  decode cycle
+  TICK: 519 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  select arg cycle
+  TICK: 520 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: False
+  exec cycle
+  TICK: 521 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r']' << 'r'
+  select arg cycle
+  TICK: 522 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  TICK: 523 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  decode cycle
+  TICK: 524 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  33 | MEM_AR: 114 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 525 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  TICK: 526 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  exec cycle
+  TICK: 527 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 528 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  TICK: 529 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  decode cycle
+  TICK: 530 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 531 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  exec cycle
+  TICK: 532 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 533 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  TICK: 534 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  decode cycle
+  TICK: 535 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   8 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 536 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  exec cycle
+  TICK: 537 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 8 | N: 0 | Z: 0
+  TICK: 538 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 539 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  TICK: 540 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  decode cycle
+  TICK: 541 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 542 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 543 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 544 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 545 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 546 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 547 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 548 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 549 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 550 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 551 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 552 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 553 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 554 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 555 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  13 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 556 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  exec cycle
+  TICK: 557 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 558 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 559 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  decode cycle
+  TICK: 560 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 561 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  exec cycle
+  TICK: 562 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 563 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 564 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  decode cycle
+  TICK: 565 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  33 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 566 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  exec cycle
+  TICK: 567 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 568 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 569 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 570 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  decode cycle
+  TICK: 571 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 572 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 573 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 574 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 575 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR: 108 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  exec cycle
+  TICK: 576 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 577 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: False
+  TICK: 578 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: False
+  decode cycle
+  TICK: 579 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: False
+  select arg cycle
+  TICK: 580 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: False
+  exec cycle
+  TICK: 581 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l']' << 'l'
+  select arg cycle
+  TICK: 582 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  TICK: 583 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  decode cycle
+  TICK: 584 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  34 | MEM_AR: 108 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 585 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  TICK: 586 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  exec cycle
+  TICK: 587 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 588 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  TICK: 589 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  decode cycle
+  TICK: 590 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 591 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  exec cycle
+  TICK: 592 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 593 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  TICK: 594 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  decode cycle
+  TICK: 595 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:   9 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 596 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  exec cycle
+  TICK: 597 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 9 | N: 0 | Z: 0
+  TICK: 598 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 599 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK: 600 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  decode cycle
+  TICK: 601 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 602 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 603 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 604 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 605 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 606 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 607 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 608 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 609 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 610 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 611 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 612 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 613 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 614 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 615 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 616 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  exec cycle
+  TICK: 617 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 618 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 619 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  decode cycle
+  TICK: 620 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 621 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     34     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  exec cycle
+  TICK: 622 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 623 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 624 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  decode cycle
+  TICK: 625 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  34 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 626 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  exec cycle
+  TICK: 627 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 34 | N: 0 | Z: 0
+  TICK: 628 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 629 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 630 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  decode cycle
+  TICK: 631 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 632 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 633 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 634 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  TICK: 635 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR: 100 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  exec cycle
+  TICK: 636 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 637 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  TICK: 638 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  decode cycle
+  TICK: 639 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  select arg cycle
+  TICK: 640 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: False
+  exec cycle
+  TICK: 641 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 100 | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd']' << 'd'
+  select arg cycle
+  TICK: 642 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  TICK: 643 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  decode cycle
+  TICK: 644 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  35 | MEM_AR: 100 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 645 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:   3 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK: 646 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  exec cycle
+  TICK: 647 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 648 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK: 649 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  decode cycle
+  TICK: 650 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 651 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  exec cycle
+  TICK: 652 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 653 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK: 654 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  decode cycle
+  TICK: 655 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  10 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 656 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  exec cycle
+  TICK: 657 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 10 | N: 0 | Z: 0
+  TICK: 658 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 659 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  TICK: 660 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  decode cycle
+  TICK: 661 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 662 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 663 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 664 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 665 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 666 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 667 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 668 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 669 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 670 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 671 | PC:  13 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 672 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 673 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 674 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 675 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  13 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 676 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  exec cycle
+  TICK: 677 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 678 | PC:  14 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 679 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  decode cycle
+  TICK: 680 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 681 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     35     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  exec cycle
+  TICK: 682 | PC:  15 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 683 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 684 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  decode cycle
+  TICK: 685 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  35 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 686 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  exec cycle
+  TICK: 687 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 35 | N: 0 | Z: 0
+  TICK: 688 | PC:  16 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 689 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  TICK: 690 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  decode cycle
+  TICK: 691 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 692 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  38 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  TICK: 693 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  36 | AR:  38 | MEM_AR: 36 | N: 0 | Z: 0
+  TICK: 694 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  36 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 695 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     36     | BR:  33 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  exec cycle
+  TICK: 696 | PC:  17 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 697 | PC:  17 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 100 | INT: False | NEW: False
+  TICK: 698 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 100 | INT: False | NEW: False
+  decode cycle
+  TICK: 699 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 100 | INT: False | NEW: False
+  select arg cycle
+  TICK: 700 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 100 | INT: False | NEW: False
+  exec cycle
+  TICK: 701 | PC:  18 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+    Dev: 2 | Port: 3 | DATA: 33  | INT: False | NEW: True
+  int cycle
+  output: '['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!']' << '!'
+  select arg cycle
+  TICK: 702 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  TICK: 703 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  decode cycle
+  TICK: 704 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  36 | MEM_AR: 33 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 705 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  TICK: 706 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  exec cycle
+  TICK: 707 | PC:  19 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 708 | PC:  19 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  TICK: 709 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  decode cycle
+  TICK: 710 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 711 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  exec cycle
+  TICK: 712 | PC:  20 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 713 | PC:  20 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  TICK: 714 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  decode cycle
+  TICK: 715 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  11 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 716 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  exec cycle
+  TICK: 717 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 11 | N: 0 | Z: 0
+  TICK: 718 | PC:  21 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 12 | N: 0 | Z: 0
+  int cycle
+  select arg cycle
+  TICK: 719 | PC:  21 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 720 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 12 | N: 0 | Z: 0
+  decode cycle
+  TICK: 721 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  37 | MEM_AR: 12 | N: 0 | Z: 0
+  select arg cycle
+  TICK: 722 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  37 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  TICK: 723 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 0
+  exec cycle
+  TICK: 724 | PC:  22 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  int cycle
+  select arg cycle
+  TICK: 725 | PC:  22 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  TICK: 726 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  decode cycle
+  TICK: 727 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  select arg cycle
+  TICK: 728 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  exec cycle
+  TICK: 729 | PC:  23 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  int cycle
+  select arg cycle
+  TICK: 730 | PC:  23 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  TICK: 731 | PC:  24 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  decode cycle
+  TICK: 732 | PC:  24 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  select arg cycle
+  TICK: 733 | PC:  24 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  exec cycle
+  TICK: 733 | PC:  24 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  13 | AR:  24 | MEM_AR: 12 | N: 0 | Z: 1
+  Output buffer:
+  'Hello World!'
+  instr_counter: 24 ticks: 733
+  Execution ended.
+
+out_res: |-
+  Hello World!
