@@ -119,6 +119,7 @@ def join_string_literals(terms: list[str]) -> list[str]:
         assert quotes_count % 2 == 0, "Translation failed: String literals are incomplete."
         # add spaces
         for elem_num, elem in enumerate(tmp[1:-1], 1):
+            # spaces set after each word and symbol, need to fix splitting before this
             if elem != '"' and elem_num != len(tmp) - 2:
                 tmp[elem_num] = elem + " "
         literal: str = "".join(tmp)
