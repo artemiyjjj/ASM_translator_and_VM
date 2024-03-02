@@ -161,11 +161,13 @@ class IO:
 
         def signal_write_data(self) -> None:
             assert self._data_bus is not None
+            self._int_register = False
             self._new_data = True
             self._data_register = self._data_bus.transmitting_value
 
         def signal_read_data(self) -> None:
             assert self._data_bus is not None
+            self._new_data = True
             self._data_bus.transmitting_value = self._data_register
 
         def signal_read_int(self) -> None:
@@ -176,6 +178,7 @@ class IO:
         def signal_int_request(self) -> None:
             assert self._int_line is not None
             self._int_register = True
+            self._new_data = True
             self._int_line.signal_interruption_request()
 
     class IODeviceConsole(IODeviceCommon):
@@ -405,6 +408,9 @@ class ControlUnit:
     _interruption_state: bool
     """ Флаг нахождения машины в состоянии прерывания."""
 
+    _io_controller: IO.IOController
+    """ Контроллер ввода/вывода"""
+
     _instruction_decoder: InstructionDecoder
     """ Дешифратор инструкций."""
 
@@ -428,11 +434,16 @@ class ControlUnit:
         self._instruction_decoder = ControlUnit.InstructionDecoder()
         self._memory = common_memory
         self._data_path = data_path
-        self._io_controler = io_controller
+        self._io_controller = io_controller
 
     def __repr__(self) -> str:
         """Вернуть строковое представление состояния процессора."""
         assert self._instruction_register is not None
+        device_state: str = ""
+        if self._instruction_register.opcode in [Opcode.IN, Opcode.OUT]:
+            io_port: int = self._instruction_register.arg
+            device_index: int = io_port // 2 + 1
+            device_state = "\n\t Dev: {} | Port: {} | ".format(device_index, io_port) + self._io_controller._connected_devices.get(device_index).__repr__()
         return "TICK: {:3} | PC: {:3} | IR: '{:^11}' | IRQ: {} | IE: {} | IS: {} | AC: {:^10} | BR: {:3} | AR: {:3} | MEM_AR: {} | N: {} | Z: {}".format(
             self.get_tick(),
             self._programm_counter_register,
@@ -446,7 +457,7 @@ class ControlUnit:
             self._data_path._read_memory(),
             bool2int(self._data_path.negative()),
             bool2int(self._data_path.zero())
-        )
+        ) + device_state
 
     class InstructionDecoder:
         _step_counter: int
@@ -469,14 +480,13 @@ class ControlUnit:
     def perform_tick(self) -> None:
         """Увеличение счётчика процессорных тактов."""
         self._tick += 1
-        # logging.debug(self.__repr__())
+        logging.debug(self.__repr__())
 
     def get_tick(self) -> int:
         return self._tick
 
     def signal_interruption(self) -> None:
-        if self._interruption_enabled:
-            self._interruption_request = True
+        self._interruption_request = True
 
     def signal_input_output(self, select_port: int, select_mode: int) -> None:
         """ Сигнал ввода данных из указанного порта вывода на аккумулятор.
@@ -498,7 +508,7 @@ class ControlUnit:
         1 - вывод
         """
         assert select_port < (get_interruption_vector_length() - 1) * 2, "Incorrect control_unit/signal_spi select"
-        self._io_controler.send_signal(port_addr = select_port, mode = select_mode)
+        self._io_controller.send_signal(port_addr = select_port, mode = select_mode)
 
     def signal_latch_address_register(self, select: int) -> None:
         """Сигнал записи данных в адресный регистр через мультиплексор.
@@ -552,7 +562,7 @@ class ControlUnit:
         Селекторы:
         0 - instr_arg (control_unit/instruction_register.arg)
         1 - mem (data_path/memory)
-        2 - io_int (int0 interruption vector)
+        2 - io_int (requesting device interruption vector)
         """
         match select:
             case 0:
@@ -561,7 +571,9 @@ class ControlUnit:
             case 1:
                 self._data_path._buffer_register = self._data_path._read_memory()
             case 2:
-                self._data_path._buffer_register = 0
+                for dev_index, device in self._io_controller._connected_devices.items():
+                    if device._int_register:
+                        self._data_path._buffer_register = dev_index
             case _:
                 raise_error("Incorrect control_unit/signal_buff select")
 
@@ -674,12 +686,14 @@ class ControlUnit:
         """Цикл выборки инструкции из памяти по адресу счётчика команд.
 
         Имеет место допущение, что доступ к памяти происходит за такт процессора."""
+        logging.info("select arg cycle")
         self._instruction_register = self._memory[self._programm_counter_register]
         self.perform_tick()
         self.signal_latch_programm_counter_register(select=1)
         self.perform_tick()
 
     def _decode_instruction(self) -> None:
+        logging.info("decode cycle")
         assert self._instruction_register is not None
         self._instruction_decoder.signal_latch_opcode(self._instruction_register.opcode)
         self._instruction_decoder.signal_latch_mode(self._instruction_register.mode)
@@ -687,6 +701,7 @@ class ControlUnit:
 
     def _select_argumet(self) -> None:
         """Цикл выборки аргумента"""
+        logging.info("select arg cycle")
         match self._instruction_decoder._mode:
             # Непосредственная адресация - запись в буфер аргумента команды
             case Mode.VALUE:
@@ -714,6 +729,7 @@ class ControlUnit:
                 raise ValueError("Mode at some instruction in source code is incorrect.")
 
     def _execute_instruction(self) -> None:
+        logging.info("exec cycle")
         match self._instruction_decoder._opcode:
             case Opcode.LD:
                 self.signal_latch_arithmetical_logical_unit(select=[0, 3, 3, 3, 6])
@@ -727,6 +743,8 @@ class ControlUnit:
             case Opcode.IN:
                 self.signal_input_output(select_port = self._data_path._buffer_register, select_mode=0)
                 self.signal_latch_accumulator_register(select=2)
+                if self._interruption_state and self._interruption_request:
+                    self._interruption_request = False
                 self.perform_tick()
             case Opcode.OUT:
                 self._data_path._data_bus.transmitting_value = self._data_path._accumulator_register
@@ -833,7 +851,8 @@ class ControlUnit:
                 raise_error("Unknown opcode in instruction execute cycle")
 
     def _check_interruption(self) -> None:
-        if self._interruption_request:
+        logging.info("int cycle")
+        if self._interruption_request and self._interruption_enabled and not self._interruption_state:
             self.signal_latch_buffer_register(select=2)
             self._prepare_for_interruption()
 
@@ -939,14 +958,32 @@ class Machine:
         try:
             while self._control_unit.get_tick() < limit:
                 # Логика управлением расписания ввода
+                def request_new_int(self) -> None:
+                    if self._io_controller._connected_devices[1]._new_data is True:
+                        self._io_controller._connected_devices[1]._data_register = ord(input_schedule[cur_schedule][1])
+                        self._io_controller._connected_devices[1].signal_int_request()
+                        logging.info("\tInput {} >> '{}'".format(1, ord(input_schedule[cur_schedule][1])))
                 if cur_schedule is not None and self._control_unit.get_tick() >= input_schedule[cur_schedule][0]:
-                    self._io_controller._connected_devices[1]._data_register = ord(input_schedule[cur_schedule][1])
-                    self._io_controller._connected_devices[1].signal_int_request()
+                    next_tick: int | None
+                    try:
+                        next_tick = input_schedule[cur_schedule + 1][0]
+                    except IndexError:
+                        next_tick = None
+                    if cur_schedule < len(input_schedule) and ((next_tick is not None and self._control_unit.get_tick() <= next_tick) or (next_tick is None)):
+                        print(next_tick, " ", cur_schedule)
+                        pass
+                    elif next_tick:
+                        cur_schedule = None
+                        self._io_controller._connected_devices[1]._new_data = False
+                    elif cur_schedule + 1 < len(input_schedule) and self._control_unit.get_tick() >= input_schedule[cur_schedule + 1][0]:
+                        cur_schedule += 1
+                        self._io_controller._connected_devices[1]._new_data = True
+                    request_new_int(self)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                logging.info(self.__repr__())
+                # logging.info(self.__repr__())
                 # Сбор данных с устройств вывода
-                if self._io_controller._connected_devices[2]._new_data:
+                if self._io_controller._connected_devices[2]._new_data is True:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
                     self._output_buffer.append(new_symbol)
                     self._io_controller._connected_devices[2]._new_data = False
@@ -997,7 +1034,7 @@ def main(code_file: str, input_file_name: str) -> None:
         output, instr_counter, ticks = machine.simulation(
             code = code,
             input_schedule = input_schedule,
-            limit = 4000
+            limit = 1000
         )
     except ValueError as e:
         # use logging.exception to see the stacktrace
