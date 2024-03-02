@@ -7,6 +7,31 @@
 
 ## Язык программирования
 
+``` Пример
+    section .data:
+        message: 12, "Hello World!"
+        output_counter: 0
+        output_position: 0
+    section .text:
+    _start:
+        ld  message
+        st  output_position
+    loop:
+        ld *output_position
+        inc
+        st  output_position
+        ld  **output_position
+        out 3
+        ld  *output_counter
+        inc
+        st  output_counter
+        cmp *message
+        jnz loop
+        hlt
+```
+
+Пример программы на разработанном языке
+
 ### Синтаксис. Расширенная форма Бэкуса-Наура
 
 ``` EnhancedBackusNaurForm
@@ -333,7 +358,7 @@ section .data:
 
 ### DataPath
 
-![Схема Data Path](/images/DataPath.png, "Схема Data Path")
+![Схема Data Path](/images/DataPath.png)
 
 Реализован в классе DataPath.
 
@@ -348,7 +373,7 @@ section .data:
 
 ### Control Unit
 
-![Схема Control Unit](/images/CU.png, "Схема Control Unit")
+![Схема Control Unit](/images/CU.png)
 
 Сигналы:
 
