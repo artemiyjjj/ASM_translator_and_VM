@@ -290,7 +290,7 @@ def validate_unary_operation_argument(statement: StatementTerm, operation_labels
     if is_control_flow_operation:
         if num_arg is not None:
             return num_arg
-        assert str_arg in operation_labels | interruption_handler_labels, "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
+        assert str_arg in operation_labels | interruption_handler_labels or (str_arg in data_labels and statement.mode in [Mode.DIRECT, Mode.INDIRECT]), "Translation failed: control flow instruction argument should be an operation statement label, line: {}".format(statement.line)
         return str_arg
     # elif is_data_manipulation_operation
     if num_arg is None:
@@ -512,8 +512,8 @@ def link_sections(code_list: list[StatementTerm | DataTerm], statement_labels_ad
             instruction: MachineWordInstruction
             arg: int
             if term.opcode in Opcode.control_flow_operations():
-                arg = statement_labels_addr[term.arg] if isinstance(term.arg, str) else term.arg
-            elif term.opcode in Opcode.data_manipulation_operations() | Opcode.no_operand_operations():
+                arg = statement_labels_addr[term.arg] if term.mode is Mode.VALUE and isinstance(term.arg, str) else term.arg if isinstance(term.arg, int) else data_labels_addr[term.arg]
+            elif term.opcode in Opcode.data_manipulation_operations() | Opcode.no_operand_operations(): # mb error
                 arg_data_label: int | None = data_labels_addr.get(term.arg)
                 arg_statement_label: int | None = statement_labels_addr.get(term.arg)
                 arg = arg_data_label if arg_data_label is not None else arg_statement_label if arg_statement_label is not None else term.arg
@@ -621,6 +621,7 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
 
     with open(source_code_file_name, encoding="utf-8") as f:
         source = f.read()
+        logging.info("Source file: {}".format(source_code_file_name))
 
     try:
         code = translate(source)
