@@ -942,10 +942,45 @@ class Machine:
 
     @staticmethod
     def parse_schedule(list_tuple_text: str) -> list[tuple[int, str]]:
-        """Парсинг расписания ввода символов по тактам из текста с соответствующими данными."""
+        """ Парсинг расписания ввода символов по тактам из текста с соответствующими данными."""
         list_schedule: list[tuple[int, str]] = list(eval(list_tuple_text)) if list_tuple_text.strip() != "" else []
         return list_schedule
 
+    def request_new_int(self, input_schedule: list[tuple[int, str]], cur_schedule: int) -> None:
+        """ Установка нового значения в регистр данных устрйоства ввода, установка флага новых данных и запрос прерывания."""
+        if self._io_controller._connected_devices[1]._new_data is True:
+            self._io_controller._connected_devices[1]._data_register = ord(input_schedule[cur_schedule][1])
+            self._io_controller._connected_devices[1].signal_int_request()
+            logging.info("\tInput {} >> '{}'".format(1, ord(input_schedule[cur_schedule][1])))
+
+    def input_schedule_management(self, input_schedule: list[tuple[int, str]] = [], cur_schedule: int | None = None) -> int:
+        """ Управление вводом/выводом по расписанию.
+
+        Возвращает вычисленное значение текущего указателя на запрос ввода/вывода."""
+        cur_tick: int = self._control_unit.get_tick()
+        if cur_schedule is not None and cur_tick >= input_schedule[cur_schedule][0]:
+            next_int_tick: int | None
+            try:
+                next_int_tick = input_schedule[cur_schedule + 1][0]
+            except IndexError:
+                next_int_tick = None
+            if next_int_tick is None:
+                if self._io_controller._connected_devices[1]._data_register == 0:
+                    self._io_controller._connected_devices[1]._new_data = True
+                self.request_new_int(input_schedule, cur_schedule)
+                cur_schedule = None
+            else:
+                if next_int_tick <= cur_tick:
+                    cur_schedule += 1
+                    self._io_controller._connected_devices[1]._new_data = True
+                    self.request_new_int(input_schedule, cur_schedule)
+                    cur_schedule += 1
+                else:
+                    if self._io_controller._connected_devices[1]._data_register == 0:
+                        self._io_controller._connected_devices[1]._new_data = True
+                    self.request_new_int(input_schedule, cur_schedule)
+                    cur_schedule += 1
+        return cur_schedule
 
     def simulation(self, code: Code, input_schedule: list[tuple[int, str]] = [], limit: int = 1000) -> tuple[str, int, int]:
         """Подготовка модели и запуск симуляции процессора.
@@ -958,30 +993,10 @@ class Machine:
         try:
             while self._control_unit.get_tick() < limit:
                 # Логика управлением расписания ввода
-                def request_new_int(self) -> None:
-                    if self._io_controller._connected_devices[1]._new_data is True:
-                        self._io_controller._connected_devices[1]._data_register = ord(input_schedule[cur_schedule][1])
-                        self._io_controller._connected_devices[1].signal_int_request()
-                        logging.info("\tInput {} >> '{}'".format(1, ord(input_schedule[cur_schedule][1])))
-                if cur_schedule is not None and self._control_unit.get_tick() >= input_schedule[cur_schedule][0]:
-                    next_tick: int | None
-                    try:
-                        next_tick = input_schedule[cur_schedule + 1][0]
-                    except IndexError:
-                        next_tick = None
-                    if cur_schedule < len(input_schedule) and ((next_tick is not None and self._control_unit.get_tick() <= next_tick) or (next_tick is None)):
-                        print(next_tick, " ", cur_schedule)
-                        pass
-                    elif next_tick:
-                        cur_schedule = None
-                        self._io_controller._connected_devices[1]._new_data = False
-                    elif cur_schedule + 1 < len(input_schedule) and self._control_unit.get_tick() >= input_schedule[cur_schedule + 1][0]:
-                        cur_schedule += 1
-                        self._io_controller._connected_devices[1]._new_data = True
-                    request_new_int(self)
+                cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                # logging.info(self.__repr__())
+                # logging.info(self.__repr__()) # instr repr
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
