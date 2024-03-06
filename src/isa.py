@@ -7,7 +7,7 @@ from typing import Any
 
 
 class Code:
-    """ Представление структуры для хранения машинного кода"""
+    """Представление структуры для хранения машинного кода"""
 
     contents: list[MachineWordInstruction | MachineWordData]
     """Список инструкций машинного кода."""
@@ -23,15 +23,18 @@ class Code:
 
     @staticmethod
     def to_json(code: Code) -> str:
-        return CodeEncoder(indent = 4).encode(code.contents)
+        return CodeEncoder(indent=4).encode(code.contents)
+
 
 class CodeEncoder(JSONEncoder):
-    """ Вспомогательный класс для получения строкового представления машинного кода. """
+    """Вспомогательный класс для получения строкового представления машинного кода."""
+
     def default(self, obj: Code) -> dict[str, Any]:
         return obj.__dict__
 
+
 class Opcode(str, Enum):
-    """ Opcode инструкций языка.
+    """Opcode инструкций языка.
 
     Могут быть поделёны на две группы:
 
@@ -78,16 +81,28 @@ class Opcode(str, Enum):
 
     @staticmethod
     def data_manipulation_operations() -> set[Opcode]:
-        """ Множество манипулирующих данными команд с одним аргументом
+        """Множество манипулирующих данными команд с одним аргументом
 
         Аргументами этих команд являются индексы данных(адреса), значения или лейблы данных.
         """
-        return {Opcode.LD, Opcode.ST, Opcode.ADD, Opcode.SUB, Opcode.MUL, Opcode.DIV,
-                 Opcode.MOD, Opcode.CMP, Opcode.OR, Opcode.AND, Opcode.OUT, Opcode.IN}
+        return {
+            Opcode.LD,
+            Opcode.ST,
+            Opcode.ADD,
+            Opcode.SUB,
+            Opcode.MUL,
+            Opcode.DIV,
+            Opcode.MOD,
+            Opcode.CMP,
+            Opcode.OR,
+            Opcode.AND,
+            Opcode.OUT,
+            Opcode.IN,
+        }
 
     @staticmethod
     def control_flow_operations() -> set[Opcode]:
-        """ Множество управляющих потоком управления команд с одним аргументом
+        """Множество управляющих потоком управления команд с одним аргументом
 
         Аргументами этих команд являются лейблы инструкций.
         """
@@ -95,7 +110,7 @@ class Opcode(str, Enum):
 
     @staticmethod
     def unary_operations() -> set[Opcode]:
-        """ Множество команд с одним аргументом
+        """Множество команд с одним аргументом
 
         Аргументами этих команд являются индексы, значения или лейблы инструкций / данных.
         """
@@ -103,9 +118,18 @@ class Opcode(str, Enum):
 
     @staticmethod
     def no_operand_operations() -> set[Opcode]:
-        """ Множество команд без аргументов"""
-        return {Opcode.HLT, Opcode.ENI, Opcode.DII, Opcode.FI, Opcode.INC, Opcode.DEC,
-                Opcode.NOP, Opcode.LSL, Opcode.ASR}
+        """Множество команд без аргументов"""
+        return {
+            Opcode.HLT,
+            Opcode.ENI,
+            Opcode.DII,
+            Opcode.FI,
+            Opcode.INC,
+            Opcode.DEC,
+            Opcode.NOP,
+            Opcode.LSL,
+            Opcode.ASR,
+        }
 
     def __str__(self) -> str:
         """Переопределение стандартного поведения `__str__` для `Enum`: вместо
@@ -116,8 +140,9 @@ class Opcode(str, Enum):
     def __repr__(self) -> str:
         return self.__str__()
 
+
 class SourceTerm:
-    """ Структура для представления строки исходного кода. """
+    """Структура для представления строки исходного кода."""
 
     line: int
     terms: list[str]
@@ -137,8 +162,10 @@ class SourceTerm:
             return self.line == other.line and self.terms == other.terms
         return False
 
+
 class Mode(str, Enum):
-    """ Указание режима интерпретации аргумента. """
+    """Указание режима интерпретации аргумента."""
+
     DIRECT = "direct"
     """ Аргумент - адрес, по которому находится необходимое значение """
     VALUE = "value"
@@ -152,8 +179,10 @@ class Mode(str, Enum):
     def __repr__(self) -> str:
         return self.__str__()
 
+
 class StatementTerm:
-    """ Структура для описания команды с аргументом из кода программы."""
+    """Структура для описания команды с аргументом из кода программы."""
+
     label: str | None
     opcode: Opcode | None
     arg: int | None | str
@@ -161,8 +190,15 @@ class StatementTerm:
     # Source code reference
     line: int | None
 
-    def __init__(self, index: int | None = None, opcode: Opcode | None = None, label: str | None = None,
-                 arg: int | None = None, mode: Mode | None = None, line: int | None = None) -> None:
+    def __init__(
+        self,
+        index: int | None = None,
+        opcode: Opcode | None = None,
+        label: str | None = None,
+        arg: int | None = None,
+        mode: Mode | None = None,
+        line: int | None = None,
+    ) -> None:
         self.index = index
         self.label = label
         self.opcode = opcode
@@ -185,8 +221,15 @@ class MachineWordInstruction:
     mode: Mode | None
     line: int
 
-    def __init__(self, index: int, opcode: Opcode, line: int, label: str | None = None,
-                 arg: int | None = None, mode: Mode | None = None) -> None:
+    def __init__(
+        self,
+        index: int,
+        opcode: Opcode,
+        line: int,
+        label: str | None = None,
+        arg: int | None = None,
+        mode: Mode | None = None,
+    ) -> None:
         self.index = index
         self.label = label
         self.opcode = opcode
@@ -210,16 +253,24 @@ class MachineWordInstruction:
     def __repr__(self) -> str:
         return self.__str__()
 
+
 class DataTerm:
-    """ Структура для представления данных в памяти. """
+    """Структура для представления данных в памяти."""
+
     index: int | None
     label: str | None
     value: int | str | None
     size: int | None
     line: int | None
 
-    def __init__(self, index: int | None = None, label: str | None = None, size: int | None = None,
-                value: int | str | None = None, line: int | None = None) -> None:
+    def __init__(
+        self,
+        index: int | None = None,
+        label: str | None = None,
+        size: int | None = None,
+        value: int | str | None = None,
+        line: int | None = None,
+    ) -> None:
         self.index = index
         self.label = label
         self.value = value
@@ -231,6 +282,7 @@ class DataTerm:
 
     def __repr__(self) -> str:
         return self.__str__()
+
 
 class MachineWordData:
     index: int
@@ -258,8 +310,9 @@ class MachineWordData:
     def __repr__(self) -> str:
         return self.__str__()
 
+
 def read_code(filename: str) -> Code:
-    """ Чтение машинного кода из файла. """
+    """Чтение машинного кода из файла."""
 
     with open(filename, encoding="utf-8") as file:
         code_text: list[dict[str, Any]] = json.loads(file.read())
@@ -278,7 +331,7 @@ def read_code(filename: str) -> Code:
 
 
 def write_code(filename: str, code: Code) -> None:
-    """Записать машинный код в файл. """
+    """Записать машинный код в файл."""
     with open(filename, "w", encoding="utf-8") as file:
         buf = Code.to_json(code)
         file.write(buf)

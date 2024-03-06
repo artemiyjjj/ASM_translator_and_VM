@@ -24,6 +24,7 @@ class DataBus:
         new_device_index: int = max(list(self._connected_devices.keys())) + 1 if self._connected_devices else 1
         self._connected_devices[new_device_index] = new_device
 
+
 class InterruptionLine:
     _machine: Machine
     _connected_devices: dict[int, IO.IODeviceCommon]
@@ -60,24 +61,25 @@ def get_interruption_vector_length() -> int:
 def raise_error(err_msg: str = "") -> None:
     raise ValueError("Internal error X_X : " + err_msg)
 
+
 def bool2int(val: bool) -> int:
     return 1 if val else 0
 
 
 class IO:
     class IOController:
-        """ Контроллер ввода/вывода для машины.
+        """Контроллер ввода/вывода для машины.
 
         Содержит в себе демультиплексор для посылания необходимых управляющих сигналов оперделённым устройствам.
         """
-        _connected_devices: dict[int, IO.IODeviceCommon]
 
+        _connected_devices: dict[int, IO.IODeviceCommon]
 
         def __init__(self, connected_devices: dict[int, IO.IODeviceCommon]) -> None:
             self._connected_devices = connected_devices
 
         def send_signal(self, port_addr: int, mode: int) -> None:
-            """ Отправление управляющего сигнала на порт устройства.
+            """Отправление управляющего сигнала на порт устройства.
 
             Порт определяется исходя из значения аргумента, переданного из буфферного регистра.
             Порты нумеруются с "0", представляя собой последовательность чисел, которыми можно представить все
@@ -104,7 +106,9 @@ class IO:
             # В устройствах по 2 регистра, поэтому логика может поменяться при их увеличении
             # однако при увеличении числа устрйоств будет работоспособной
             device_index = (port_addr // 2) + 1
-            assert self._connected_devices.get(device_index) is not None, "IO addressed not connected device {}, port {}".format(device_index, port_addr) # debug
+            assert (
+                self._connected_devices.get(device_index) is not None
+            ), "IO addressed not connected device {}, port {}".format(device_index, port_addr)  # debug
             if self._connected_devices.get(device_index) is None:
                 return
             if port_addr % 2 == 0:
@@ -117,9 +121,8 @@ class IO:
                 else:
                     self._connected_devices[device_index].signal_write_data()
 
-
     class IODeviceCommon:
-        """ Устройство ввода/вывода
+        """Устройство ввода/вывода
 
         Для обмена данными с машиной, должно быть "подключено" к её шине данных и линии прерываний(в конструкторе шины и линии).
 
@@ -153,11 +156,7 @@ class IO:
             self._new_data = False
 
         def __repr__(self) -> str:
-            return "DATA: {:^3} | INT: {} | NEW: {}".format(
-                self._data_register,
-                self._int_register,
-                self._new_data
-            )
+            return "DATA: {:^3} | INT: {} | NEW: {}".format(self._data_register, self._int_register, self._new_data)
 
         def signal_write_data(self) -> None:
             assert self._data_bus is not None
@@ -172,7 +171,7 @@ class IO:
 
         def signal_read_int(self) -> None:
             assert self._data_bus is not None
-            self._data_register = ord(self._int_register)
+            self._data_register = ord(str(self._int_register))
             self._data_bus.transmitting_value = self._data_register
 
         def signal_int_request(self) -> None:
@@ -187,7 +186,7 @@ class IO:
         def signal_read_data(self) -> None:
             assert self._data_bus is not None
             if self._input_buffer is None:
-                print()
+                print("")
                 self._input_buffer = [*input()]
                 self._input_buffer.append("\n")
             self._data_register = ord(self._input_buffer[0])
@@ -195,7 +194,7 @@ class IO:
             if len(self._input_buffer) > 1:
                 self._input_buffer = self._input_buffer[1:]
             elif len(self._input_buffer) == 1:
-                self._input_buffer.append(chr(10)) # EOL symbol
+                self._input_buffer.append(chr(10))  # EOL symbol
             else:
                 self._input_buffer = None
 
@@ -224,9 +223,7 @@ class DataPath:
 
     _data_bus: DataBus
 
-    def __init__(
-        self, common_memory: list[MachineWordInstruction | MachineWordData], data_bus: DataBus
-    ) -> None:
+    def __init__(self, common_memory: list[MachineWordInstruction | MachineWordData], data_bus: DataBus) -> None:
         self._accumulator_register = 0
         self._address_register = 0
         self._buffer_register = 0
@@ -371,7 +368,9 @@ class DataPath:
 
     def _read_memory(self) -> int:
         """Чтение из памяти по адресу из адресного регистра значения в аккумулятор."""
-        assert len(self._memory) >= self._address_register, "Access memory out of limited bounds, requested address: {}.".format(self._address_register)
+        assert (
+            len(self._memory) >= self._address_register
+        ), "Access memory out of limited bounds, requested address: {}.".format(self._address_register)
         assert isinstance(self._memory[self._address_register].value, int), "Mem bounds or get value from MemWordInstr"
         return self._memory[self._address_register].value
 
@@ -420,11 +419,12 @@ class ControlUnit:
     _data_path: DataPath
     """ Соединение с DataPath для управления манипулированием данными."""
 
-    def __init__(self,
-                common_memory: list[MachineWordInstruction | MachineWordData],
-                data_path: DataPath,
-                io_controller: IO.IOController
-            ) -> None:
+    def __init__(
+        self,
+        common_memory: list[MachineWordInstruction | MachineWordData],
+        data_path: DataPath,
+        io_controller: IO.IOController,
+    ) -> None:
         self._tick = 0
         self._interruption_enabled = False
         self._interruption_request = False
@@ -443,21 +443,27 @@ class ControlUnit:
         if self._instruction_register.opcode in [Opcode.IN, Opcode.OUT]:
             io_port: int = self._instruction_register.arg
             device_index: int = io_port // 2 + 1
-            device_state = "\n\t Dev: {} | Port: {} | ".format(device_index, io_port) + self._io_controller._connected_devices.get(device_index).__repr__()
-        return "TICK: {:3} | PC: {:3} | IR: '{:^11}' | IRQ: {} | IE: {} | IS: {} | AC: {:^10} | BR: {:3} | AR: {:3} | MEM_AR: {} | N: {} | Z: {}".format(
-            self.get_tick(),
-            self._programm_counter_register,
-            self._instruction_register.opcode,
-            bool2int(self._interruption_request),
-            bool2int(self._interruption_enabled),
-            bool2int(self._interruption_state),
-            self._data_path._accumulator_register,
-            self._data_path._buffer_register,
-            self._data_path._address_register,
-            self._data_path._read_memory(),
-            bool2int(self._data_path.negative()),
-            bool2int(self._data_path.zero())
-        ) + device_state
+            device_state = (
+                "\n\t Dev: {} | Port: {} | ".format(device_index, io_port)
+                + self._io_controller._connected_devices.get(device_index).__repr__()
+            )
+        return (
+            "TICK: {:3} | PC: {:3} | IR: '{:^11}' | IRQ: {} | IE: {} | IS: {} | AC: {:^10} | BR: {:3} | AR: {:3} | MEM_AR: {} | N: {} | Z: {}".format(
+                self.get_tick(),
+                self._programm_counter_register,
+                self._instruction_register.opcode,
+                bool2int(self._interruption_request),
+                bool2int(self._interruption_enabled),
+                bool2int(self._interruption_state),
+                self._data_path._accumulator_register,
+                self._data_path._buffer_register,
+                self._data_path._address_register,
+                self._data_path._read_memory(),
+                bool2int(self._data_path.negative()),
+                bool2int(self._data_path.zero()),
+            )
+            + device_state
+        )
 
     class InstructionDecoder:
         _step_counter: int
@@ -489,7 +495,7 @@ class ControlUnit:
         self._interruption_request = True
 
     def signal_input_output(self, select_port: int, select_mode: int) -> None:
-        """ Сигнал ввода данных из указанного порта вывода на аккумулятор.
+        """Сигнал ввода данных из указанного порта вывода на аккумулятор.
 
         Выбор порта происходит постредством передачи управляющих сигналов на демультиплексор контроллера ввода/вывода.
         В конфигурации процессора доступно 7 устройств ввода/вывода, причём седьмое по умолчанию устройство пользовательского ввода с консоли.
@@ -508,7 +514,7 @@ class ControlUnit:
         1 - вывод
         """
         assert select_port < (get_interruption_vector_length() - 1) * 2, "Incorrect control_unit/signal_spi select"
-        self._io_controller.send_signal(port_addr = select_port, mode = select_mode)
+        self._io_controller.send_signal(port_addr=select_port, mode=select_mode)
 
     def signal_latch_address_register(self, select: int) -> None:
         """Сигнал записи данных в адресный регистр через мультиплексор.
@@ -650,9 +656,8 @@ class ControlUnit:
             case _:
                 raise_error("Incorrect control_unit/signal_pc select")
 
-
     def _prepare_for_interruption(self) -> None:
-        """ Подготовка машины к обработке прерывания.
+        """Подготовка машины к обработке прерывания.
 
         Сохранение аккумулятора и счётчика команд в определенные для этого ячейки памяти,
         установка флага обработки прерывания и сохранение номера прерывания в аккумулятор.
@@ -670,7 +675,7 @@ class ControlUnit:
         self._data_path._write_memory()
         self.perform_tick()
         # Изменение значения счётчика команд
-        self.signal_latch_address_register(select=1) # номер обработчика в буффере
+        self.signal_latch_address_register(select=1)  # номер обработчика в буффере
         self.perform_tick()
         self.signal_latch_buffer_register(select=1)
         self.perform_tick()
@@ -681,19 +686,16 @@ class ControlUnit:
         self.signal_latch_accumulator_register(select=1)
         self.perform_tick()
 
-
     def _select_instruction(self) -> None:
         """Цикл выборки инструкции из памяти по адресу счётчика команд.
 
         Имеет место допущение, что доступ к памяти происходит за такт процессора."""
-        logging.info("select arg cycle")
         self._instruction_register = self._memory[self._programm_counter_register]
         self.perform_tick()
         self.signal_latch_programm_counter_register(select=1)
         self.perform_tick()
 
     def _decode_instruction(self) -> None:
-        logging.info("decode cycle")
         assert self._instruction_register is not None
         self._instruction_decoder.signal_latch_opcode(self._instruction_register.opcode)
         self._instruction_decoder.signal_latch_mode(self._instruction_register.mode)
@@ -701,7 +703,6 @@ class ControlUnit:
 
     def _select_argumet(self) -> None:
         """Цикл выборки аргумента"""
-        logging.info("select arg cycle")
         match self._instruction_decoder._mode:
             # Непосредственная адресация - запись в буфер аргумента команды
             case Mode.VALUE:
@@ -729,7 +730,6 @@ class ControlUnit:
                 raise ValueError("Mode at some instruction in source code is incorrect.")
 
     def _execute_instruction(self) -> None:
-        logging.info("exec cycle")
         match self._instruction_decoder._opcode:
             case Opcode.LD:
                 self.signal_latch_arithmetical_logical_unit(select=[0, 3, 3, 3, 6])
@@ -741,14 +741,14 @@ class ControlUnit:
                 self._data_path._write_memory()
                 self.perform_tick()
             case Opcode.IN:
-                self.signal_input_output(select_port = self._data_path._buffer_register, select_mode=0)
+                self.signal_input_output(select_port=self._data_path._buffer_register, select_mode=0)
                 self.signal_latch_accumulator_register(select=2)
                 if self._interruption_state and self._interruption_request:
                     self._interruption_request = False
                 self.perform_tick()
             case Opcode.OUT:
                 self._data_path._data_bus.transmitting_value = self._data_path._accumulator_register
-                self.signal_input_output(select_port = self._data_path._buffer_register, select_mode = 1)
+                self.signal_input_output(select_port=self._data_path._buffer_register, select_mode=1)
                 self.perform_tick()
             case Opcode.ADD:
                 self.signal_latch_arithmetical_logical_unit(select=[2, 3, 3, 3, 0])
@@ -851,7 +851,6 @@ class ControlUnit:
                 raise_error("Unknown opcode in instruction execute cycle")
 
     def _check_interruption(self) -> None:
-        logging.info("int cycle")
         if self._interruption_request and self._interruption_enabled and not self._interruption_state:
             self.signal_latch_buffer_register(select=2)
             self._prepare_for_interruption()
@@ -894,26 +893,22 @@ class Machine:
     _output_buffer: list[str]
     """ Буффер выходных данных для пользователя"""
 
-    def __init__(self,
-                memory_size: int = 4096,
-                io_devices: dict[int, IO.IODeviceCommon] = {7: IO.IODeviceConsole()}
-                ) -> None:
+    def __init__(
+        self, memory_size: int = 4096, io_devices: dict[int, IO.IODeviceCommon] = {7: IO.IODeviceConsole()}
+    ) -> None:
         assert memory_size > 0, "Memory size should not be zero."
         self._memory_size = memory_size
         # Возможность для использования стека, если задавать размер памяти больший,чем количество машинных выражений
         self._common_memory = [
-            MachineWordData(
-                index = index,
-                label = index,
-                value = 0,
-                line = 0)
-            for index in range(0, memory_size)
+            MachineWordData(index=index, label=index, value=0, line=0) for index in range(0, memory_size)
         ]
         self._data_bus = DataBus(io_devices)
         self._int_line = InterruptionLine(self, io_devices)
         self._io_controller = IO.IOController(io_devices)
         self._data_path = DataPath(self._common_memory, self._data_bus)
-        self._control_unit = ControlUnit(common_memory = self._common_memory, data_path = self._data_path, io_controller = self._io_controller)
+        self._control_unit = ControlUnit(
+            common_memory=self._common_memory, data_path=self._data_path, io_controller=self._io_controller
+        )
         self._output_buffer = []
 
     def __repr__(self) -> str:
@@ -923,38 +918,45 @@ class Machine:
         if self._control_unit._instruction_register.opcode in [Opcode.IN, Opcode.OUT]:
             io_port: int = self._control_unit._instruction_register.arg
             device_index: int = io_port // 2 + 1
-            device_state = "\n\t Dev: {} | Port: {} | ".format(device_index, io_port) + self._io_controller._connected_devices.get(device_index).__repr__()
-        return "TICK: {:3} | PC: {:3} | IR: '{:^11}' | IRQ: {} | IE: {} | IS: {} | AC: {:^10} | BR: {:3} | AR: {:3} | MEM_AR: {} | N: {} | Z: {}".format(
-            self._control_unit.get_tick(),
-            self._control_unit._programm_counter_register,
-            self._control_unit._instruction_register.opcode,
-            bool2int(self._control_unit._interruption_request),
-            bool2int(self._control_unit._interruption_enabled),
-            bool2int(self._control_unit._interruption_state),
-            self._control_unit._data_path._accumulator_register,
-            self._control_unit._data_path._buffer_register,
-            self._control_unit._data_path._address_register,
-            self._control_unit._data_path._read_memory(),
-            bool2int(self._control_unit._data_path.negative()),
-            bool2int(self._control_unit._data_path.zero())
-        ) + device_state
-
+            device_state = (
+                "\n\t Dev: {} | Port: {} | ".format(device_index, io_port)
+                + self._io_controller._connected_devices.get(device_index).__repr__()
+            )
+        return (
+            "TICK: {:3} | PC: {:3} | IR: '{:^11}' | IRQ: {} | IE: {} | IS: {} | AC: {:^10} | BR: {:3} | AR: {:3} | MEM_AR: {} | N: {} | Z: {}".format(
+                self._control_unit.get_tick(),
+                self._control_unit._programm_counter_register,
+                self._control_unit._instruction_register.opcode,
+                bool2int(self._control_unit._interruption_request),
+                bool2int(self._control_unit._interruption_enabled),
+                bool2int(self._control_unit._interruption_state),
+                self._control_unit._data_path._accumulator_register,
+                self._control_unit._data_path._buffer_register,
+                self._control_unit._data_path._address_register,
+                self._control_unit._data_path._read_memory(),
+                bool2int(self._control_unit._data_path.negative()),
+                bool2int(self._control_unit._data_path.zero()),
+            )
+            + device_state
+        )
 
     @staticmethod
     def parse_schedule(list_tuple_text: str) -> list[tuple[int, str]]:
-        """ Парсинг расписания ввода символов по тактам из текста с соответствующими данными."""
+        """Парсинг расписания ввода символов по тактам из текста с соответствующими данными."""
         list_schedule: list[tuple[int, str]] = list(eval(list_tuple_text)) if list_tuple_text.strip() != "" else []
         return list_schedule
 
     def request_new_int(self, input_schedule: list[tuple[int, str]], cur_schedule: int) -> None:
-        """ Установка нового значения в регистр данных устрйоства ввода, установка флага новых данных и запрос прерывания."""
+        """Установка нового значения в регистр данных устрйоства ввода, установка флага новых данных и запрос прерывания."""
         if self._io_controller._connected_devices[1]._new_data is True:
             self._io_controller._connected_devices[1]._data_register = ord(input_schedule[cur_schedule][1])
             self._io_controller._connected_devices[1].signal_int_request()
-            logging.info("\tInput {} >> '{}'".format(1, ord(input_schedule[cur_schedule][1])))
+            logging.info("\tInput {} << '{}'".format(1, ord(input_schedule[cur_schedule][1])))
 
-    def input_schedule_management(self, input_schedule: list[tuple[int, str]] = [], cur_schedule: int | None = None) -> int:
-        """ Управление вводом/выводом по расписанию.
+    def input_schedule_management(
+        self, input_schedule: list[tuple[int, str]] = [], cur_schedule: int | None = None
+    ) -> int | None:
+        """Управление вводом/выводом по расписанию.
 
         Возвращает вычисленное значение текущего указателя на запрос ввода/вывода."""
         cur_tick: int = self._control_unit.get_tick()
@@ -982,13 +984,15 @@ class Machine:
                     cur_schedule += 1
         return cur_schedule
 
-    def simulation(self, code: Code, input_schedule: list[tuple[int, str]] = [], limit: int = 1000) -> tuple[str, int, int]:
+    def simulation(
+        self, code: Code, input_schedule: list[tuple[int, str]] = [], limit: int = 1000
+    ) -> tuple[str, int, int]:
         """Подготовка модели и запуск симуляции процессора.
 
         Возвращает вывод программы, значение счётчика команд и кол-во исполненных тактов.
         """
         assert limit > 0, "Simulation failed: Limit can not be negative or zero."
-        self._common_memory[:len(code.contents)] = code.contents
+        self._common_memory[: len(code.contents)] = code.contents
         cur_schedule: int | None = 0 if len(input_schedule) > 0 else None
         try:
             while self._control_unit.get_tick() < limit:
@@ -996,7 +1000,7 @@ class Machine:
                 cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                # logging.info(self.__repr__()) # instr repr  # noqa: ERA001 need in case bedug
+                # logging.info(self.__repr__()) # instr repr  # noqa: ERA001 need in case per-instruction bedug
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
@@ -1005,14 +1009,16 @@ class Machine:
                     logging.info("output: '{}' << '{}'".format(self._output_buffer, new_symbol))
                     print(new_symbol, end="")
         except StopIteration:
-            logging.info(self.__repr__())
+            logging.info(self._control_unit.__repr__())
 
         if self._control_unit.get_tick() >= limit:
             logging.warning("Instruction limit exceeded!")
         logging.info("Output buffer:\n" + repr("".join(self._output_buffer)))
-        return ("".join(self._output_buffer),
-                self._control_unit._programm_counter_register,
-                self._control_unit.get_tick())
+        return (
+            "".join(self._output_buffer),
+            self._control_unit._programm_counter_register,
+            self._control_unit.get_tick(),
+        )
 
 
 def main(code_file: str, input_file_name: str) -> None:
@@ -1040,20 +1046,15 @@ def main(code_file: str, input_file_name: str) -> None:
 
     io_devices: dict[int, IO.IODeviceCommon] = {index: IO.IODeviceCommon() for index in [1, 2]}
     io_devices.update({7: IO.IODeviceConsole()})
-    machine = Machine(
-        memory_size = len(code.contents),
-        io_devices = io_devices
-    )
+    machine = Machine(memory_size=len(code.contents), io_devices=io_devices)
 
     try:
-        output, instr_counter, ticks = machine.simulation(
-            code = code,
-            input_schedule = input_schedule,
-            limit = 1000
-        )
+        output, instr_counter, ticks = machine.simulation(code=code, input_schedule=input_schedule, limit=3000)
     except ValueError as e:
         # use logging.exception to see the stacktrace
-        logging.exception("Error: Instruction parameters are incorrect or instruction decoder doesn't know how to handle some instructions.")
+        logging.exception(
+            "Error: Instruction parameters are incorrect or instruction decoder doesn't know how to handle some instructions."
+        )
         logging.error("Watch latest instruction in logs.")
         logging.error(e.args[0])
         return
@@ -1063,13 +1064,16 @@ def main(code_file: str, input_file_name: str) -> None:
         logging.exception(e.args[0])
         return
 
-    print("".join(output))
-    logging.info("instr_counter: {} ticks: {}".format(machine._control_unit._programm_counter_register, machine._control_unit.get_tick()))
+    logging.info(
+        "instr_counter: {} ticks: {}".format(
+            machine._control_unit._programm_counter_register, machine._control_unit.get_tick()
+        )
+    )
 
 
 if __name__ == "__main__":
     logging.getLogger().addHandler(logging.FileHandler("logs/machine.log"))
-    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+    # logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))  # noqa: ERA001 might need to see logs in console
     logging.getLogger().setLevel(logging.DEBUG)
     assert len(sys.argv) == 3, "Wrong arguments: machine.py <code_file> <input_file>"
     _, code_file, input_file = sys.argv
