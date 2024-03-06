@@ -15,9 +15,10 @@ test-coverage:
 lint:
   stage: test
   script:
-    - echo "ruff format --check"
+    - ruff format
+    - ruff format --check
 
 type-check:
   stage: test
   script: 
-    - poetry run mypy src/
+    - poetry run mypy .
