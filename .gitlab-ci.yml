@@ -15,8 +15,8 @@ test-coverage:
 lint:
   stage: test
   script:
-    - ruff format
-    - ruff format --check
+    - poetry run ruff format
+    - poetry run ruff format --check
 
 type-check:
   stage: test
