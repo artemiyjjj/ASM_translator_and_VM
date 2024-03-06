@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import re
 import sys
+from re import Match
 
 from isa import (
     Code,
@@ -73,12 +74,13 @@ def try_convert_str_to_int(num_str: str) -> int | None:
         return None
 
 def split_by_spec_symbols(elem: str) -> list[str]:
-        tmp: list[str] = re.split(r"(\:|\;|\,|\*|\")", elem)
-        while "" in tmp:
-            tmp.remove("")
-        return tmp
+    tmp: list[str] = re.split(r"(\:|\;|\,|\*|\")", elem)
+    while "" in tmp:
+        tmp.remove("")
+    return tmp
 
 def filter_comments_on_line(terms: list[str]) -> list[str]:
+    """ Убрать все символы после символа начала комментариев."""
     term_num: int
     comment_start: int | None = None
     for term_num, term in enumerate(terms):
@@ -96,46 +98,32 @@ def count_inverted_commas(term: str) -> int:
             ic_amount += 1
     return ic_amount
 
-def join_string_literals(terms: list[str]) -> list[str]:
-    """ Joins string literal parts, separated by space"""
-    quotes_count: int = 0
-    tmp: list[str] = []
-    common: list[str] = []
-    indices: list[int] = []
-    append_literal: bool = False
-    for term_num, part in enumerate(terms):
-        assert "'" not in part, "Translation failed: incorrect quotes in string literal"
-        cur_quotes_count: int = count_inverted_commas(part)
-        if cur_quotes_count > 0:
-            quotes_count += cur_quotes_count
-            tmp.append(part)
-            indices.append(term_num)
-            append_literal = True if cur_quotes_count % 2 == 1 else False
-        elif append_literal:
-            tmp.append(part)
-        else:
-            common.append(part)
-    if quotes_count > 0:
-        assert quotes_count % 2 == 0, "Translation failed: String literals are incomplete."
-        # add spaces
-        for elem_num, elem in enumerate(tmp[1:-1], 1):
-            # spaces set after each word and symbol, need to fix splitting before this
-            if elem != '"' and elem_num != len(tmp) - 2:
-                tmp[elem_num] = elem + " "
-        literal: str = "".join(tmp)
-        common.append(literal)
-    return common
+def get_literal_from_line(line: str) -> tuple[str | None, str]:
+    """ Выделение значения строкового литерала из строки.
 
+    Возвращает найденный литерал и строку без этого литерала.
+    """
+    pattern: str = r'(\".*?\")'
+    literal: Match[str] | None = re.search(pattern, line)
+    if literal is not None:
+        line = re.sub(pattern, "", line)
+        return (literal.group(0), line)
+    return (None, line)
 
 def split_programm_line_to_terms(line: str) -> list[str]:
-    terms: list[str]
+    literal: str | None = None
     complete_terms: list[str] = []
+    tmp: list[str] = []
+
     line = line.strip()
-    terms = line.split()
-    tmp: list[str]
+    literal, line = get_literal_from_line(line)
+    terms: list[str] = line.split()
     for term in terms:
         tmp = split_by_spec_symbols(term)
         complete_terms.extend(tmp)
+    complete_terms = filter_comments_on_line(complete_terms)
+    if literal is not None:
+        complete_terms.append(literal)
     return complete_terms
 
 
@@ -145,8 +133,6 @@ def split_text_to_source_terms(programm_text: str) -> list[SourceTerm]:
     # Нумерация строк исходного кода
     for line_num, line in enumerate(programm_text.split("\n"), 1):
         term_line = split_programm_line_to_terms(line)
-        term_line = filter_comments_on_line(term_line)
-        term_line = join_string_literals(term_line)
         if len(term_line) == 0:
             continue
         source_terms.append(SourceTerm(line_num, term_line))
@@ -427,7 +413,6 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
             data_size = try_convert_str_to_int(term.terms[2])
             assert data_size is not None and data_size > 0, "Translation failed: data size should be non-negative integer value, line: {}".format(term.line)  # noqa: PT018
             return data_size
-
         match len(term.terms):
             case 2: # Number declaration
                 data_terms.append(DataTerm(label = cur_label, value = value, size = data_size, line = term.line))
@@ -627,6 +612,7 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
     try:
         code = translate(source)
     except AssertionError as e:
+        # use logging.exception to see the stacktrace of an error
         logging.exception(e.args[0])
         return
 
