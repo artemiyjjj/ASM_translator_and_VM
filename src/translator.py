@@ -271,7 +271,7 @@ def match_label(term: SourceTerm) -> str | None:
         return None
     assert len(line) >= 2 and line[1] == ":", "Translation failed: Label name is not correct, line: {}".format(
         term.line
-    )  # noqa: PT018
+    )
     assert (
         line[0] not in instructions()
     ), "Translation failed: Label name can't be instructuction name, line: {}".format(term.line)
@@ -389,7 +389,7 @@ def map_term_to_statement(
                 is_noop_operation and len(statement.terms) == 1
             ), "Translation failed: instruction {} works without arguments, line: {}".format(
                 statement_term.opcode, statement.line
-            )  # noqa: PT018
+            )
             statement_term.mode = None
     return statement_term
 
@@ -478,7 +478,7 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
             data_size = try_convert_str_to_int(term.terms[2])
             assert (
                 data_size is not None and data_size > 0
-            ), "Translation failed: data size should be non-negative integer value, line: {}".format(term.line)  # noqa: PT018
+            ), "Translation failed: data size should be non-negative integer value, line: {}".format(term.line)
             return data_size
 
         match len(term.terms):
@@ -489,9 +489,9 @@ def map_terms_to_data(data_section_terms: list[SourceTerm]) -> tuple[list[DataTe
                 assert value is not None, "Translation failed: number defenition is not correct, line:{}".format(
                     term.line
                 )
-                assert (
-                    value < 2**31 and value >= -(2**32)
-                ), "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)  # noqa: PT018
+                assert value < 2**31 and value >= -(
+                    2**32
+                ), "Translation failed: number doesn't fit machine word, which is 4 bytes, line: {}".format(term.line)
                 data_terms.append(DataTerm(label=cur_label, value=value, size=data_size, line=term.line))
             case 4:  # String data declaration
                 data_size = validate_string_size(term.terms[2])
