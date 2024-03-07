@@ -340,19 +340,19 @@ class DataPath:
             """
             match mode:
                 case 0:
-                    self._output_buffer_register = self._left_register + self._right_register
+                    self._output_buffer_register = self._right_register + self._left_register
                 case 1:
-                    self._output_buffer_register = self._left_register - self._right_register
+                    self._output_buffer_register = self._right_register - self._left_register
                 case 2:
-                    self._output_buffer_register = self._left_register * self._right_register
+                    self._output_buffer_register = self._right_register * self._left_register
                 case 3:
-                    self._output_buffer_register = self._left_register // self._right_register
+                    self._output_buffer_register = self._right_register // self._left_register
                 case 4:
-                    self._output_buffer_register = self._left_register % self._right_register
+                    self._output_buffer_register = self._right_register % self._left_register
                 case 5:
-                    self._output_buffer_register = self._left_register & self._right_register
+                    self._output_buffer_register = self._right_register & self._left_register
                 case 6:
-                    self._output_buffer_register = self._left_register | self._right_register
+                    self._output_buffer_register = self._right_register | self._left_register
                 case 7:
                     self._output_buffer_register = self._right_register << 1
                 case 8:
@@ -486,7 +486,7 @@ class ControlUnit:
     def perform_tick(self) -> None:
         """Увеличение счётчика процессорных тактов."""
         self._tick += 1
-        logging.debug(self.__repr__())
+        # logging.debug(self.__repr__())
 
     def get_tick(self) -> int:
         return self._tick
@@ -555,7 +555,7 @@ class ControlUnit:
             case 1:
                 self._data_path._accumulator_register = self._data_path._alu._output_buffer_register
             case 2:
-                self._data_path._accumulator_register = self._data_path._data_bus.transmitting_value
+                self._data_path._accumulator_register = 0xFF & self._data_path._data_bus.transmitting_value
             case 3:
                 self._data_path._accumulator_register = self._programm_counter_register
             case _:
@@ -747,7 +747,7 @@ class ControlUnit:
                     self._interruption_request = False
                 self.perform_tick()
             case Opcode.OUT:
-                self._data_path._data_bus.transmitting_value = self._data_path._accumulator_register
+                self._data_path._data_bus.transmitting_value = 0xFF & self._data_path._accumulator_register
                 self.signal_input_output(select_port=self._data_path._buffer_register, select_mode=1)
                 self.perform_tick()
             case Opcode.ADD:
@@ -1006,7 +1006,7 @@ class Machine:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
                     self._output_buffer.append(new_symbol)
                     self._io_controller._connected_devices[2]._new_data = False
-                    logging.info("output: '{}' << '{}'".format(self._output_buffer, new_symbol))
+                    logging.info("output: {} << {}".format(self._output_buffer, new_symbol))
                     print(new_symbol, end="")
         except StopIteration:
             logging.info(self._control_unit.__repr__())
@@ -1049,7 +1049,7 @@ def main(code_file: str, input_file_name: str) -> None:
     machine = Machine(memory_size=len(code.contents), io_devices=io_devices)
 
     try:
-        output, instr_counter, ticks = machine.simulation(code=code, input_schedule=input_schedule, limit=3000)
+        output, instr_counter, ticks = machine.simulation(code=code, input_schedule=input_schedule, limit=75000)
     except ValueError as e:
         # use logging.exception to see the stacktrace
         logging.exception(
@@ -1072,7 +1072,10 @@ def main(code_file: str, input_file_name: str) -> None:
 
 
 if __name__ == "__main__":
-    logging.getLogger().addHandler(logging.FileHandler("logs/machine.log"))
+    handler = logging.FileHandler("logs/machine.log", "w", "utf-8")
+    formatter = logging.Formatter("%(name)s %(message)s")
+    handler.setFormatter(formatter)
+    logging.getLogger().addHandler(handler)
     # logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))  # noqa: ERA001 might need to see logs in console
     logging.getLogger().setLevel(logging.DEBUG)
     assert len(sys.argv) == 3, "Wrong arguments: machine.py <code_file> <input_file>"
