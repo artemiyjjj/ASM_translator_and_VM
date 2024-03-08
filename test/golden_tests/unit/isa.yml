@@ -1,11 +1,10 @@
-"""Тестирование десериализации JSON-объектов в соответствующие инструкции машинного кода."""
 in_code: |-
   [
     {
         "index": 0,
         "opcode": "jump",
         "arg": 1,
-        "mode": "deref",
+        "mode": "direct",
         "line": 2
     },
     {
@@ -16,6 +15,3837 @@ in_code: |-
     }
   ]
 out_obj: |
-  [StatementTerm(index=0, opcode=<Opcode.JMP: 'jump'>, arg=1, mode=<Mode.DEREF: 'deref'>, line=2), DataTerm(index=1, label='a', value='x', line=4)]
+  [{'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 60, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 49, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 0, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 0, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 19, 'mode': value, 'line': 5}, {'index': 12, 'opcode': store, 'arg': 1, 'mode': value, 'line': 6}, {'index': 13, 'label': 'loop', 'opcode': enable int, 'line': 8}, {'index': 14, 'opcode': load, 'arg': 26, 'mode': value, 'line': 9}, {'index': 15, 'opcode': compare, 'arg': 0, 'mode': value, 'line': 10}, {'index': 16, 'opcode': jump zero, 'arg': 18, 'mode': value, 'line': 11}, {'index': 17, 'opcode': jump, 'arg': 13, 'mode': value, 'line': 12}, {'index': 18, 'label': 'exit', 'opcode': halt, 'line': 14}, {'index': 19, 'label': 'dev_input', 'opcode': disable int, 'line': 16}, {'index': 20, 'opcode': input, 'arg': 1, 'mode': value, 'line': 17}, {'index': 21, 'opcode': output, 'arg': 3, 'mode': value, 'line': 18}, {'index': 22, 'opcode': load, 'arg': 26, 'mode': direct, 'line': 19}, {'index': 23, 'opcode': dec, 'line': 20}, {'index': 24, 'opcode': store, 'arg': 26, 'mode': value, 'line': 21}, {'index': 25, 'opcode': finish int, 'line': 22}, {'index': 26, 'label': 'letter_count', 'value': 3, 'line': 2}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 12, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 36, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 0, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 0, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 19, 'mode': value, 'line': 5}, {'index': 12, 'opcode': store, 'arg': 1, 'mode': value, 'line': 6}, {'index': 13, 'label': 'loop', 'opcode': enable int, 'line': 8}, {'index': 14, 'opcode': load, 'arg': 26, 'mode': value, 'line': 9}, {'index': 15, 'opcode': compare, 'arg': 0, 'mode': value, 'line': 10}, {'index': 16, 'opcode': jump zero, 'arg': 18, 'mode': value, 'line': 11}, {'index': 17, 'opcode': jump, 'arg': 13, 'mode': value, 'line': 12}, {'index': 18, 'label': 'exit', 'opcode': halt, 'line': 14}, {'index': 19, 'label': 'dev_input', 'opcode': disable int, 'line': 16}, {'index': 20, 'opcode': input, 'arg': 1, 'mode': value, 'line': 17}, {'index': 21, 'opcode': output, 'arg': 3, 'mode': value, 'line': 18}, {'index': 22, 'opcode': load, 'arg': 26, 'mode': direct, 'line': 19}, {'index': 23, 'opcode': dec, 'line': 20}, {'index': 24, 'opcode': store, 'arg': 26, 'mode': value, 'line': 21}, {'index': 25, 'opcode': finish int, 'line': 22}, {'index': 26, 'label': 'letter_count', 'value': 3, 'line': 2}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 10}, {'index': 12, 'opcode': mod, 'arg': 3, 'mode': value, 'line': 11}, {'index': 13, 'opcode': jump not zero, 'arg': 18, 'mode': value, 'line': 12}, {'index': 14, 'opcode': load, 'arg': 57, 'mode': direct, 'line': 13}, {'index': 15, 'opcode': add, 'arg': 59, 'mode': direct, 'line': 14}, {'index': 16, 'opcode': store, 'arg': 57, 'mode': value, 'line': 15}, {'index': 17, 'opcode': jump, 'arg': 24, 'mode': value, 'line': 16}, {'index': 18, 'label': 'sec', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 18}, {'index': 19, 'opcode': mod, 'arg': 5, 'mode': value, 'line': 19}, {'index': 20, 'opcode': jump not zero, 'arg': 24, 'mode': value, 'line': 20}, {'index': 21, 'opcode': load, 'arg': 57, 'mode': direct, 'line': 21}, {'index': 22, 'opcode': add, 'arg': 59, 'mode': direct, 'line': 22}, {'index': 23, 'opcode': store, 'arg': 57, 'mode': value, 'line': 23}, {'index': 24, 'label': 'end', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 25}, {'index': 25, 'opcode': inc, 'line': 26}, {'index': 26, 'opcode': store, 'arg': 59, 'mode': value, 'line': 27}, {'index': 27, 'opcode': compare, 'arg': 58, 'mode': direct, 'line': 28}, {'index': 28, 'opcode': jump not zero, 'arg': 11, 'mode': value, 'line': 29}, {'index': 29, 'label': 'print_new_byte', 'opcode': load, 'arg': 57, 'mode': direct, 'line': 33}, {'index': 30, 'opcode': store, 'arg': 60, 'mode': value, 'line': 34}, {'index': 31, 'opcode': load, 'arg': 61, 'mode': direct, 'line': 35}, {'index': 32, 'opcode': dec, 'line': 36}, {'index': 33, 'opcode': store, 'arg': 61, 'mode': value, 'line': 37}, {'index': 34, 'opcode': load, 'arg': 0, 'mode': value, 'line': 38}, {'index': 35, 'opcode': store, 'arg': 62, 'mode': value, 'line': 39}, {'index': 36, 'label': 'next_iter', 'opcode': compare, 'arg': 61, 'mode': direct, 'line': 41}, {'index': 37, 'opcode': jump not zero, 'arg': 43, 'mode': value, 'line': 42}, {'index': 38, 'opcode': load, 'arg': 60, 'mode': direct, 'line': 43}, {'index': 39, 'opcode': output, 'arg': 3, 'mode': value, 'line': 44}, {'index': 40, 'label': 'next_byte', 'opcode': load, 'arg': 61, 'mode': direct, 'line': 46}, {'index': 41, 'opcode': jump not zero, 'arg': 29, 'mode': value, 'line': 47}, {'index': 42, 'label': 'exit', 'opcode': halt, 'line': 49}, {'index': 43, 'label': 'shift', 'opcode': load, 'arg': 60, 'mode': direct, 'line': 51}, {'index': 44, 'opcode': shift right, 'line': 52}, {'index': 45, 'opcode': shift right, 'line': 53}, {'index': 46, 'opcode': shift right, 'line': 54}, {'index': 47, 'opcode': shift right, 'line': 55}, {'index': 48, 'opcode': shift right, 'line': 56}, {'index': 49, 'opcode': shift right, 'line': 57}, {'index': 50, 'opcode': shift right, 'line': 58}, {'index': 51, 'opcode': shift right, 'line': 59}, {'index': 52, 'opcode': store, 'arg': 60, 'mode': value, 'line': 60}, {'index': 53, 'opcode': load, 'arg': 62, 'mode': direct, 'line': 61}, {'index': 54, 'opcode': inc, 'line': 62}, {'index': 55, 'opcode': store, 'arg': 62, 'mode': value, 'line': 63}, {'index': 56, 'opcode': jump, 'arg': 36, 'mode': value, 'line': 64}, {'index': 57, 'label': 'sum', 'value': 0, 'line': 2}, {'index': 58, 'label': 'max', 'value': 1000, 'line': 3}, {'index': 59, 'label': 'cur', 'value': 0, 'line': 4}, {'index': 60, 'label': 'tmp', 'value': 0, 'line': 5}, {'index': 61, 'label': 'print_loop_count', 'value': 4, 'line': 6}, {'index': 62, 'label': 'cur_print_loop', 'value': 0, 'line': 7}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 36, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 49, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 0, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 0, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 19, 'mode': value, 'line': 5}, {'index': 12, 'opcode': store, 'arg': 1, 'mode': value, 'line': 6}, {'index': 13, 'label': 'loop', 'opcode': enable int, 'line': 8}, {'index': 14, 'opcode': load, 'arg': 26, 'mode': value, 'line': 9}, {'index': 15, 'opcode': compare, 'arg': 0, 'mode': value, 'line': 10}, {'index': 16, 'opcode': jump zero, 'arg': 18, 'mode': value, 'line': 11}, {'index': 17, 'opcode': jump, 'arg': 13, 'mode': value, 'line': 12}, {'index': 18, 'label': 'exit', 'opcode': halt, 'line': 14}, {'index': 19, 'label': 'dev_input', 'opcode': disable int, 'line': 16}, {'index': 20, 'opcode': input, 'arg': 1, 'mode': value, 'line': 17}, {'index': 21, 'opcode': output, 'arg': 3, 'mode': value, 'line': 18}, {'index': 22, 'opcode': load, 'arg': 26, 'mode': direct, 'line': 19}, {'index': 23, 'opcode': dec, 'line': 20}, {'index': 24, 'opcode': store, 'arg': 26, 'mode': value, 'line': 21}, {'index': 25, 'opcode': finish int, 'line': 22}, {'index': 26, 'label': 'letter_count', 'value': 3, 'line': 2}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 12, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 36, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 24, 'mode': value, 'line': 7}, {'index': 12, 'opcode': store, 'arg': 38, 'mode': value, 'line': 8}, {'index': 13, 'label': 'loop', 'opcode': load, 'arg': 38, 'mode': direct, 'line': 10}, {'index': 14, 'opcode': inc, 'line': 11}, {'index': 15, 'opcode': store, 'arg': 38, 'mode': value, 'line': 12}, {'index': 16, 'opcode': load, 'arg': 38, 'mode': indirect, 'line': 13}, {'index': 17, 'opcode': output, 'arg': 3, 'mode': value, 'line': 14}, {'index': 18, 'opcode': load, 'arg': 37, 'mode': direct, 'line': 15}, {'index': 19, 'opcode': inc, 'line': 16}, {'index': 20, 'opcode': store, 'arg': 37, 'mode': value, 'line': 17}, {'index': 21, 'opcode': compare, 'arg': 24, 'mode': direct, 'line': 18}, {'index': 22, 'opcode': jump not zero, 'arg': 13, 'mode': value, 'line': 19}, {'index': 23, 'opcode': halt, 'line': 20}, {'index': 24, 'label': 'message', 'value': 12, 'line': 2}, {'index': 25, 'label': 'message(+ 1)', 'value': 72, 'line': 2}, {'index': 26, 'label': 'message(+ 2)', 'value': 101, 'line': 2}, {'index': 27, 'label': 'message(+ 3)', 'value': 108, 'line': 2}, {'index': 28, 'label': 'message(+ 4)', 'value': 108, 'line': 2}, {'index': 29, 'label': 'message(+ 5)', 'value': 111, 'line': 2}, {'index': 30, 'label': 'message(+ 6)', 'value': 32, 'line': 2}, {'index': 31, 'label': 'message(+ 7)', 'value': 87, 'line': 2}, {'index': 32, 'label': 'message(+ 8)', 'value': 111, 'line': 2}, {'index': 33, 'label': 'message(+ 9)', 'value': 114, 'line': 2}, {'index': 34, 'label': 'message(+ 10)', 'value': 108, 'line': 2}, {'index': 35, 'label': 'message(+ 11)', 'value': 100, 'line': 2}, {'index': 36, 'label': 'message(+ 12)', 'value': 33, 'line': 2}, {'index': 37, 'label': 'output_counter', 'value': 0, 'line': 3}, {'index': 38, 'label': 'output_position', 'value': 0, 'line': 4}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 19, 'mode': value, 'line': 5}, {'index': 12, 'opcode': store, 'arg': 1, 'mode': value, 'line': 6}, {'index': 13, 'label': 'loop', 'opcode': enable int, 'line': 8}, {'index': 14, 'opcode': load, 'arg': 26, 'mode': value, 'line': 9}, {'index': 15, 'opcode': compare, 'arg': 0, 'mode': value, 'line': 10}, {'index': 16, 'opcode': jump zero, 'arg': 18, 'mode': value, 'line': 11}, {'index': 17, 'opcode': jump, 'arg': 13, 'mode': value, 'line': 12}, {'index': 18, 'label': 'exit', 'opcode': halt, 'line': 14}, {'index': 19, 'label': 'dev_input', 'opcode': disable int, 'line': 16}, {'index': 20, 'opcode': input, 'arg': 1, 'mode': value, 'line': 17}, {'index': 21, 'opcode': output, 'arg': 3, 'mode': value, 'line': 18}, {'index': 22, 'opcode': load, 'arg': 26, 'mode': direct, 'line': 19}, {'index': 23, 'opcode': dec, 'line': 20}, {'index': 24, 'opcode': store, 'arg': 26, 'mode': value, 'line': 21}, {'index': 25, 'opcode': finish int, 'line': 22}, {'index': 26, 'label': 'letter_count', 'value': 3, 'line': 2}, {'index': 0, 'label': 'int0', 'value': 10}, {'index': 1, 'label': 'int1', 'value': 10}, {'index': 2, 'label': 'int2', 'value': 10}, {'index': 3, 'label': 'int3', 'value': 10}, {'index': 4, 'label': 'int4', 'value': 10}, {'index': 5, 'label': 'int5', 'value': 10}, {'index': 6, 'label': 'int6', 'value': 10}, {'index': 7, 'label': 'int7', 'value': 10}, {'index': 8, 'label': 'int_acc', 'value': 0}, {'index': 9, 'label': 'int_pc', 'value': 0}, {'index': 10, 'opcode': finish int, 'line': 0}, {'index': 11, 'label': '_start', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 10}, {'index': 12, 'opcode': mod, 'arg': 3, 'mode': value, 'line': 11}, {'index': 13, 'opcode': jump not zero, 'arg': 18, 'mode': value, 'line': 12}, {'index': 14, 'opcode': load, 'arg': 57, 'mode': direct, 'line': 13}, {'index': 15, 'opcode': add, 'arg': 59, 'mode': direct, 'line': 14}, {'index': 16, 'opcode': store, 'arg': 57, 'mode': value, 'line': 15}, {'index': 17, 'opcode': jump, 'arg': 24, 'mode': value, 'line': 16}, {'index': 18, 'label': 'sec', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 18}, {'index': 19, 'opcode': mod, 'arg': 5, 'mode': value, 'line': 19}, {'index': 20, 'opcode': jump not zero, 'arg': 24, 'mode': value, 'line': 20}, {'index': 21, 'opcode': load, 'arg': 57, 'mode': direct, 'line': 21}, {'index': 22, 'opcode': add, 'arg': 59, 'mode': direct, 'line': 22}, {'index': 23, 'opcode': store, 'arg': 57, 'mode': value, 'line': 23}, {'index': 24, 'label': 'end', 'opcode': load, 'arg': 59, 'mode': direct, 'line': 25}, {'index': 25, 'opcode': inc, 'line': 26}, {'index': 26, 'opcode': store, 'arg': 59, 'mode': value, 'line': 27}, {'index': 27, 'opcode': compare, 'arg': 58, 'mode': direct, 'line': 28}, {'index': 28, 'opcode': jump not zero, 'arg': 11, 'mode': value, 'line': 29}, {'index': 29, 'label': 'print_new_byte', 'opcode': load, 'arg': 57, 'mode': direct, 'line': 33}, {'index': 30, 'opcode': store, 'arg': 60, 'mode': value, 'line': 34}, {'index': 31, 'opcode': load, 'arg': 61, 'mode': direct, 'line': 35}, {'index': 32, 'opcode': dec, 'line': 36}, {'index': 33, 'opcode': store, 'arg': 61, 'mode': value, 'line': 37}, {'index': 34, 'opcode': load, 'arg': 0, 'mode': value, 'line': 38}, {'index': 35, 'opcode': store, 'arg': 62, 'mode': value, 'line': 39}, {'index': 36, 'label': 'next_iter', 'opcode': compare, 'arg': 61, 'mode': direct, 'line': 41}, {'index': 37, 'opcode': jump not zero, 'arg': 43, 'mode': value, 'line': 42}, {'index': 38, 'opcode': load, 'arg': 60, 'mode': direct, 'line': 43}, {'index': 39, 'opcode': output, 'arg': 3, 'mode': value, 'line': 44}, {'index': 40, 'label': 'next_byte', 'opcode': load, 'arg': 61, 'mode': direct, 'line': 46}, {'index': 41, 'opcode': jump not zero, 'arg': 29, 'mode': value, 'line': 47}, {'index': 42, 'label': 'exit', 'opcode': halt, 'line': 49}, {'index': 43, 'label': 'shift', 'opcode': load, 'arg': 60, 'mode': direct, 'line': 51}, {'index': 44, 'opcode': shift right, 'line': 52}, {'index': 45, 'opcode': shift right, 'line': 53}, {'index': 46, 'opcode': shift right, 'line': 54}, {'index': 47, 'opcode': shift right, 'line': 55}, {'index': 48, 'opcode': shift right, 'line': 56}, {'index': 49, 'opcode': shift right, 'line': 57}, {'index': 50, 'opcode': shift right, 'line': 58}, {'index': 51, 'opcode': shift right, 'line': 59}, {'index': 52, 'opcode': store, 'arg': 60, 'mode': value, 'line': 60}, {'index': 53, 'opcode': load, 'arg': 62, 'mode': direct, 'line': 61}, {'index': 54, 'opcode': inc, 'line': 62}, {'index': 55, 'opcode': store, 'arg': 62, 'mode': value, 'line': 63}, {'index': 56, 'opcode': jump, 'arg': 36, 'mode': value, 'line': 64}, {'index': 57, 'label': 'sum', 'value': 0, 'line': 2}, {'index': 58, 'label': 'max', 'value': 1000, 'line': 3}, {'index': 59, 'label': 'cur', 'value': 0, 'line': 4}, {'index': 60, 'label': 'tmp', 'value': 0, 'line': 5}, {'index': 61, 'label': 'print_loop_count', 'value': 4, 'line': 6}, {'index': 62, 'label': 'cur_print_loop', 'value': 0, 'line': 7}, {'index': 0, 'opcode': jump, 'arg': 1, 'mode': direct, 'line': 2}, {'index': 1, 'label': 'a', 'value': 'x', 'line': 4}]
 out_code: |-
-  [{"index": 0, "opcode": "jump", "arg": 1, "mode": "deref", "line": 2}, {"index": 1, "label": "a", "value": "x", "line": 4}]
+  [
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 60,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 49,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 0,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 19,
+          "mode": "value",
+          "line": 5
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 1,
+          "mode": "value",
+          "line": 6
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "enable int",
+          "arg": null,
+          "mode": null,
+          "line": 8
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "value",
+          "line": 9
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "compare",
+          "arg": 0,
+          "mode": "value",
+          "line": 10
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "jump zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 13,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 18,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 14
+      },
+      {
+          "index": 19,
+          "label": "dev_input",
+          "opcode": "disable int",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "input",
+          "arg": 1,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "direct",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": null,
+          "opcode": "store",
+          "arg": 26,
+          "mode": "value",
+          "line": 21
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 22
+      },
+      {
+          "index": 26,
+          "label": "letter_count",
+          "value": 3,
+          "line": 2
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 12,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 36,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 0,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 19,
+          "mode": "value",
+          "line": 5
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 1,
+          "mode": "value",
+          "line": 6
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "enable int",
+          "arg": null,
+          "mode": null,
+          "line": 8
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "value",
+          "line": 9
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "compare",
+          "arg": 0,
+          "mode": "value",
+          "line": 10
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "jump zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 13,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 18,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 14
+      },
+      {
+          "index": 19,
+          "label": "dev_input",
+          "opcode": "disable int",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "input",
+          "arg": 1,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "direct",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": null,
+          "opcode": "store",
+          "arg": 26,
+          "mode": "value",
+          "line": 21
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 22
+      },
+      {
+          "index": 26,
+          "label": "letter_count",
+          "value": 3,
+          "line": 2
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "mod",
+          "arg": 3,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 13,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 13
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "add",
+          "arg": 59,
+          "mode": "direct",
+          "line": 14
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "store",
+          "arg": 57,
+          "mode": "value",
+          "line": 15
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 24,
+          "mode": "value",
+          "line": 16
+      },
+      {
+          "index": 18,
+          "label": "sec",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "mod",
+          "arg": 5,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 24,
+          "mode": "value",
+          "line": 20
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 21
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "add",
+          "arg": 59,
+          "mode": "direct",
+          "line": 22
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "store",
+          "arg": 57,
+          "mode": "value",
+          "line": 23
+      },
+      {
+          "index": 24,
+          "label": "end",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 25
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 26
+      },
+      {
+          "index": 26,
+          "label": null,
+          "opcode": "store",
+          "arg": 59,
+          "mode": "value",
+          "line": 27
+      },
+      {
+          "index": 27,
+          "label": null,
+          "opcode": "compare",
+          "arg": 58,
+          "mode": "direct",
+          "line": 28
+      },
+      {
+          "index": 28,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 11,
+          "mode": "value",
+          "line": 29
+      },
+      {
+          "index": 29,
+          "label": "print_new_byte",
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 33
+      },
+      {
+          "index": 30,
+          "label": null,
+          "opcode": "store",
+          "arg": 60,
+          "mode": "value",
+          "line": 34
+      },
+      {
+          "index": 31,
+          "label": null,
+          "opcode": "load",
+          "arg": 61,
+          "mode": "direct",
+          "line": 35
+      },
+      {
+          "index": 32,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 36
+      },
+      {
+          "index": 33,
+          "label": null,
+          "opcode": "store",
+          "arg": 61,
+          "mode": "value",
+          "line": 37
+      },
+      {
+          "index": 34,
+          "label": null,
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 38
+      },
+      {
+          "index": 35,
+          "label": null,
+          "opcode": "store",
+          "arg": 62,
+          "mode": "value",
+          "line": 39
+      },
+      {
+          "index": 36,
+          "label": "next_iter",
+          "opcode": "compare",
+          "arg": 61,
+          "mode": "direct",
+          "line": 41
+      },
+      {
+          "index": 37,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 43,
+          "mode": "value",
+          "line": 42
+      },
+      {
+          "index": 38,
+          "label": null,
+          "opcode": "load",
+          "arg": 60,
+          "mode": "direct",
+          "line": 43
+      },
+      {
+          "index": 39,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 44
+      },
+      {
+          "index": 40,
+          "label": "next_byte",
+          "opcode": "load",
+          "arg": 61,
+          "mode": "direct",
+          "line": 46
+      },
+      {
+          "index": 41,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 29,
+          "mode": "value",
+          "line": 47
+      },
+      {
+          "index": 42,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 49
+      },
+      {
+          "index": 43,
+          "label": "shift",
+          "opcode": "load",
+          "arg": 60,
+          "mode": "direct",
+          "line": 51
+      },
+      {
+          "index": 44,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 52
+      },
+      {
+          "index": 45,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 53
+      },
+      {
+          "index": 46,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 54
+      },
+      {
+          "index": 47,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 55
+      },
+      {
+          "index": 48,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 56
+      },
+      {
+          "index": 49,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 57
+      },
+      {
+          "index": 50,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 58
+      },
+      {
+          "index": 51,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 59
+      },
+      {
+          "index": 52,
+          "label": null,
+          "opcode": "store",
+          "arg": 60,
+          "mode": "value",
+          "line": 60
+      },
+      {
+          "index": 53,
+          "label": null,
+          "opcode": "load",
+          "arg": 62,
+          "mode": "direct",
+          "line": 61
+      },
+      {
+          "index": 54,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 62
+      },
+      {
+          "index": 55,
+          "label": null,
+          "opcode": "store",
+          "arg": 62,
+          "mode": "value",
+          "line": 63
+      },
+      {
+          "index": 56,
+          "label": null,
+          "opcode": "jump",
+          "arg": 36,
+          "mode": "value",
+          "line": 64
+      },
+      {
+          "index": 57,
+          "label": "sum",
+          "value": 0,
+          "line": 2
+      },
+      {
+          "index": 58,
+          "label": "max",
+          "value": 1000,
+          "line": 3
+      },
+      {
+          "index": 59,
+          "label": "cur",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 60,
+          "label": "tmp",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 61,
+          "label": "print_loop_count",
+          "value": 4,
+          "line": 6
+      },
+      {
+          "index": 62,
+          "label": "cur_print_loop",
+          "value": 0,
+          "line": 7
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 36,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 49,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 0,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 19,
+          "mode": "value",
+          "line": 5
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 1,
+          "mode": "value",
+          "line": 6
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "enable int",
+          "arg": null,
+          "mode": null,
+          "line": 8
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "value",
+          "line": 9
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "compare",
+          "arg": 0,
+          "mode": "value",
+          "line": 10
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "jump zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 13,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 18,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 14
+      },
+      {
+          "index": 19,
+          "label": "dev_input",
+          "opcode": "disable int",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "input",
+          "arg": 1,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "direct",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": null,
+          "opcode": "store",
+          "arg": 26,
+          "mode": "value",
+          "line": 21
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 22
+      },
+      {
+          "index": 26,
+          "label": "letter_count",
+          "value": 3,
+          "line": 2
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 12,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 36,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 24,
+          "mode": "value",
+          "line": 7
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 8
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "load",
+          "arg": 38,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 11
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "store",
+          "arg": 38,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "load",
+          "arg": 38,
+          "mode": "indirect",
+          "line": 13
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 14
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "load",
+          "arg": 37,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "store",
+          "arg": 37,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "compare",
+          "arg": 24,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 13,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": "message",
+          "value": 12,
+          "line": 2
+      },
+      {
+          "index": 25,
+          "label": "message(+ 1)",
+          "value": 72,
+          "line": 2
+      },
+      {
+          "index": 26,
+          "label": "message(+ 2)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 27,
+          "label": "message(+ 3)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 28,
+          "label": "message(+ 4)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 29,
+          "label": "message(+ 5)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 30,
+          "label": "message(+ 6)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 31,
+          "label": "message(+ 7)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 32,
+          "label": "message(+ 8)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 33,
+          "label": "message(+ 9)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 34,
+          "label": "message(+ 10)",
+          "value": 108,
+          "line": 2
+      },
+      {
+          "index": 35,
+          "label": "message(+ 11)",
+          "value": 100,
+          "line": 2
+      },
+      {
+          "index": 36,
+          "label": "message(+ 12)",
+          "value": 33,
+          "line": 2
+      },
+      {
+          "index": 37,
+          "label": "output_counter",
+          "value": 0,
+          "line": 3
+      },
+      {
+          "index": 38,
+          "label": "output_position",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 19,
+          "mode": "value",
+          "line": 5
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "store",
+          "arg": 1,
+          "mode": "value",
+          "line": 6
+      },
+      {
+          "index": 13,
+          "label": "loop",
+          "opcode": "enable int",
+          "arg": null,
+          "mode": null,
+          "line": 8
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "value",
+          "line": 9
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "compare",
+          "arg": 0,
+          "mode": "value",
+          "line": 10
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "jump zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 13,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 18,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 14
+      },
+      {
+          "index": 19,
+          "label": "dev_input",
+          "opcode": "disable int",
+          "arg": null,
+          "mode": null,
+          "line": 16
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "input",
+          "arg": 1,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 18
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "load",
+          "arg": 26,
+          "mode": "direct",
+          "line": 19
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 20
+      },
+      {
+          "index": 24,
+          "label": null,
+          "opcode": "store",
+          "arg": 26,
+          "mode": "value",
+          "line": 21
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 22
+      },
+      {
+          "index": 26,
+          "label": "letter_count",
+          "value": 3,
+          "line": 2
+      },
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 10
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "mod",
+          "arg": 3,
+          "mode": "value",
+          "line": 11
+      },
+      {
+          "index": 13,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 18,
+          "mode": "value",
+          "line": 12
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 13
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "add",
+          "arg": 59,
+          "mode": "direct",
+          "line": 14
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "store",
+          "arg": 57,
+          "mode": "value",
+          "line": 15
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "jump",
+          "arg": 24,
+          "mode": "value",
+          "line": 16
+      },
+      {
+          "index": 18,
+          "label": "sec",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 18
+      },
+      {
+          "index": 19,
+          "label": null,
+          "opcode": "mod",
+          "arg": 5,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 24,
+          "mode": "value",
+          "line": 20
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 21
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "add",
+          "arg": 59,
+          "mode": "direct",
+          "line": 22
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "store",
+          "arg": 57,
+          "mode": "value",
+          "line": 23
+      },
+      {
+          "index": 24,
+          "label": "end",
+          "opcode": "load",
+          "arg": 59,
+          "mode": "direct",
+          "line": 25
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 26
+      },
+      {
+          "index": 26,
+          "label": null,
+          "opcode": "store",
+          "arg": 59,
+          "mode": "value",
+          "line": 27
+      },
+      {
+          "index": 27,
+          "label": null,
+          "opcode": "compare",
+          "arg": 58,
+          "mode": "direct",
+          "line": 28
+      },
+      {
+          "index": 28,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 11,
+          "mode": "value",
+          "line": 29
+      },
+      {
+          "index": 29,
+          "label": "print_new_byte",
+          "opcode": "load",
+          "arg": 57,
+          "mode": "direct",
+          "line": 33
+      },
+      {
+          "index": 30,
+          "label": null,
+          "opcode": "store",
+          "arg": 60,
+          "mode": "value",
+          "line": 34
+      },
+      {
+          "index": 31,
+          "label": null,
+          "opcode": "load",
+          "arg": 61,
+          "mode": "direct",
+          "line": 35
+      },
+      {
+          "index": 32,
+          "label": null,
+          "opcode": "dec",
+          "arg": null,
+          "mode": null,
+          "line": 36
+      },
+      {
+          "index": 33,
+          "label": null,
+          "opcode": "store",
+          "arg": 61,
+          "mode": "value",
+          "line": 37
+      },
+      {
+          "index": 34,
+          "label": null,
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 38
+      },
+      {
+          "index": 35,
+          "label": null,
+          "opcode": "store",
+          "arg": 62,
+          "mode": "value",
+          "line": 39
+      },
+      {
+          "index": 36,
+          "label": "next_iter",
+          "opcode": "compare",
+          "arg": 61,
+          "mode": "direct",
+          "line": 41
+      },
+      {
+          "index": 37,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 43,
+          "mode": "value",
+          "line": 42
+      },
+      {
+          "index": 38,
+          "label": null,
+          "opcode": "load",
+          "arg": 60,
+          "mode": "direct",
+          "line": 43
+      },
+      {
+          "index": 39,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 44
+      },
+      {
+          "index": 40,
+          "label": "next_byte",
+          "opcode": "load",
+          "arg": 61,
+          "mode": "direct",
+          "line": 46
+      },
+      {
+          "index": 41,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 29,
+          "mode": "value",
+          "line": 47
+      },
+      {
+          "index": 42,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 49
+      },
+      {
+          "index": 43,
+          "label": "shift",
+          "opcode": "load",
+          "arg": 60,
+          "mode": "direct",
+          "line": 51
+      },
+      {
+          "index": 44,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 52
+      },
+      {
+          "index": 45,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 53
+      },
+      {
+          "index": 46,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 54
+      },
+      {
+          "index": 47,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 55
+      },
+      {
+          "index": 48,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 56
+      },
+      {
+          "index": 49,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 57
+      },
+      {
+          "index": 50,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 58
+      },
+      {
+          "index": 51,
+          "label": null,
+          "opcode": "shift right",
+          "arg": null,
+          "mode": null,
+          "line": 59
+      },
+      {
+          "index": 52,
+          "label": null,
+          "opcode": "store",
+          "arg": 60,
+          "mode": "value",
+          "line": 60
+      },
+      {
+          "index": 53,
+          "label": null,
+          "opcode": "load",
+          "arg": 62,
+          "mode": "direct",
+          "line": 61
+      },
+      {
+          "index": 54,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 62
+      },
+      {
+          "index": 55,
+          "label": null,
+          "opcode": "store",
+          "arg": 62,
+          "mode": "value",
+          "line": 63
+      },
+      {
+          "index": 56,
+          "label": null,
+          "opcode": "jump",
+          "arg": 36,
+          "mode": "value",
+          "line": 64
+      },
+      {
+          "index": 57,
+          "label": "sum",
+          "value": 0,
+          "line": 2
+      },
+      {
+          "index": 58,
+          "label": "max",
+          "value": 1000,
+          "line": 3
+      },
+      {
+          "index": 59,
+          "label": "cur",
+          "value": 0,
+          "line": 4
+      },
+      {
+          "index": 60,
+          "label": "tmp",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 61,
+          "label": "print_loop_count",
+          "value": 4,
+          "line": 6
+      },
+      {
+          "index": 62,
+          "label": "cur_print_loop",
+          "value": 0,
+          "line": 7
+      },
+      {
+          "index": 0,
+          "label": null,
+          "opcode": "jump",
+          "arg": 1,
+          "mode": "direct",
+          "line": 2
+      },
+      {
+          "index": 1,
+          "label": "a",
+          "value": "x",
+          "line": 4
+      }
+  ]

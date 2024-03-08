@@ -17,6 +17,6 @@ dev_input:
     in  1
     out 3
     ld  *letter_count
-    inc
+    dec
     st  letter_count
     fi 
