@@ -1,7 +1,7 @@
 in_program: |-
   section .data:
     question: 18, "What is your name?"
-    answer1: 6, "Hello, "
+    answer1: 7, "Hello, "
     answer2: 1, "!"
     user_input: 40,
     input_end_symbol: 10 ; "\n" ascii code
@@ -89,14 +89,1633 @@ in_program: |-
 in_is_output_number: |-
   0
 in_schedule: |
-  
+
 stdin: |-
   Artemiy
-out_machine_input: |-
-  ...
+
+out_machine_output: |-
+  What is your name?
+  Hello, Artemiy!
 out_code: |-
-  ...
+  [
+      {
+          "index": 0,
+          "label": "int0",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 1,
+          "label": "int1",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 2,
+          "label": "int2",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 3,
+          "label": "int3",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 4,
+          "label": "int4",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 5,
+          "label": "int5",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 6,
+          "label": "int6",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 7,
+          "label": "int7",
+          "value": 10,
+          "line": null
+      },
+      {
+          "index": 8,
+          "label": "int_acc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 9,
+          "label": "int_pc",
+          "value": 0,
+          "line": null
+      },
+      {
+          "index": 10,
+          "label": null,
+          "opcode": "finish int",
+          "arg": null,
+          "mode": null,
+          "line": 0
+      },
+      {
+          "index": 11,
+          "label": "_start",
+          "opcode": "load",
+          "arg": 159,
+          "mode": "direct",
+          "line": 15
+      },
+      {
+          "index": 12,
+          "label": null,
+          "opcode": "load",
+          "arg": 73,
+          "mode": "value",
+          "line": 16
+      },
+      {
+          "index": 13,
+          "label": null,
+          "opcode": "store",
+          "arg": 157,
+          "mode": "value",
+          "line": 17
+      },
+      {
+          "index": 14,
+          "label": null,
+          "opcode": "store",
+          "arg": 158,
+          "mode": "value",
+          "line": 18
+      },
+      {
+          "index": 15,
+          "label": null,
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 19
+      },
+      {
+          "index": 16,
+          "label": null,
+          "opcode": "store",
+          "arg": 156,
+          "mode": "value",
+          "line": 20
+      },
+      {
+          "index": 17,
+          "label": null,
+          "opcode": "load",
+          "arg": 30,
+          "mode": "value",
+          "line": 21
+      },
+      {
+          "index": 18,
+          "label": null,
+          "opcode": "store",
+          "arg": 159,
+          "mode": "value",
+          "line": 22
+      },
+      {
+          "index": 19,
+          "label": "print_literal",
+          "opcode": "load",
+          "arg": 157,
+          "mode": "direct",
+          "line": 25
+      },
+      {
+          "index": 20,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 26
+      },
+      {
+          "index": 21,
+          "label": null,
+          "opcode": "store",
+          "arg": 157,
+          "mode": "value",
+          "line": 27
+      },
+      {
+          "index": 22,
+          "label": null,
+          "opcode": "load",
+          "arg": 157,
+          "mode": "indirect",
+          "line": 28
+      },
+      {
+          "index": 23,
+          "label": null,
+          "opcode": "output",
+          "arg": 3,
+          "mode": "value",
+          "line": 29
+      },
+      {
+          "index": 24,
+          "label": null,
+          "opcode": "load",
+          "arg": 156,
+          "mode": "direct",
+          "line": 30
+      },
+      {
+          "index": 25,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 31
+      },
+      {
+          "index": 26,
+          "label": null,
+          "opcode": "store",
+          "arg": 156,
+          "mode": "value",
+          "line": 32
+      },
+      {
+          "index": 27,
+          "label": null,
+          "opcode": "compare",
+          "arg": 158,
+          "mode": "indirect",
+          "line": 33
+      },
+      {
+          "index": 28,
+          "label": null,
+          "opcode": "jump not zero",
+          "arg": 19,
+          "mode": "value",
+          "line": 34
+      },
+      {
+          "index": 29,
+          "label": null,
+          "opcode": "jump",
+          "arg": 159,
+          "mode": "direct",
+          "line": 35
+      },
+      {
+          "index": 30,
+          "label": "prepare_read_input",
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 38
+      },
+      {
+          "index": 31,
+          "label": null,
+          "opcode": "store",
+          "arg": 156,
+          "mode": "value",
+          "line": 39
+      },
+      {
+          "index": 32,
+          "label": null,
+          "opcode": "load",
+          "arg": 102,
+          "mode": "value",
+          "line": 40
+      },
+      {
+          "index": 33,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 41
+      },
+      {
+          "index": 34,
+          "label": null,
+          "opcode": "store",
+          "arg": 155,
+          "mode": "value",
+          "line": 42
+      },
+      {
+          "index": 35,
+          "label": "read_input",
+          "opcode": "input",
+          "arg": 13,
+          "mode": "value",
+          "line": 44
+      },
+      {
+          "index": 36,
+          "label": null,
+          "opcode": "compare",
+          "arg": 143,
+          "mode": "direct",
+          "line": 45
+      },
+      {
+          "index": 37,
+          "label": null,
+          "opcode": "jump zero",
+          "arg": 46,
+          "mode": "value",
+          "line": 46
+      },
+      {
+          "index": 38,
+          "label": null,
+          "opcode": "store",
+          "arg": 155,
+          "mode": "direct",
+          "line": 47
+      },
+      {
+          "index": 39,
+          "label": null,
+          "opcode": "load",
+          "arg": 155,
+          "mode": "direct",
+          "line": 48
+      },
+      {
+          "index": 40,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 49
+      },
+      {
+          "index": 41,
+          "label": null,
+          "opcode": "store",
+          "arg": 155,
+          "mode": "value",
+          "line": 50
+      },
+      {
+          "index": 42,
+          "label": null,
+          "opcode": "load",
+          "arg": 154,
+          "mode": "direct",
+          "line": 51
+      },
+      {
+          "index": 43,
+          "label": null,
+          "opcode": "inc",
+          "arg": null,
+          "mode": null,
+          "line": 52
+      },
+      {
+          "index": 44,
+          "label": null,
+          "opcode": "store",
+          "arg": 154,
+          "mode": "value",
+          "line": 53
+      },
+      {
+          "index": 45,
+          "label": null,
+          "opcode": "jump",
+          "arg": 35,
+          "mode": "value",
+          "line": 54
+      },
+      {
+          "index": 46,
+          "label": "store_input_len",
+          "opcode": "load",
+          "arg": 154,
+          "mode": "direct",
+          "line": 56
+      },
+      {
+          "index": 47,
+          "label": null,
+          "opcode": "store",
+          "arg": 102,
+          "mode": "value",
+          "line": 57
+      },
+      {
+          "index": 48,
+          "label": "prepare_print_answer1",
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 60
+      },
+      {
+          "index": 49,
+          "label": null,
+          "opcode": "store",
+          "arg": 154,
+          "mode": "value",
+          "line": 61
+      },
+      {
+          "index": 50,
+          "label": null,
+          "opcode": "load",
+          "arg": 92,
+          "mode": "value",
+          "line": 62
+      },
+      {
+          "index": 51,
+          "label": null,
+          "opcode": "store",
+          "arg": 157,
+          "mode": "value",
+          "line": 63
+      },
+      {
+          "index": 52,
+          "label": null,
+          "opcode": "store",
+          "arg": 158,
+          "mode": "value",
+          "line": 64
+      },
+      {
+          "index": 53,
+          "label": null,
+          "opcode": "load",
+          "arg": 56,
+          "mode": "value",
+          "line": 65
+      },
+      {
+          "index": 54,
+          "label": null,
+          "opcode": "store",
+          "arg": 159,
+          "mode": "value",
+          "line": 66
+      },
+      {
+          "index": 55,
+          "label": null,
+          "opcode": "jump",
+          "arg": 19,
+          "mode": "value",
+          "line": 67
+      },
+      {
+          "index": 56,
+          "label": "prepare_print_user_input",
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 69
+      },
+      {
+          "index": 57,
+          "label": null,
+          "opcode": "store",
+          "arg": 156,
+          "mode": "value",
+          "line": 70
+      },
+      {
+          "index": 58,
+          "label": null,
+          "opcode": "load",
+          "arg": 102,
+          "mode": "value",
+          "line": 71
+      },
+      {
+          "index": 59,
+          "label": null,
+          "opcode": "store",
+          "arg": 157,
+          "mode": "value",
+          "line": 72
+      },
+      {
+          "index": 60,
+          "label": null,
+          "opcode": "store",
+          "arg": 158,
+          "mode": "value",
+          "line": 73
+      },
+      {
+          "index": 61,
+          "label": null,
+          "opcode": "load",
+          "arg": 64,
+          "mode": "value",
+          "line": 74
+      },
+      {
+          "index": 62,
+          "label": null,
+          "opcode": "store",
+          "arg": 159,
+          "mode": "value",
+          "line": 75
+      },
+      {
+          "index": 63,
+          "label": null,
+          "opcode": "jump",
+          "arg": 19,
+          "mode": "value",
+          "line": 76
+      },
+      {
+          "index": 64,
+          "label": "prepare_print_answer2",
+          "opcode": "load",
+          "arg": 0,
+          "mode": "value",
+          "line": 78
+      },
+      {
+          "index": 65,
+          "label": null,
+          "opcode": "store",
+          "arg": 156,
+          "mode": "value",
+          "line": 79
+      },
+      {
+          "index": 66,
+          "label": null,
+          "opcode": "load",
+          "arg": 100,
+          "mode": "value",
+          "line": 80
+      },
+      {
+          "index": 67,
+          "label": null,
+          "opcode": "store",
+          "arg": 157,
+          "mode": "value",
+          "line": 81
+      },
+      {
+          "index": 68,
+          "label": null,
+          "opcode": "store",
+          "arg": 158,
+          "mode": "value",
+          "line": 82
+      },
+      {
+          "index": 69,
+          "label": null,
+          "opcode": "load",
+          "arg": 72,
+          "mode": "value",
+          "line": 83
+      },
+      {
+          "index": 70,
+          "label": null,
+          "opcode": "store",
+          "arg": 159,
+          "mode": "value",
+          "line": 84
+      },
+      {
+          "index": 71,
+          "label": null,
+          "opcode": "jump",
+          "arg": 19,
+          "mode": "value",
+          "line": 85
+      },
+      {
+          "index": 72,
+          "label": "exit",
+          "opcode": "halt",
+          "arg": null,
+          "mode": null,
+          "line": 87
+      },
+      {
+          "index": 73,
+          "label": "question",
+          "value": 18,
+          "line": 2
+      },
+      {
+          "index": 74,
+          "label": "question(+ 1)",
+          "value": 87,
+          "line": 2
+      },
+      {
+          "index": 75,
+          "label": "question(+ 2)",
+          "value": 104,
+          "line": 2
+      },
+      {
+          "index": 76,
+          "label": "question(+ 3)",
+          "value": 97,
+          "line": 2
+      },
+      {
+          "index": 77,
+          "label": "question(+ 4)",
+          "value": 116,
+          "line": 2
+      },
+      {
+          "index": 78,
+          "label": "question(+ 5)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 79,
+          "label": "question(+ 6)",
+          "value": 105,
+          "line": 2
+      },
+      {
+          "index": 80,
+          "label": "question(+ 7)",
+          "value": 115,
+          "line": 2
+      },
+      {
+          "index": 81,
+          "label": "question(+ 8)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 82,
+          "label": "question(+ 9)",
+          "value": 121,
+          "line": 2
+      },
+      {
+          "index": 83,
+          "label": "question(+ 10)",
+          "value": 111,
+          "line": 2
+      },
+      {
+          "index": 84,
+          "label": "question(+ 11)",
+          "value": 117,
+          "line": 2
+      },
+      {
+          "index": 85,
+          "label": "question(+ 12)",
+          "value": 114,
+          "line": 2
+      },
+      {
+          "index": 86,
+          "label": "question(+ 13)",
+          "value": 32,
+          "line": 2
+      },
+      {
+          "index": 87,
+          "label": "question(+ 14)",
+          "value": 110,
+          "line": 2
+      },
+      {
+          "index": 88,
+          "label": "question(+ 15)",
+          "value": 97,
+          "line": 2
+      },
+      {
+          "index": 89,
+          "label": "question(+ 16)",
+          "value": 109,
+          "line": 2
+      },
+      {
+          "index": 90,
+          "label": "question(+ 17)",
+          "value": 101,
+          "line": 2
+      },
+      {
+          "index": 91,
+          "label": "question(+ 18)",
+          "value": 63,
+          "line": 2
+      },
+      {
+          "index": 92,
+          "label": "answer1",
+          "value": 7,
+          "line": 3
+      },
+      {
+          "index": 93,
+          "label": "answer1(+ 1)",
+          "value": 72,
+          "line": 3
+      },
+      {
+          "index": 94,
+          "label": "answer1(+ 2)",
+          "value": 101,
+          "line": 3
+      },
+      {
+          "index": 95,
+          "label": "answer1(+ 3)",
+          "value": 108,
+          "line": 3
+      },
+      {
+          "index": 96,
+          "label": "answer1(+ 4)",
+          "value": 108,
+          "line": 3
+      },
+      {
+          "index": 97,
+          "label": "answer1(+ 5)",
+          "value": 111,
+          "line": 3
+      },
+      {
+          "index": 98,
+          "label": "answer1(+ 6)",
+          "value": 44,
+          "line": 3
+      },
+      {
+          "index": 99,
+          "label": "answer1(+ 7)",
+          "value": 32,
+          "line": 3
+      },
+      {
+          "index": 100,
+          "label": "answer2",
+          "value": 1,
+          "line": 4
+      },
+      {
+          "index": 101,
+          "label": "answer2(+ 1)",
+          "value": 33,
+          "line": 4
+      },
+      {
+          "index": 102,
+          "label": "user_input",
+          "value": 40,
+          "line": 5
+      },
+      {
+          "index": 103,
+          "label": "user_input(+ 1)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 104,
+          "label": "user_input(+ 2)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 105,
+          "label": "user_input(+ 3)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 106,
+          "label": "user_input(+ 4)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 107,
+          "label": "user_input(+ 5)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 108,
+          "label": "user_input(+ 6)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 109,
+          "label": "user_input(+ 7)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 110,
+          "label": "user_input(+ 8)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 111,
+          "label": "user_input(+ 9)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 112,
+          "label": "user_input(+ 10)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 113,
+          "label": "user_input(+ 11)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 114,
+          "label": "user_input(+ 12)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 115,
+          "label": "user_input(+ 13)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 116,
+          "label": "user_input(+ 14)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 117,
+          "label": "user_input(+ 15)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 118,
+          "label": "user_input(+ 16)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 119,
+          "label": "user_input(+ 17)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 120,
+          "label": "user_input(+ 18)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 121,
+          "label": "user_input(+ 19)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 122,
+          "label": "user_input(+ 20)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 123,
+          "label": "user_input(+ 21)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 124,
+          "label": "user_input(+ 22)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 125,
+          "label": "user_input(+ 23)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 126,
+          "label": "user_input(+ 24)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 127,
+          "label": "user_input(+ 25)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 128,
+          "label": "user_input(+ 26)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 129,
+          "label": "user_input(+ 27)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 130,
+          "label": "user_input(+ 28)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 131,
+          "label": "user_input(+ 29)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 132,
+          "label": "user_input(+ 30)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 133,
+          "label": "user_input(+ 31)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 134,
+          "label": "user_input(+ 32)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 135,
+          "label": "user_input(+ 33)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 136,
+          "label": "user_input(+ 34)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 137,
+          "label": "user_input(+ 35)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 138,
+          "label": "user_input(+ 36)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 139,
+          "label": "user_input(+ 37)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 140,
+          "label": "user_input(+ 38)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 141,
+          "label": "user_input(+ 39)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 142,
+          "label": "user_input(+ 40)",
+          "value": 0,
+          "line": 5
+      },
+      {
+          "index": 143,
+          "label": "input_end_symbol",
+          "value": 10,
+          "line": 6
+      },
+      {
+          "index": 144,
+          "label": "input_end_symbol(+ 1)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 145,
+          "label": "input_end_symbol(+ 2)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 146,
+          "label": "input_end_symbol(+ 3)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 147,
+          "label": "input_end_symbol(+ 4)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 148,
+          "label": "input_end_symbol(+ 5)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 149,
+          "label": "input_end_symbol(+ 6)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 150,
+          "label": "input_end_symbol(+ 7)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 151,
+          "label": "input_end_symbol(+ 8)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 152,
+          "label": "input_end_symbol(+ 9)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 153,
+          "label": "input_end_symbol(+ 10)",
+          "value": 0,
+          "line": 6
+      },
+      {
+          "index": 154,
+          "label": "input_counter",
+          "value": 0,
+          "line": 7
+      },
+      {
+          "index": 155,
+          "label": "input_position",
+          "value": 0,
+          "line": 8
+      },
+      {
+          "index": 156,
+          "label": "output_counter",
+          "value": 0,
+          "line": 9
+      },
+      {
+          "index": 157,
+          "label": "output_position",
+          "value": 0,
+          "line": 10
+      },
+      {
+          "index": 158,
+          "label": "printing_literal_len",
+          "value": 0,
+          "line": 11
+      },
+      {
+          "index": 159,
+          "label": "return_address",
+          "value": 0,
+          "line": 12
+      }
+  ]
 out_translator_log: |
-  ...
-out_machine_log: |-
-  ,,,
+  INFO    translator:main          source LoC: 87 code instr: 160
+out_machine_log: |
+  INFO    machine:main          Schedule: []
+  INFO    machine:simulation    TICK:   6 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 159 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK:  11 | PC:  13 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     73     | BR:  73 | AR: 159 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  17 | PC:  14 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     73     | BR: 157 | AR: 157 | MEM_AR: 73 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  23 | PC:  15 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     73     | BR: 158 | AR: 158 | MEM_AR: 73 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  28 | PC:  16 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 158 | MEM_AR: 73 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK:  34 | PC:  17 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR: 156 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK:  39 | PC:  18 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR:  30 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  45 | PC:  19 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     30     | BR: 159 | AR: 159 | MEM_AR: 30 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  51 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     73     | BR:  73 | AR: 157 | MEM_AR: 73 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  56 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     74     | BR:  73 | AR: 157 | MEM_AR: 73 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  62 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     74     | BR: 157 | AR: 157 | MEM_AR: 74 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  70 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR:  74 | MEM_AR: 87 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  75 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:   3 | AR:  74 | MEM_AR: 87 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 87  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W'] << 87
+  INFO    machine:simulation    TICK:  81 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK:  86 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK:  92 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR: 156 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 100 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 107 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 113 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     74     | BR:  74 | AR: 157 | MEM_AR: 74 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 118 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     75     | BR:  74 | AR: 157 | MEM_AR: 74 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 124 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     75     | BR: 157 | AR: 157 | MEM_AR: 75 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 132 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 104 | AR:  75 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 137 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR:   3 | AR:  75 | MEM_AR: 104 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 104 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h'] << 104
+  INFO    machine:simulation    TICK: 143 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 148 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 154 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR: 156 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 162 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 169 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 175 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     75     | BR:  75 | AR: 157 | MEM_AR: 75 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 180 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     76     | BR:  75 | AR: 157 | MEM_AR: 75 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 186 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     76     | BR: 157 | AR: 157 | MEM_AR: 76 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 194 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:  97 | AR:  76 | MEM_AR: 97 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 199 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:   3 | AR:  76 | MEM_AR: 97 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a'] << 97
+  INFO    machine:simulation    TICK: 205 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 210 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 216 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR: 156 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 224 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 231 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 237 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     76     | BR:  76 | AR: 157 | MEM_AR: 76 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 242 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     77     | BR:  76 | AR: 157 | MEM_AR: 76 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 248 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     77     | BR: 157 | AR: 157 | MEM_AR: 77 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 256 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR: 116 | AR:  77 | MEM_AR: 116 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 261 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR:   3 | AR:  77 | MEM_AR: 116 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 116 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't'] << 116
+  INFO    machine:simulation    TICK: 267 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 272 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 278 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR: 156 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 286 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 293 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 299 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     77     | BR:  77 | AR: 157 | MEM_AR: 77 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 304 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     78     | BR:  77 | AR: 157 | MEM_AR: 77 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 310 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     78     | BR: 157 | AR: 157 | MEM_AR: 78 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 318 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  78 | MEM_AR: 32 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 323 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  78 | MEM_AR: 32 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' '] << 32
+  INFO    machine:simulation    TICK: 329 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 334 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 340 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR: 156 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 348 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 355 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 361 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     78     | BR:  78 | AR: 157 | MEM_AR: 78 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 366 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     79     | BR:  78 | AR: 157 | MEM_AR: 78 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 372 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     79     | BR: 157 | AR: 157 | MEM_AR: 79 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 380 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 105 | AR:  79 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 385 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR:   3 | AR:  79 | MEM_AR: 105 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 105 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i'] << 105
+  INFO    machine:simulation    TICK: 391 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 396 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 402 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR: 156 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 410 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 417 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 423 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     79     | BR:  79 | AR: 157 | MEM_AR: 79 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 428 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     80     | BR:  79 | AR: 157 | MEM_AR: 79 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 434 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     80     | BR: 157 | AR: 157 | MEM_AR: 80 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 442 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    115     | BR: 115 | AR:  80 | MEM_AR: 115 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 447 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    115     | BR:   3 | AR:  80 | MEM_AR: 115 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 115 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's'] << 115
+  INFO    machine:simulation    TICK: 453 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 458 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 464 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR: 156 | AR: 156 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 472 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 479 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 485 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     80     | BR:  80 | AR: 157 | MEM_AR: 80 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 490 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     81     | BR:  80 | AR: 157 | MEM_AR: 80 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 496 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     81     | BR: 157 | AR: 157 | MEM_AR: 81 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 504 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  81 | MEM_AR: 32 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 509 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  81 | MEM_AR: 32 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' '] << 32
+  INFO    machine:simulation    TICK: 515 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR: 156 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 520 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   7 | AR: 156 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 526 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR: 156 | AR: 156 | MEM_AR: 8 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 534 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 541 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 547 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     81     | BR:  81 | AR: 157 | MEM_AR: 81 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 552 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     82     | BR:  81 | AR: 157 | MEM_AR: 81 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 558 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     82     | BR: 157 | AR: 157 | MEM_AR: 82 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 566 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR: 121 | AR:  82 | MEM_AR: 121 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 571 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR:   3 | AR:  82 | MEM_AR: 121 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 121 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y'] << 121
+  INFO    machine:simulation    TICK: 577 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     8      | BR:   8 | AR: 156 | MEM_AR: 8 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 582 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   8 | AR: 156 | MEM_AR: 8 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 588 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR: 156 | AR: 156 | MEM_AR: 9 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 596 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 603 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 609 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     82     | BR:  82 | AR: 157 | MEM_AR: 82 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 614 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     83     | BR:  82 | AR: 157 | MEM_AR: 82 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 620 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     83     | BR: 157 | AR: 157 | MEM_AR: 83 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 628 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  83 | MEM_AR: 111 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 633 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  83 | MEM_AR: 111 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o'] << 111
+  INFO    machine:simulation    TICK: 639 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     9      | BR:   9 | AR: 156 | MEM_AR: 9 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 644 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:   9 | AR: 156 | MEM_AR: 9 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 650 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR: 156 | AR: 156 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 658 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 665 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 671 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     83     | BR:  83 | AR: 157 | MEM_AR: 83 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 676 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     84     | BR:  83 | AR: 157 | MEM_AR: 83 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 682 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     84     | BR: 157 | AR: 157 | MEM_AR: 84 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 690 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    117     | BR: 117 | AR:  84 | MEM_AR: 117 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 695 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    117     | BR:   3 | AR:  84 | MEM_AR: 117 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 117 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u'] << 117
+  INFO    machine:simulation    TICK: 701 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR: 156 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 706 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  10 | AR: 156 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 712 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR: 156 | AR: 156 | MEM_AR: 11 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 720 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 727 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 733 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     84     | BR:  84 | AR: 157 | MEM_AR: 84 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 738 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     85     | BR:  84 | AR: 157 | MEM_AR: 84 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 744 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     85     | BR: 157 | AR: 157 | MEM_AR: 85 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 752 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR:  85 | MEM_AR: 114 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 757 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR:  85 | MEM_AR: 114 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r'] << 114
+  INFO    machine:simulation    TICK: 763 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     11     | BR:  11 | AR: 156 | MEM_AR: 11 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 768 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  11 | AR: 156 | MEM_AR: 11 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 774 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR: 156 | AR: 156 | MEM_AR: 12 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 782 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 789 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 795 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     85     | BR:  85 | AR: 157 | MEM_AR: 85 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 800 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     86     | BR:  85 | AR: 157 | MEM_AR: 85 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 806 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     86     | BR: 157 | AR: 157 | MEM_AR: 86 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 814 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  86 | MEM_AR: 32 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 819 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  86 | MEM_AR: 32 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' '] << 32
+  INFO    machine:simulation    TICK: 825 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     12     | BR:  12 | AR: 156 | MEM_AR: 12 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 830 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     13     | BR:  12 | AR: 156 | MEM_AR: 12 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 836 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     13     | BR: 156 | AR: 156 | MEM_AR: 13 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 844 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     13     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 851 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     13     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 857 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     86     | BR:  86 | AR: 157 | MEM_AR: 86 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 862 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  86 | AR: 157 | MEM_AR: 86 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 868 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR: 157 | AR: 157 | MEM_AR: 87 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 876 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    110     | BR: 110 | AR:  87 | MEM_AR: 110 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 881 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    110     | BR:   3 | AR:  87 | MEM_AR: 110 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 110 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n'] << 110
+  INFO    machine:simulation    TICK: 887 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     13     | BR:  13 | AR: 156 | MEM_AR: 13 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 892 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     14     | BR:  13 | AR: 156 | MEM_AR: 13 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 898 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     14     | BR: 156 | AR: 156 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 906 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     14     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 913 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     14     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 919 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     87     | BR:  87 | AR: 157 | MEM_AR: 87 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 924 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     88     | BR:  87 | AR: 157 | MEM_AR: 87 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 930 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     88     | BR: 157 | AR: 157 | MEM_AR: 88 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 938 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:  97 | AR:  88 | MEM_AR: 97 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 943 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:   3 | AR:  88 | MEM_AR: 97 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a'] << 97
+  INFO    machine:simulation    TICK: 949 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     14     | BR:  14 | AR: 156 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 954 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     15     | BR:  14 | AR: 156 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 960 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     15     | BR: 156 | AR: 156 | MEM_AR: 15 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 968 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     15     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 975 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     15     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 981 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     88     | BR:  88 | AR: 157 | MEM_AR: 88 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 986 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     89     | BR:  88 | AR: 157 | MEM_AR: 88 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 992 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     89     | BR: 157 | AR: 157 | MEM_AR: 89 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1000 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 109 | AR:  89 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1005 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR:   3 | AR:  89 | MEM_AR: 109 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 109 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm'] << 109
+  INFO    machine:simulation    TICK: 1011 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     15     | BR:  15 | AR: 156 | MEM_AR: 15 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1016 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     16     | BR:  15 | AR: 156 | MEM_AR: 15 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1022 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     16     | BR: 156 | AR: 156 | MEM_AR: 16 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1030 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     16     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1037 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     16     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1043 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     89     | BR:  89 | AR: 157 | MEM_AR: 89 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1048 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     90     | BR:  89 | AR: 157 | MEM_AR: 89 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1054 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     90     | BR: 157 | AR: 157 | MEM_AR: 90 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1062 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  90 | MEM_AR: 101 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1067 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  90 | MEM_AR: 101 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e'] << 101
+  INFO    machine:simulation    TICK: 1073 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     16     | BR:  16 | AR: 156 | MEM_AR: 16 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1078 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     17     | BR:  16 | AR: 156 | MEM_AR: 16 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1084 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     17     | BR: 156 | AR: 156 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1092 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     17     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1099 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     17     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1105 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     90     | BR:  90 | AR: 157 | MEM_AR: 90 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1110 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     91     | BR:  90 | AR: 157 | MEM_AR: 90 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1116 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     91     | BR: 157 | AR: 157 | MEM_AR: 91 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1124 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     63     | BR:  63 | AR:  91 | MEM_AR: 63 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1129 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     63     | BR:   3 | AR:  91 | MEM_AR: 63 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 63  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?'] << 63
+  INFO    machine:simulation    TICK: 1135 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     17     | BR:  17 | AR: 156 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1140 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     18     | BR:  17 | AR: 156 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1146 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     18     | BR: 156 | AR: 156 | MEM_AR: 18 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1154 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     18     | BR:  18 | AR:  73 | MEM_AR: 18 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1159 | PC:  29 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     18     | BR:  19 | AR:  73 | MEM_AR: 18 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1166 | PC:  30 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     18     | BR:  30 | AR: 159 | MEM_AR: 30 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1171 | PC:  31 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 159 | MEM_AR: 30 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1177 | PC:  32 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR: 156 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1182 | PC:  33 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    102     | BR: 102 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1187 | PC:  34 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 102 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1193 | PC:  35 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 155 | AR: 155 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1198 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR:  13 | AR: 155 | MEM_AR: 103 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 65  | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1204 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1209 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1216 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR: 103 | AR: 103 | MEM_AR: 65 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1222 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 103 | AR: 155 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1227 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 103 | AR: 155 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1233 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 155 | AR: 155 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1239 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 154 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1244 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR: 154 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1250 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR: 154 | AR: 154 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1256 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  35 | AR: 154 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1261 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:  13 | AR: 154 | MEM_AR: 1 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 114 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1267 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1272 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1279 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 104 | AR: 104 | MEM_AR: 114 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1285 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 104 | AR: 155 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1290 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 104 | AR: 155 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1296 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 155 | AR: 155 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1302 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR: 154 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1307 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR: 154 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1313 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR: 154 | AR: 154 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1319 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  35 | AR: 154 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1324 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR:  13 | AR: 154 | MEM_AR: 2 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 116 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1330 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1335 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1342 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR: 105 | AR: 105 | MEM_AR: 116 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1348 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 105 | AR: 155 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1353 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 105 | AR: 155 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1359 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 155 | AR: 155 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1365 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR: 154 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1370 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR: 154 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1376 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR: 154 | AR: 154 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1382 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  35 | AR: 154 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1387 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:  13 | AR: 154 | MEM_AR: 3 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 101 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1393 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1398 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1405 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 106 | AR: 106 | MEM_AR: 101 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1411 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 106 | AR: 155 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1416 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 106 | AR: 155 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1422 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 155 | AR: 155 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1428 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR: 154 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1433 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR: 154 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1439 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR: 154 | AR: 154 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1445 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  35 | AR: 154 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1450 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR:  13 | AR: 154 | MEM_AR: 4 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 109 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1456 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1461 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1468 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 107 | AR: 107 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1474 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 107 | AR: 155 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1479 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 107 | AR: 155 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1485 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 155 | AR: 155 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1491 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR: 154 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1496 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR: 154 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1502 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR: 154 | AR: 154 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1508 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  35 | AR: 154 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1513 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR:  13 | AR: 154 | MEM_AR: 5 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 105 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1519 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1524 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1531 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 108 | AR: 108 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1537 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR: 155 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1542 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 108 | AR: 155 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1548 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 155 | AR: 155 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1554 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR: 154 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1559 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR: 154 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1565 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR: 154 | AR: 154 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1571 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  35 | AR: 154 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1576 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR:  13 | AR: 154 | MEM_AR: 6 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 121 | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1582 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1587 | PC:  38 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1594 | PC:  39 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR: 109 | AR: 109 | MEM_AR: 121 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1600 | PC:  40 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 109 | AR: 155 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1605 | PC:  41 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    110     | BR: 109 | AR: 155 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1611 | PC:  42 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    110     | BR: 155 | AR: 155 | MEM_AR: 110 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1617 | PC:  43 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR: 154 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1622 | PC:  44 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR: 154 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1628 | PC:  45 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR: 154 | AR: 154 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1634 | PC:  35 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  35 | AR: 154 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1639 | PC:  36 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  13 | AR: 154 | MEM_AR: 7 | N: 0 | Z: 0
+  	 Dev: 7 | Port: 13 | DATA: 10  | INT: False | NEW: False
+  INFO    machine:simulation    TICK: 1645 | PC:  37 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  10 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1652 | PC:  46 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     10     | BR:  46 | AR: 143 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1658 | PC:  47 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR: 154 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1664 | PC:  48 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR: 102 | AR: 102 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1669 | PC:  49 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 102 | MEM_AR: 7 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1675 | PC:  50 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR: 154 | AR: 154 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1680 | PC:  51 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     92     | BR:  92 | AR: 154 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1686 | PC:  52 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     92     | BR: 157 | AR: 157 | MEM_AR: 92 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1692 | PC:  53 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     92     | BR: 158 | AR: 158 | MEM_AR: 92 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1697 | PC:  54 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     56     | BR:  56 | AR: 158 | MEM_AR: 92 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1703 | PC:  55 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     56     | BR: 159 | AR: 159 | MEM_AR: 56 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1709 | PC:  19 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     56     | BR:  19 | AR: 159 | MEM_AR: 56 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1715 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     92     | BR:  92 | AR: 157 | MEM_AR: 92 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1720 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     93     | BR:  92 | AR: 157 | MEM_AR: 92 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1726 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     93     | BR: 157 | AR: 157 | MEM_AR: 93 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1734 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR:  93 | MEM_AR: 72 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1739 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:   3 | AR:  93 | MEM_AR: 72 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 72  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H'] << 72
+  INFO    machine:simulation    TICK: 1745 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 1750 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1756 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR: 156 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1764 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1771 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1777 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     93     | BR:  93 | AR: 157 | MEM_AR: 93 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1782 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     94     | BR:  93 | AR: 157 | MEM_AR: 93 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1788 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     94     | BR: 157 | AR: 157 | MEM_AR: 94 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1796 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR:  94 | MEM_AR: 101 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1801 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR:  94 | MEM_AR: 101 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e'] << 101
+  INFO    machine:simulation    TICK: 1807 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1812 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1818 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR: 156 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1826 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1833 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1839 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     94     | BR:  94 | AR: 157 | MEM_AR: 94 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1844 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     95     | BR:  94 | AR: 157 | MEM_AR: 94 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1850 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     95     | BR: 157 | AR: 157 | MEM_AR: 95 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1858 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  95 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1863 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  95 | MEM_AR: 108 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l'] << 108
+  INFO    machine:simulation    TICK: 1869 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1874 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1880 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR: 156 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1888 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1895 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1901 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     95     | BR:  95 | AR: 157 | MEM_AR: 95 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1906 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     96     | BR:  95 | AR: 157 | MEM_AR: 95 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1912 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     96     | BR: 157 | AR: 157 | MEM_AR: 96 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1920 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR:  96 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1925 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR:   3 | AR:  96 | MEM_AR: 108 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 108 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l'] << 108
+  INFO    machine:simulation    TICK: 1931 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1936 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1942 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR: 156 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1950 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1957 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 1963 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     96     | BR:  96 | AR: 157 | MEM_AR: 96 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1968 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:  96 | AR: 157 | MEM_AR: 96 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1974 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR: 157 | AR: 157 | MEM_AR: 97 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1982 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR: 111 | AR:  97 | MEM_AR: 111 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1987 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    111     | BR:   3 | AR:  97 | MEM_AR: 111 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 111 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o'] << 111
+  INFO    machine:simulation    TICK: 1993 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 1998 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2004 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR: 156 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2012 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2019 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2025 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     97     | BR:  97 | AR: 157 | MEM_AR: 97 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2030 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     98     | BR:  97 | AR: 157 | MEM_AR: 97 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2036 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     98     | BR: 157 | AR: 157 | MEM_AR: 98 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2044 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     44     | BR:  44 | AR:  98 | MEM_AR: 44 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2049 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     44     | BR:   3 | AR:  98 | MEM_AR: 44 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 44  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ','] << 44
+  INFO    machine:simulation    TICK: 2055 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2060 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2066 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR: 156 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2074 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2081 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2087 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     98     | BR:  98 | AR: 157 | MEM_AR: 98 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2092 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     99     | BR:  98 | AR: 157 | MEM_AR: 98 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2098 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     99     | BR: 157 | AR: 157 | MEM_AR: 99 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2106 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:  32 | AR:  99 | MEM_AR: 32 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2111 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     32     | BR:   3 | AR:  99 | MEM_AR: 32 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 32  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' '] << 32
+  INFO    machine:simulation    TICK: 2117 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2122 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2128 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR: 156 | AR: 156 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2136 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR:  92 | MEM_AR: 7 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2141 | PC:  29 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  19 | AR:  92 | MEM_AR: 7 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2148 | PC:  56 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  56 | AR: 159 | MEM_AR: 56 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2153 | PC:  57 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 159 | MEM_AR: 56 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2159 | PC:  58 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR: 156 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2164 | PC:  59 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    102     | BR: 102 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2170 | PC:  60 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    102     | BR: 157 | AR: 157 | MEM_AR: 102 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2176 | PC:  61 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    102     | BR: 158 | AR: 158 | MEM_AR: 102 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2181 | PC:  62 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     64     | BR:  64 | AR: 158 | MEM_AR: 102 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2187 | PC:  63 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     64     | BR: 159 | AR: 159 | MEM_AR: 64 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2193 | PC:  19 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     64     | BR:  19 | AR: 159 | MEM_AR: 64 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2199 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    102     | BR: 102 | AR: 157 | MEM_AR: 102 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2204 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 102 | AR: 157 | MEM_AR: 102 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2210 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 157 | AR: 157 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2218 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR:  65 | AR: 103 | MEM_AR: 65 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2223 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     65     | BR:   3 | AR: 103 | MEM_AR: 65 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 65  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A'] << 65
+  INFO    machine:simulation    TICK: 2229 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2234 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2240 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR: 156 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2248 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2255 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2261 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    103     | BR: 103 | AR: 157 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2266 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 103 | AR: 157 | MEM_AR: 103 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2272 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 157 | AR: 157 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2280 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR: 114 | AR: 104 | MEM_AR: 114 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2285 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    114     | BR:   3 | AR: 104 | MEM_AR: 114 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 114 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r'] << 114
+  INFO    machine:simulation    TICK: 2291 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2296 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   1 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2302 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR: 156 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2310 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2317 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2323 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    104     | BR: 104 | AR: 157 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2328 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 104 | AR: 157 | MEM_AR: 104 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2334 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 157 | AR: 157 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2342 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR: 116 | AR: 105 | MEM_AR: 116 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2347 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    116     | BR:   3 | AR: 105 | MEM_AR: 116 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 116 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't'] << 116
+  INFO    machine:simulation    TICK: 2353 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     2      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2358 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   2 | AR: 156 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2364 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR: 156 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2372 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2379 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2385 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 105 | AR: 157 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2390 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 105 | AR: 157 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2396 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 157 | AR: 157 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2404 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 101 | AR: 106 | MEM_AR: 101 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2409 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR:   3 | AR: 106 | MEM_AR: 101 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 101 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't', 'e'] << 101
+  INFO    machine:simulation    TICK: 2415 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     3      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2420 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   3 | AR: 156 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2426 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR: 156 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2434 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2441 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2447 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    106     | BR: 106 | AR: 157 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2452 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 106 | AR: 157 | MEM_AR: 106 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2458 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 157 | AR: 157 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2466 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 109 | AR: 107 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2471 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR:   3 | AR: 107 | MEM_AR: 109 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 109 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't', 'e', 'm'] << 109
+  INFO    machine:simulation    TICK: 2477 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     4      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2482 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   4 | AR: 156 | MEM_AR: 4 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2488 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR: 156 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2496 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2503 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2509 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    107     | BR: 107 | AR: 157 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2514 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 107 | AR: 157 | MEM_AR: 107 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2520 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 157 | AR: 157 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2528 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR: 105 | AR: 108 | MEM_AR: 105 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2533 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    105     | BR:   3 | AR: 108 | MEM_AR: 105 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 105 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't', 'e', 'm', 'i'] << 105
+  INFO    machine:simulation    TICK: 2539 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     5      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2544 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   5 | AR: 156 | MEM_AR: 5 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2550 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR: 156 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2558 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2565 | PC:  19 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 1 | Z: 0
+  INFO    machine:simulation    TICK: 2571 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    108     | BR: 108 | AR: 157 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2576 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 108 | AR: 157 | MEM_AR: 108 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2582 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    109     | BR: 157 | AR: 157 | MEM_AR: 109 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2590 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR: 121 | AR: 109 | MEM_AR: 121 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2595 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    121     | BR:   3 | AR: 109 | MEM_AR: 121 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 121 | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't', 'e', 'm', 'i', 'y'] << 121
+  INFO    machine:simulation    TICK: 2601 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     6      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2606 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   6 | AR: 156 | MEM_AR: 6 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2612 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR: 156 | AR: 156 | MEM_AR: 7 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2620 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:   7 | AR: 102 | MEM_AR: 7 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2625 | PC:  29 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  19 | AR: 102 | MEM_AR: 7 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2632 | PC:  64 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     7      | BR:  64 | AR: 159 | MEM_AR: 64 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2637 | PC:  65 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 159 | MEM_AR: 64 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2643 | PC:  66 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR: 156 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2648 | PC:  67 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2654 | PC:  68 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 157 | AR: 157 | MEM_AR: 100 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2660 | PC:  69 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 158 | AR: 158 | MEM_AR: 100 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2665 | PC:  70 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  72 | AR: 158 | MEM_AR: 100 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2671 | PC:  71 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR: 159 | AR: 159 | MEM_AR: 72 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2677 | PC:  19 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     72     | BR:  19 | AR: 159 | MEM_AR: 72 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2683 | PC:  20 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    100     | BR: 100 | AR: 157 | MEM_AR: 100 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2688 | PC:  21 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 100 | AR: 157 | MEM_AR: 100 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2694 | PC:  22 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:    101     | BR: 157 | AR: 157 | MEM_AR: 101 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2702 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:  33 | AR: 101 | MEM_AR: 33 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2707 | PC:  24 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     33     | BR:   3 | AR: 101 | MEM_AR: 33 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 33  | INT: False | NEW: True
+  INFO    machine:simulation    output: ['W', 'h', 'a', 't', ' ', 'i', 's', ' ', 'y', 'o', 'u', 'r', ' ', 'n', 'a', 'm', 'e', '?', 'H', 'e', 'l', 'l', 'o', ',', ' ', 'A', 'r', 't', 'e', 'm', 'i', 'y', '!'] << 33
+  INFO    machine:simulation    TICK: 2713 | PC:  25 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2718 | PC:  26 | IR: '    inc    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   0 | AR: 156 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2724 | PC:  27 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR: 156 | AR: 156 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:simulation    TICK: 2732 | PC:  28 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:   1 | AR: 100 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2737 | PC:  29 | IR: 'jump not zero' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  19 | AR: 100 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2744 | PC:  72 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  72 | AR: 159 | MEM_AR: 72 | N: 0 | Z: 1
+  INFO    machine:simulation    TICK: 2748 | PC:  73 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     1      | BR:  72 | AR: 159 | MEM_AR: 72 | N: 0 | Z: 1
+  INFO    machine:simulation    Output buffer:'What is your name?Hello, Artemiy!'
+  INFO    machine:main          instr_counter: 73 ticks: 2748

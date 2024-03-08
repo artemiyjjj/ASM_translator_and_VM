@@ -23,6 +23,8 @@ in_program: |-
     fi
 in_is_output_number: |-
   0
+stdin: |
+
 in_schedule: |-
   [(1, "c"), (100, "a"), (200, "t")]
 out_machine_output: |-
@@ -225,39 +227,8 @@ out_code: |-
       }
   ]
 out_translator_log: |
-  INFO    translator:main          Source file: C:\Users\artem\AppData\Local\Temp\tmp__sfj0n7\code1.asm
-  DEBUG   translator:link_sections Linked code:
-  ===========
-  DEBUG   translator:link_sections {'index': 0, 'label': 'int0', 'value': 10}
-  DEBUG   translator:link_sections {'index': 1, 'label': 'int1', 'value': 10}
-  DEBUG   translator:link_sections {'index': 2, 'label': 'int2', 'value': 10}
-  DEBUG   translator:link_sections {'index': 3, 'label': 'int3', 'value': 10}
-  DEBUG   translator:link_sections {'index': 4, 'label': 'int4', 'value': 10}
-  DEBUG   translator:link_sections {'index': 5, 'label': 'int5', 'value': 10}
-  DEBUG   translator:link_sections {'index': 6, 'label': 'int6', 'value': 10}
-  DEBUG   translator:link_sections {'index': 7, 'label': 'int7', 'value': 10}
-  DEBUG   translator:link_sections {'index': 8, 'label': 'int_acc', 'value': 0}
-  DEBUG   translator:link_sections {'index': 9, 'label': 'int_pc', 'value': 0}
-  DEBUG   translator:link_sections {'index': 10, 'opcode': finish int, 'line': 0}
-  DEBUG   translator:link_sections {'index': 11, 'label': '_start', 'opcode': load, 'arg': 19, 'mode': value, 'line': 5}
-  DEBUG   translator:link_sections {'index': 12, 'opcode': store, 'arg': 1, 'mode': value, 'line': 6}
-  DEBUG   translator:link_sections {'index': 13, 'label': 'loop', 'opcode': enable int, 'line': 8}
-  DEBUG   translator:link_sections {'index': 14, 'opcode': load, 'arg': 26, 'mode': value, 'line': 9}
-  DEBUG   translator:link_sections {'index': 15, 'opcode': compare, 'arg': 0, 'mode': value, 'line': 10}
-  DEBUG   translator:link_sections {'index': 16, 'opcode': jump zero, 'arg': 18, 'mode': value, 'line': 11}
-  DEBUG   translator:link_sections {'index': 17, 'opcode': jump, 'arg': 13, 'mode': value, 'line': 12}
-  DEBUG   translator:link_sections {'index': 18, 'label': 'exit', 'opcode': halt, 'line': 14}
-  DEBUG   translator:link_sections {'index': 19, 'label': 'dev_input', 'opcode': disable int, 'line': 16}
-  DEBUG   translator:link_sections {'index': 20, 'opcode': input, 'arg': 1, 'mode': value, 'line': 17}
-  DEBUG   translator:link_sections {'index': 21, 'opcode': output, 'arg': 3, 'mode': value, 'line': 18}
-  DEBUG   translator:link_sections {'index': 22, 'opcode': load, 'arg': 26, 'mode': direct, 'line': 19}
-  DEBUG   translator:link_sections {'index': 23, 'opcode': dec, 'line': 20}
-  DEBUG   translator:link_sections {'index': 24, 'opcode': store, 'arg': 26, 'mode': value, 'line': 21}
-  DEBUG   translator:link_sections {'index': 25, 'opcode': finish int, 'line': 22}
-  DEBUG   translator:link_sections {'index': 26, 'label': 'letter_count', 'value': 3, 'line': 2}
   INFO    translator:main          source LoC: 22 code instr: 27
 out_machine_log: |
-  INFO    translator:main          source LoC: 22 code instr: 27
   INFO    machine:main          Schedule: [(1, 'c'), (100, 'a'), (200, 't')]
   INFO    machine:simulation    TICK:   5 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
   INFO    machine:request_new_int 	Input 1 << '99'
@@ -268,7 +239,7 @@ out_machine_log: |
   	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
   INFO    machine:simulation    TICK:  41 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: True
-  INFO    machine:simulation    output: ['c'] << c
+  INFO    machine:simulation    output: ['c'] << 99
   INFO    machine:simulation    TICK:  47 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
   INFO    machine:simulation    TICK:  52 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
   INFO    machine:simulation    TICK:  58 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
@@ -287,7 +258,7 @@ out_machine_log: |
   	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
   INFO    machine:simulation    TICK: 134 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: True
-  INFO    machine:simulation    output: ['c', 'a'] << a
+  INFO    machine:simulation    output: ['c', 'a'] << 97
   INFO    machine:simulation    TICK: 140 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
   INFO    machine:simulation    TICK: 145 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
   INFO    machine:simulation    TICK: 151 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
@@ -307,7 +278,7 @@ out_machine_log: |
   	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
   INFO    machine:simulation    TICK: 233 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 116 | INT: False | NEW: True
-  INFO    machine:simulation    output: ['c', 'a', 't'] << t
+  INFO    machine:simulation    output: ['c', 'a', 't'] << 116
   INFO    machine:simulation    TICK: 239 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
   INFO    machine:simulation    TICK: 244 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
   INFO    machine:simulation    TICK: 250 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1

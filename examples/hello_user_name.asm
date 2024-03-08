@@ -1,6 +1,6 @@
 section .data:
     question: 18, "What is your name?"
-    answer1: 6, "Hello, "
+    answer1: 7, "Hello, "
     answer2: 1, "!"
     user_input: 40,
     input_end_symbol: 10 ; "\n" ascii code
