@@ -313,10 +313,9 @@ class MachineWordData:
 
 def read_code(filename: str) -> Code:
     """Чтение машинного кода из файла."""
-
+    contents: list[MachineWordData | MachineWordInstruction] = []
     with open(filename, encoding="utf-8") as file:
         code_text: list[dict[str, Any]] = json.loads(file.read())
-        code: Code = Code()
 
     for instr in code_text:
         # Конвертация json объекта в экземпляр MachineWordInstruction
@@ -325,9 +324,9 @@ def read_code(filename: str) -> Code:
             # В случае неудачи, конвертация в экземпляр MachineWordData
             term = MachineWordData.from_json(instr)
         assert term is not None
-        code.append(term)
+        contents.append(term)
 
-    return code
+    return Code(contents)
 
 
 def write_code(filename: str, code: Code) -> None:

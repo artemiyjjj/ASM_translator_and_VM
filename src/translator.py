@@ -564,13 +564,13 @@ def link_sections(
 
     Подстановка адресов термов вместо лейблов в аргументах инструкций в соответствии с типом инструкции.
     """
-    code: Code = Code()
+    contents: list[DataTerm | StatementTerm] = []
 
     for term in code_list:
         if isinstance(term, DataTerm):
             value: int = 0 if term.value is None else ord(term.value) if isinstance(term.value, str) else term.value
             data: MachineWordData = MachineWordData(index=term.index, label=term.label, value=value, line=term.line)
-            code.contents.append(data)
+            contents.append(data)
 
         elif isinstance(term, StatementTerm):
             instruction: MachineWordInstruction
@@ -597,12 +597,12 @@ def link_sections(
             instruction = MachineWordInstruction(
                 index=term.index, opcode=term.opcode, line=term.line, label=term.label, arg=arg, mode=term.mode
             )
-            code.contents.append(instruction)
+            contents.append(instruction)
 
     logging.debug("Linked code:\n===========")
-    for term in code.contents:
+    for term in contents:
         logging.debug(term)
-    return code
+    return Code(contents)
 
 
 def create_interruption_vector() -> tuple[list[DataTerm], set[str], set[str]]:
@@ -694,13 +694,13 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
 
     with open(source_code_file_name, encoding="utf-8") as f:
         source = f.read()
-        logging.info("Source file: {}".format(source_code_file_name))
+        logging.debug("Source file: {}".format(source_code_file_name))
 
     try:
         code = translate(source)
     except AssertionError as e:
         # use logging.exception to see the stacktrace of an error
-        logging.exception(e.args[0])
+        logging.error(e.args[0])
         return
 
     write_code(target_file_name, code)
@@ -708,9 +708,9 @@ def main(source_code_file_name: str, target_file_name: str) -> None:
 
 
 if __name__ == "__main__":
-    logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))
+    # logging.getLogger().addHandler(logging.FileHandler("logs/translator.log"))  # noqa: ERA001
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
 
     logging.info("Translation started...")
     assert (
@@ -718,4 +718,4 @@ if __name__ == "__main__":
     ), "Translation failed: Wrong arguments. Correct way is: translator.py <input_file> <target_file>"
     _, source, target = sys.argv
     main(source, target)
-    logging.info("Transation ended.")
+    logging.info("Translation ended.")

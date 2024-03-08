@@ -12,3 +12,6 @@ def prob1_test() -> int:  # noqa: INP001
             st_sum += i
 
     return st_sum
+
+
+print(prob1_test())

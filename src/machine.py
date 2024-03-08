@@ -486,7 +486,7 @@ class ControlUnit:
     def perform_tick(self) -> None:
         """Увеличение счётчика процессорных тактов."""
         self._tick += 1
-        # logging.debug(self.__repr__())
+        # logging.info(self.__repr__())
 
     def get_tick(self) -> int:
         return self._tick
@@ -1000,20 +1000,20 @@ class Machine:
                 cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                # logging.info(self.__repr__()) # instr repr  # noqa: ERA001 need in case per-instruction bedug
+                logging.info(self.__repr__())  # instr repr  # noqa: ERA001 need in case per-instruction bedug
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
                     self._output_buffer.append(new_symbol)
                     self._io_controller._connected_devices[2]._new_data = False
-                    logging.info("output: {} << {}".format(self._output_buffer, new_symbol))
+                    logging.info("output: {} << {}".format(self._output_buffer, str(ord(new_symbol))))
                     print(new_symbol, end="")
         except StopIteration:
             logging.info(self._control_unit.__repr__())
 
         if self._control_unit.get_tick() >= limit:
             logging.warning("Instruction limit exceeded!")
-        logging.info("Output buffer:\n" + repr("".join(self._output_buffer)))
+        logging.info("Output buffer:" + repr("".join(self._output_buffer)))
         return (
             "".join(self._output_buffer),
             self._control_unit._programm_counter_register,
@@ -1052,7 +1052,7 @@ def main(code_file: str, input_file_name: str) -> None:
         output, instr_counter, ticks = machine.simulation(code=code, input_schedule=input_schedule, limit=75000)
     except ValueError as e:
         # use logging.exception to see the stacktrace
-        logging.exception(
+        logging.error(
             "Error: Instruction parameters are incorrect or instruction decoder doesn't know how to handle some instructions."
         )
         logging.error("Watch latest instruction in logs.")
@@ -1061,7 +1061,7 @@ def main(code_file: str, input_file_name: str) -> None:
     except TypeError as e:
         # use logging.exception to see the stacktrace
         logging.error("Internal error")
-        logging.exception(e.args[0])
+        logging.error(e.args[0])
         return
 
     logging.info(
@@ -1077,7 +1077,7 @@ if __name__ == "__main__":
     handler.setFormatter(formatter)
     logging.getLogger().addHandler(handler)
     # logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))  # noqa: ERA001 might need to see logs in console
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
     assert len(sys.argv) == 3, "Wrong arguments: machine.py <code_file> <input_file>"
     _, code_file, input_file = sys.argv
     logging.info("====================\nExecution started...")
