@@ -20,6 +20,7 @@ from machine import get_interruption_vector_length
 
 
 def avaliable_sections() -> dict[str, str]:
+    """Константный словарь с опустимыми именами секций и их представлении в коде программ.""" 
     return {".data": "section .data", ".text": "section .text"}
 
 
@@ -70,6 +71,7 @@ def map_instruction_to_opcode(instruction: str) -> Opcode | None:
 
 
 def try_convert_str_to_int(num_str: str) -> int | None:
+    """Конвертация строки в число, если это возможно."""
     try:
         return int(num_str)
     except ValueError:
@@ -77,6 +79,7 @@ def try_convert_str_to_int(num_str: str) -> int | None:
 
 
 def split_by_spec_symbols(elem: str) -> list[str]:
+    """Разделение строки исходной программы согласно грамматике языка"""
     tmp: list[str] = re.split(r"(\:|\;|\,|\*|\")", elem)
     while "" in tmp:
         tmp.remove("")
@@ -97,6 +100,7 @@ def filter_comments_on_line(terms: list[str]) -> list[str]:
 
 
 def count_inverted_commas(term: str) -> int:
+    """Подсчёт кавычек в терме данных со строковыми литералами."""
     ic_amount: int = 0
     for symb in term:
         if symb == '"':
@@ -118,6 +122,7 @@ def get_literal_from_line(line: str) -> tuple[str | None, str]:
 
 
 def split_programm_line_to_terms(line: str) -> list[str]:
+    """Разделение одной строки исходного кода на термы."""
     literal: str | None = None
     complete_terms: list[str] = []
     tmp: list[str] = []
@@ -135,6 +140,7 @@ def split_programm_line_to_terms(line: str) -> list[str]:
 
 
 def split_text_to_source_terms(programm_text: str) -> list[SourceTerm]:
+    """Разделение секции кода исходной программы на термы."""
     source_terms: list[SourceTerm] = []
     term_line: list[str] = []
     # Нумерация строк исходного кода
@@ -192,6 +198,7 @@ def validate_section_name(section_definition: SourceTerm) -> str:
 
 
 def validate_section_names(section_source_terms: list[SourceTerm]) -> bool:
+    """Валидация названий секций в программе."""
     unique_avaliable_sections: set[str] = set()
     for source_term in section_source_terms:
         section_name: str = validate_section_name(source_term)

@@ -7,6 +7,7 @@ from isa import Code, MachineWordData, MachineWordInstruction, Mode, Opcode, rea
 
 
 class DataBus:
+    """Шина данных для машины и устройств ввода/вывода"""
     _machine: Machine
 
     _connected_devices: dict[int, IO.IODeviceCommon]
@@ -26,6 +27,7 @@ class DataBus:
 
 
 class InterruptionLine:
+    """Линия прерываний для машины и устройств ввода/вывода"""
     _machine: Machine
     _connected_devices: dict[int, IO.IODeviceCommon]
 
@@ -159,28 +161,33 @@ class IO:
             return "DATA: {:^3} | INT: {} | NEW: {}".format(self._data_register, self._int_register, self._new_data)
 
         def signal_write_data(self) -> None:
+            """Запись данных из шины данных в регистр данных устройства"""
             assert self._data_bus is not None
             self._int_register = False
             self._new_data = True
             self._data_register = self._data_bus.transmitting_value
 
         def signal_read_data(self) -> None:
+            """Запись данных в шину данных с регистра данных"""
             assert self._data_bus is not None
             self._new_data = True
             self._data_bus.transmitting_value = self._data_register
 
         def signal_read_int(self) -> None:
+            """Запись значения регистра прерывания в регистр данных и передача на шину данных"""
             assert self._data_bus is not None
             self._data_register = ord(str(self._int_register))
             self._data_bus.transmitting_value = self._data_register
 
         def signal_int_request(self) -> None:
+            """Отправка запроса на прерывание в машину"""
             assert self._int_line is not None
             self._int_register = True
             self._new_data = True
             self._int_line.signal_interruption_request()
 
     class IODeviceConsole(IODeviceCommon):
+        """Устройство ввода/вывода с использованием пользовательского ввода в консоль"""
         _input_buffer: list[str] | None = None
 
         def signal_read_data(self) -> None:
@@ -200,26 +207,27 @@ class IO:
 
 
 class DataPath:
-    # Регистр - аккумулятор
+
     _accumulator_register: int
+    """Регистр - аккумулятор"""
 
-    # AR регистр
     _address_register: int
+    """Адресный регистр"""
 
-    # Буфферный регистр для хранения
     _buffer_register: int
+    """Буфферный регистр для хранения"""
 
-    # Флаг, сигнализирующий о знаке результата последнего цикла исполнения команды
     _neg_flag: bool
+    """Флаг, сигнализирующий о знаке результата последнего цикла исполнения команды"""
 
-    # Флаг, сигнализирующий о равенстве нулю результата последнего цикла исполнения команды
     _zero_flag: bool
+    """Флаг, сигнализирующий о равенстве нулю результата последнего цикла исполнения команды"""
 
-    # Общая память, к которой DataPath обращается для чтения/записи данных
     _memory: list[MachineWordInstruction | MachineWordData]
+    """Общая память, к которой DataPath обращается для чтения/записи данных"""
 
-    # Арифметико - логическое устройство
     _alu: ALU
+    """Арифметико - логическое устройство"""
 
     _data_bus: DataBus
 
@@ -466,6 +474,7 @@ class ControlUnit:
         )
 
     class InstructionDecoder:
+        """Декодер инструкций."""
         _step_counter: int
 
         _opcode: Opcode | None
@@ -486,12 +495,15 @@ class ControlUnit:
     def perform_tick(self) -> None:
         """Увеличение счётчика процессорных тактов."""
         self._tick += 1
-        # logging.info(self.__repr__())
+        logging.info(self.__repr__())
 
     def get_tick(self) -> int:
         return self._tick
 
     def signal_interruption(self) -> None:
+        """Установка запроса прерывания в машине от переферийного устройства
+
+        Вызываетс через линию прерываний."""
         self._interruption_request = True
 
     def signal_input_output(self, select_port: int, select_mode: int) -> None:
@@ -696,13 +708,14 @@ class ControlUnit:
         self.perform_tick()
 
     def _decode_instruction(self) -> None:
+        """Цикл декодирования инструкций."""
         assert self._instruction_register is not None
         self._instruction_decoder.signal_latch_opcode(self._instruction_register.opcode)
         self._instruction_decoder.signal_latch_mode(self._instruction_register.mode)
         self.perform_tick()
 
     def _select_argumet(self) -> None:
-        """Цикл выборки аргумента"""
+        """Цикл выборки аргумента."""
         match self._instruction_decoder._mode:
             # Непосредственная адресация - запись в буфер аргумента команды
             case Mode.VALUE:
@@ -730,6 +743,7 @@ class ControlUnit:
                 raise ValueError("Mode at some instruction in source code is incorrect.")
 
     def _execute_instruction(self) -> None:
+        """Цикл выборки команд."""
         match self._instruction_decoder._opcode:
             case Opcode.LD:
                 self.signal_latch_arithmetical_logical_unit(select=[0, 3, 3, 3, 6])
@@ -851,6 +865,7 @@ class ControlUnit:
                 raise_error("Unknown opcode in instruction execute cycle")
 
     def _check_interruption(self) -> None:
+        """Цикл обработки прерываний."""
         if self._interruption_request and self._interruption_enabled and not self._interruption_state:
             self.signal_latch_buffer_register(select=2)
             self._prepare_for_interruption()
@@ -1000,7 +1015,7 @@ class Machine:
                 cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                logging.info(self.__repr__())  # instr repr  # noqa: ERA001 need in case per-instruction bedug
+                # logging.info(self.__repr__())  # instr repr  # noqa: ERA001 need in case per-instruction bedug
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
                     new_symbol: str = chr(self._io_controller._connected_devices[2]._data_register)
