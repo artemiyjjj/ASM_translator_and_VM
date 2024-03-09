@@ -20,7 +20,7 @@ from machine import get_interruption_vector_length
 
 
 def avaliable_sections() -> dict[str, str]:
-    """Константный словарь с опустимыми именами секций и их представлении в коде программ.""" 
+    """Константный словарь с опустимыми именами секций и их представлении в коде программ."""
     return {".data": "section .data", ".text": "section .text"}
 
 

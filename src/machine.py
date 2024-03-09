@@ -8,6 +8,7 @@ from isa import Code, MachineWordData, MachineWordInstruction, Mode, Opcode, rea
 
 class DataBus:
     """Шина данных для машины и устройств ввода/вывода"""
+
     _machine: Machine
 
     _connected_devices: dict[int, IO.IODeviceCommon]
@@ -28,6 +29,7 @@ class DataBus:
 
 class InterruptionLine:
     """Линия прерываний для машины и устройств ввода/вывода"""
+
     _machine: Machine
     _connected_devices: dict[int, IO.IODeviceCommon]
 
@@ -188,6 +190,7 @@ class IO:
 
     class IODeviceConsole(IODeviceCommon):
         """Устройство ввода/вывода с использованием пользовательского ввода в консоль"""
+
         _input_buffer: list[str] | None = None
 
         def signal_read_data(self) -> None:
@@ -207,7 +210,6 @@ class IO:
 
 
 class DataPath:
-
     _accumulator_register: int
     """Регистр - аккумулятор"""
 
@@ -475,6 +477,7 @@ class ControlUnit:
 
     class InstructionDecoder:
         """Декодер инструкций."""
+
         _step_counter: int
 
         _opcode: Opcode | None
@@ -1007,6 +1010,7 @@ class Machine:
         Возвращает вывод программы, значение счётчика команд и кол-во исполненных тактов.
         """
         assert limit > 0, "Simulation failed: Limit can not be negative or zero."
+        instruction_count: int = 0
         self._common_memory[: len(code.contents)] = code.contents
         cur_schedule: int | None = 0 if len(input_schedule) > 0 else None
         try:
@@ -1015,6 +1019,7 @@ class Machine:
                 cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
+                instruction_count += 1
                 # logging.info(self.__repr__())  # instr repr  # noqa: ERA001 need in case per-instruction bedug
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
@@ -1031,7 +1036,7 @@ class Machine:
         logging.info("Output buffer:" + repr("".join(self._output_buffer)))
         return (
             "".join(self._output_buffer),
-            self._control_unit._programm_counter_register,
+            instruction_count,
             self._control_unit.get_tick(),
         )
 
