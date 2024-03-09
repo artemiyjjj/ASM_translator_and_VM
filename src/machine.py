@@ -887,6 +887,8 @@ class Machine:
     Память представлена отдельным модулем, к которому имеют доступ тракт данных и управляющий модуль.
     """
 
+    instruction_count = 0
+
     _memory_size: int
     """ Кол-во ячеек памяти машины (в размерах машинного слова - 4 байта)."""
 
@@ -1010,7 +1012,6 @@ class Machine:
         Возвращает вывод программы, значение счётчика команд и кол-во исполненных тактов.
         """
         assert limit > 0, "Simulation failed: Limit can not be negative or zero."
-        instruction_count: int = 0
         self._common_memory[: len(code.contents)] = code.contents
         cur_schedule: int | None = 0 if len(input_schedule) > 0 else None
         try:
@@ -1019,7 +1020,7 @@ class Machine:
                 cur_schedule = self.input_schedule_management(input_schedule, cur_schedule)
                 # Выполнение очередной инструкции
                 self._control_unit.execute_next_command()
-                instruction_count += 1
+                self.instruction_count += 1
                 # logging.info(self.__repr__())  # instr repr  # noqa: ERA001 need in case per-instruction bedug
                 # Сбор данных с устройств вывода
                 if self._io_controller._connected_devices[2]._new_data is True:
@@ -1036,7 +1037,7 @@ class Machine:
         logging.info("Output buffer:" + repr("".join(self._output_buffer)))
         return (
             "".join(self._output_buffer),
-            instruction_count,
+            self.instruction_count,
             self._control_unit.get_tick(),
         )
 
@@ -1086,7 +1087,7 @@ def main(code_file: str, input_file_name: str) -> None:
 
     logging.info(
         "instr_counter: {} ticks: {}".format(
-            machine._control_unit._programm_counter_register, machine._control_unit.get_tick()
+            machine.instruction_count, machine._control_unit.get_tick()
         )
     )
 

@@ -230,60 +230,313 @@ out_translator_log: |
   INFO    translator:main          source LoC: 22 code instr: 27
 out_machine_log: |
   INFO    machine:main          Schedule: [(1, 'c'), (100, 'a'), (200, 't')]
-  INFO    machine:simulation    TICK:   5 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:   1 | PC:  11 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK:   2 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK:   3 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:   0 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK:   4 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     0      | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK:   5 | PC:  12 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
   INFO    machine:request_new_int 	Input 1 << '99'
-  INFO    machine:simulation    TICK:  11 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  26 | PC:  19 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  31 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  36 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:   6 | PC:  12 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:   7 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:   8 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:  19 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:   9 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   0 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  10 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 10 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  11 | PC:  13 | IR: '   store   ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  12 | PC:  13 | IR: 'enable int ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  13 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  14 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  15 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 0 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  16 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  17 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     19     | BR:   1 | AR:   8 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  18 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     19     | BR:   1 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  19 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:   1 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  20 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:   1 | AR:   9 | MEM_AR: 0 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  21 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:   1 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  22 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  23 | PC:  14 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  24 | PC:  19 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  25 | PC:  19 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     14     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  26 | PC:  19 | IR: 'enable int ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  27 | PC:  19 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  28 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  29 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  30 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  31 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  32 | PC:  20 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
-  INFO    machine:simulation    TICK:  41 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  33 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK:  34 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK:  35 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK:  36 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 99  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK:  37 | PC:  21 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK:  38 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK:  39 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK:  40 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA:  0  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK:  41 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: True
   INFO    machine:simulation    output: ['c'] << 99
-  INFO    machine:simulation    TICK:  47 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  52 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  58 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  68 | PC:  14 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  73 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  78 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  83 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  89 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  94 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK:  99 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 104 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  42 | PC:  22 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  43 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  44 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  45 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  46 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     99     | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  47 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  48 | PC:  23 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  49 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  50 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  51 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     3      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  52 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  53 | PC:  24 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  54 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  55 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   3 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  56 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  57 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 3 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  58 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  59 | PC:  25 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  60 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  61 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  62 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  63 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  26 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  64 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  14 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  65 | PC:  14 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  14 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  66 | PC:  14 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  14 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  67 | PC:  14 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  68 | PC:  14 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     19     | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  69 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  70 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  71 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  14 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  72 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     19     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  73 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  74 | PC:  15 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  75 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  76 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  77 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  78 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  79 | PC:  16 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  80 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  81 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  82 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  83 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  84 | PC:  17 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  85 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  86 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  87 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  88 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  89 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  90 | PC:  13 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  91 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  92 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  93 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  94 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  95 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  96 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  97 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  98 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK:  99 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 100 | PC:  15 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 101 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 102 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 103 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 104 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
   INFO    machine:request_new_int 	Input 1 << '97'
-  INFO    machine:simulation    TICK: 119 | PC:  19 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 124 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 129 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 105 | PC:  16 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 106 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 107 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 108 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 109 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 110 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   1 | AR:   8 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 111 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   1 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 112 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:   1 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 113 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:   1 | AR:   9 | MEM_AR: 14 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 114 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:   1 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 115 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 116 | PC:  17 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 117 | PC:  19 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 118 | PC:  19 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     17     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 119 | PC:  19 | IR: ' jump zero ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 120 | PC:  19 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 121 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 122 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 123 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 124 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 125 | PC:  20 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
-  INFO    machine:simulation    TICK: 134 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 126 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 127 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 128 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 129 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 97  | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 130 | PC:  21 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 131 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 132 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 133 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 99  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 134 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: True
   INFO    machine:simulation    output: ['c', 'a'] << 97
-  INFO    machine:simulation    TICK: 140 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 145 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 151 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 161 | PC:  17 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 167 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 172 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 177 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 182 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 187 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 193 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 198 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 203 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 135 | PC:  22 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 136 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 137 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 138 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   3 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 139 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     97     | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 140 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 141 | PC:  23 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 142 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 143 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 144 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     2      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 145 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 146 | PC:  24 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 147 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 148 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   2 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 149 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 150 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 2 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 151 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 152 | PC:  25 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 153 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 154 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 155 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 156 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  26 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 157 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  17 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 158 | PC:  17 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  17 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 159 | PC:  17 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  17 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 160 | PC:  17 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 161 | PC:  17 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     26     | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 162 | PC:  17 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 163 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 164 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  17 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 165 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 166 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 167 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 168 | PC:  13 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 169 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 170 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 171 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 172 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 173 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 174 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 175 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 176 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 177 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 178 | PC:  15 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 179 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 180 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 181 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 182 | PC:  16 | IR: '  compare  ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 183 | PC:  16 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 184 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 185 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 186 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 187 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 188 | PC:  17 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 189 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 190 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 191 | PC:  18 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 192 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 193 | PC:  13 | IR: '   jump    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 194 | PC:  13 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 195 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 196 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 197 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 198 | PC:  14 | IR: 'enable int ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 199 | PC:  14 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 200 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 201 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  13 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 202 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 203 | PC:  15 | IR: '   load    ' | IRQ: 0 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
   INFO    machine:request_new_int 	Input 1 << '116'
-  INFO    machine:simulation    TICK: 218 | PC:  19 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 223 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 228 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 204 | PC:  15 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 205 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 206 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:  26 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 207 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 208 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   0 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 209 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   1 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 210 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     26     | BR:   1 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 211 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:   1 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 212 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:   1 | AR:   9 | MEM_AR: 17 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 213 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:   1 | AR:   9 | MEM_AR: 16 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 214 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 215 | PC:  16 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 216 | PC:  19 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 217 | PC:  19 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 0 | AC:     16     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 218 | PC:  19 | IR: '  compare  ' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 219 | PC:  19 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 220 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 221 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 222 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 1 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 223 | PC:  20 | IR: 'disable int' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 224 | PC:  20 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
-  INFO    machine:simulation    TICK: 233 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 225 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 226 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:  19 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 227 | PC:  21 | IR: '   input   ' | IRQ: 1 | IE: 0 | IS: 1 | AC:     19     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 228 | PC:  21 | IR: '   input   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 1 | Port: 1 | DATA: 116 | INT: True | NEW: True
+  INFO    machine:perform_tick  TICK: 229 | PC:  21 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 230 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 231 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 232 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  	 Dev: 2 | Port: 3 | DATA: 97  | INT: False | NEW: False
+  INFO    machine:perform_tick  TICK: 233 | PC:  22 | IR: '  output   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
   	 Dev: 2 | Port: 3 | DATA: 116 | INT: False | NEW: True
   INFO    machine:simulation    output: ['c', 'a', 't'] << 116
-  INFO    machine:simulation    TICK: 239 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
-  INFO    machine:simulation    TICK: 244 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
-  INFO    machine:simulation    TICK: 250 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
-  INFO    machine:simulation    TICK: 260 | PC:  16 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
-  INFO    machine:simulation    TICK: 267 | PC:  18 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 234 | PC:  22 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 235 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 236 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:   1 | MEM_AR: 19 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 237 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   3 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 238 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:    116     | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 239 | PC:  23 | IR: '   load    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 240 | PC:  23 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 241 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 242 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 243 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     1      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 0
+  INFO    machine:perform_tick  TICK: 244 | PC:  24 | IR: '    dec    ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 245 | PC:  24 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 246 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 247 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:   1 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 248 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 249 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 1 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 250 | PC:  25 | IR: '   store   ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 251 | PC:  25 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 252 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 253 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 254 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:  26 | MEM_AR: 0 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 255 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  26 | AR:   9 | MEM_AR: 16 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 256 | PC:  26 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  16 | AR:   9 | MEM_AR: 16 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 257 | PC:  16 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  16 | AR:   9 | MEM_AR: 16 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 258 | PC:  16 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  16 | AR:   9 | MEM_AR: 16 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 259 | PC:  16 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     0      | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 260 | PC:  16 | IR: 'finish int ' | IRQ: 0 | IE: 0 | IS: 1 | AC:     26     | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 261 | PC:  16 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 262 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 263 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  16 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 264 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 265 | PC:  17 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 266 | PC:  18 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 267 | PC:  18 | IR: ' jump zero ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 268 | PC:  18 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 269 | PC:  19 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 270 | PC:  19 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
+  INFO    machine:perform_tick  TICK: 271 | PC:  19 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
   INFO    machine:simulation    TICK: 271 | PC:  19 | IR: '   halt    ' | IRQ: 0 | IE: 0 | IS: 0 | AC:     26     | BR:  18 | AR:   8 | MEM_AR: 26 | N: 0 | Z: 1
   INFO    machine:simulation    Output buffer:'cat'
-  INFO    machine:main          instr_counter: 19 ticks: 271
+  INFO    machine:main          instr_counter: 42 ticks: 271
