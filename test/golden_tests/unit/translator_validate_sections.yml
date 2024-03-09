@@ -13,16 +13,16 @@ in_missed_semicolon: |-
 in_not_correct_name: |-
   section A:
 out_correct_def1: |-
-  aaa
+  .data
 out_correct_def2: |-
-  bbb
+  .text
 out_correct_def3: |-
-  ccc
+  .text
 out_missed_dot: |-
-  ddd
+  Translation failed: Unavaliable section name: text, line: 1.
 out_not_only_section_def: |-
-  eee
+  Translation failed: Section definition could be followed only by comment.
 out_missed_semicolon: |-
-  fff
+  Translation failed: Sections definition should contain 3 terms, line: 1.
 out_not_correct_name: |-
-  ggg
+  Translation failed: Unavaliable section name: A, line: 1.

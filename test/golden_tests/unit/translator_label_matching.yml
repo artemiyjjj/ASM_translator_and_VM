@@ -19,10 +19,9 @@ out_label_correct_ordinary2: |-
 out_label_correct_followed_by_instruction: |-
   return
 out_label_incorrect_number: |-
-  assert ...
-out_label_no_label: |-
-  None
+  Translation failed: Label name doesn't match requirements
+out_label_no_label:
 out_label_name_instruction: |-
-  assert ...
+  Translation failed: Label name can't be instructuction name, line: 1
 out_label_name_multiple_words: |-
-  assert...
+  Translation failed: Label name is not correct, line: 1

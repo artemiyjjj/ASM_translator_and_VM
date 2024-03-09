@@ -1,0 +1,43 @@
+# function map_text_to_data
+in_correct_data_term1: |-
+  msg:  12, "Hello world!";
+in_correct_data_term2: |-
+  var: 124
+in_correct_data_term3: |-
+  var2:
+in_same_labels: |-
+  sample: 3,
+  sample: 280
+in_no_label: |-
+  : 3, "oh no"
+in_incorrect_size1: |-
+  labelll: -50, "Negative :/"
+in_incorrect_size2: |-
+  labell: abc, "Is that size??"
+in_incorrect_size3: |-
+  msg:  12, "Hello world!";
+  msg2: 1, 255; declared length doesn't match string literal length
+in_no_size: |-
+  label: "You should have count it..."
+in_extra_size: |-
+  var: 4, 42
+out_correct_data_term1: |-
+  msg
+out_correct_data_term2: |-
+  var
+out_correct_data_term3: |-
+  var2
+out_same_labels: |-
+  Translation failed: labels in section data are not unique, line: 2
+out_no_label: |-
+  Translation failed: Label name is not correct, line: 1
+out_incorrect_size1: |-
+  Translation failed: data size should be non-negative integer value, line: 1
+out_incorrect_size2: |-
+  Translation failed: data size should be non-negative integer value, line: 1
+out_incorrect_size3: |-
+  Translation failed: number shouldn't have length before it, line: 2
+out_no_size: |-
+  Translation failed: number defenition is not correct, line:1
+out_extra_size: |-
+  Translation failed: number shouldn't have length before it, line: 1

@@ -1,22 +1,15 @@
-in_code_after: |- 
+in_code_after: |-
   counter:        1   ; fix bss comment parsing
 in_code_before: |-
   ;section     text
-in_code_after_section: |- 
+in_code_after_section: |-
   section A:sdsd;wrong section def
 in_code_two_coments: |-
   ;section A:sdsd;wrong section def
 in_incorrect_label: |-
   :;blabla ;
-out_code_after: |-
-  aaa
-out_code_before: |-
-  bbb
-out_code_after_section: |-
-  ccc
-out_code_after_section: |-
-  ddd
-out_code_two_comments: |-
-  eee
-out_incorrect_label: |-
-  fff
+out_code_after: "['counter', ':', '1']"
+out_code_before: '[]'
+out_code_after_section: "['section', 'A', ':', 'sdsd']"
+out_code_two_comments: '[]'
+out_incorrect_label: "[':']"
