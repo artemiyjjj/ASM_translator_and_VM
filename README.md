@@ -1,3 +1,4 @@
+Ссылка на зеркало ([***Gitlab*** репозиторий где настроен CI](https://gitlab.com/artemioJjJ/csa-lab3))
 
 # ASM. Транслятор и модель
 
